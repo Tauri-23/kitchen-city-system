@@ -7,14 +7,6 @@ interface GeneralContextType {
 
 const GeneralContext = createContext<GeneralContextType | undefined>(undefined);
 
-export const useGeneralContext = () => {
-    const context = useContext(GeneralContext);
-    if(!context) {
-        throw new Error("useGeneralContext must be used within a GeneralProvider");
-    }
-
-    return context;
-};
 
 export const GeneralProvider = ({ children }: { children: ReactNode }) => {
     const [screenWidth, setScreenWidth] = useState<number | undefined>(window.innerWidth || 0);
@@ -54,3 +46,13 @@ export const GeneralProvider = ({ children }: { children: ReactNode }) => {
         </GeneralContext.Provider>
     )
 }
+
+
+export const useGeneralContext = () => {
+    const context = useContext(GeneralContext);
+    if(!context) {
+        throw new Error("useGeneralContext must be used within a GeneralProvider");
+    }
+
+    return context;
+};
