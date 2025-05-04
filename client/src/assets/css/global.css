@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+    --orange1: #FE8E02;
+    --white1: #FFFF;
+    --black1: #0000;
+
+    --grey1: #DDDDDD;
+    --grey2: #f0f0f0;
+
+    --text-xl1: 60px;
+    --text-xl2: 50px;
+    --text-xl3: 40px;
+    --text-l1: 30px;
+    --text-l2: 24px;
+    --text-l3: 20px;
+    --text-m1: 18px;
+    --text-m2: 16px;
+    --text-m3: 14px;
+    --text-m4: 12px;
+
+    --radius1: 30px;
+    --radius2: 20px;
+    --radius3: 10px;
+    --radius4: 5px;
+
+    --margin-l1: 60px;
+    --margin-l2: 50px;
+    --margin-l3: 40px;
+    --margin-1: 30px;
+    --margin-2: 20px;
+    --margin-3: 10px;
+    --margin-4: 5px;
+
+    --gapl1: 60px;
+    --gapl2: 50px;
+    --gapl3: 40px;
+    --gap1: 30px;
+    --gap2: 20px;
+    --gap3: 10px;
+    --gap4: 5px;
+}
+
+
+* {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body, html {
+    background: var(--white) !important;
+}
+
+
+
+
+
+/*
+|----------------------------------------
+| Text 
+|----------------------------------------
+*/
+.text-xl1 {
+    font-size: var(--text-xl1);
+}
+.text-xl2 {
+    font-size: var(--text-xl2);
+}
+.text-xl3 {
+    font-size: var(--text-xl3);
+}
+.text-l1 {
+    font-size: var(--text-l1);
+}
+.text-l2 {
+    font-size: var(--text-l2);
+}
+.text-l3 {
+    font-size: var(--text-l3);
+}
+.text-m1 {
+    font-size: var(--text-m1);
+}
+.text-m2 {
+    font-size: var(--text-m2);
+}
+.text-m3 {
+    font-size: var(--text-m3);
+}
+.text-m4 {
+    font-size: var(--text-m4);
+}
+
+.text-center {
+    text-align:center;
+}
+.text-right {
+    text-align: right;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.link-m3 {
+    text-decoration: none;
+    font-size: var(--text-m3);
+    color: var(--black2);
+    cursor: pointer;
+}
+.link-m3:hover {
+    text-decoration: underline;
+    color: var(--black1)
+}
