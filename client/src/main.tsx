@@ -18,13 +18,22 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { GeneralProvider } from './contexts/GeneralContext';
 import { LoggedUserProvider } from './contexts/LoggedUserContext';
+import { ConfigProvider } from 'antd';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-		<GeneralProvider>
-			<LoggedUserProvider>
-				<RouterProvider router={router}/>
-			</LoggedUserProvider>
-		</GeneralProvider>
+		<ConfigProvider
+		theme={{
+			token: {
+			  colorPrimary: '#FE8E02', // Change this to your preferred primary color
+			},
+		  }}
+		>
+			<GeneralProvider>
+				<LoggedUserProvider>
+					<RouterProvider router={router}/>
+				</LoggedUserProvider>
+			</GeneralProvider>
+		</ConfigProvider>
     </StrictMode>,
 )

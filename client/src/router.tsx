@@ -5,6 +5,7 @@ import SuperAdminDefault from "./views/superAdmin/supAdDefault";
 import SuperAdminIndex from "./views/superAdmin/supAdIndex";
 import SuperAdminMenusDefault from "./views/superAdmin/menus/supAdMenusDefault";
 import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
+import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
 
 const router = createBrowserRouter([
     /**
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
                         element: <SuperAdminMenusIndex/>
                     }
                 ]
+            },
+            {
+                path: "AddMenu",
+                element: <SuperAdminAddMenu/>
             }
         ]
     }

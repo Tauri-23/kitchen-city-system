@@ -39,6 +39,8 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+    color: var(--black1);
 }
 .sidenav1-link.active {
     background-color: var(--orange1);
