@@ -57,7 +57,9 @@ export default function SuperAdminAccountsDefault() {
                 ))}
             </div>
 
-            <Outlet/>
+            <Outlet context={{
+                setActiveLink
+            }}/>
         </div>
     )
 }
