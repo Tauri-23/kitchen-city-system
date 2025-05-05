@@ -9,3 +9,13 @@ export const fetchAllMenus = async() => {
         throw error;
     }
 }
+
+export const fetchMenuById = async(id: string) => {
+    try {
+        const response = await axiosClient.get(`/get-menu-by-id/${id}`);
+        return response.data;
+    } catch(error) {
+        console.error(error);
+        throw error;
+    }
+}

@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Str;
 
-class menu extends Model
+class menu_dishes extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        "menu_name",
-        "menu_week",
-        "menu_day",
-        "meal_type",
-        "menu_size",
+        "menu_id",
+        "name",
+        "odoo_name",
+        "category_id",
+        "unit_price",
+        "production",
+        "status",
     ];
 
     public static function boot()
@@ -33,10 +35,10 @@ class menu extends Model
 
 
     /**
-     * Foreign Joins
+     * Forieng Joins
      */
-    public function menu_dishes()
+    public function category()
     {
-        return $this->hasMany(menu_dishes::class, "menu_id", "id")->with("category");
+        return $this->belongsTo(menu_dishes_categories::class, "category_id", "id");
     }
 }

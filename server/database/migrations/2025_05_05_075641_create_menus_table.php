@@ -16,9 +16,17 @@ return new class extends Migration
 
             $table->string("menu_name")->nullable();
             $table->integer("menu_week");
+            $table->enum("menu_day", [
+                "Monday", "Tuesday", "Wednesday", "Thursday", 
+                "Friday", "Saturday", "Sunday"
+            ]);
             $table->enum("meal_type", [
                 "Breakfast", "Lunch", "Snack", "Dinner", 
                 "Midnight Lunch", "Midnight Snack"
+            ]);
+            $table->enum("menu_size", [
+                "XL", "Large", "Medium", "Medium Frying", 
+                "Small", "Small Frying"
             ]);
 
             $table->timestamps();

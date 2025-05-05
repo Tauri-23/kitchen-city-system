@@ -2,12 +2,14 @@ import { Button, Input, Spin, Table, TableColumnsType } from "antd";
 import { MenuStructure } from "../../../types/menuStructure";
 import { useEffect, useState } from "react";
 import { fetchAllMenus } from "../../../services/menusServices";
+import { useNavigate } from "react-router-dom";
 
 export default function SuperAdminMenusIndex() {
     const [menus, setMenus] = useState<MenuStructure[] | null>(null);
     const [filteredMenus, setFilteredMenus] = useState<MenuStructure[] | null>(null);
 
     const {Search} = Input;
+    const navigate = useNavigate();
 
 
 
@@ -17,7 +19,6 @@ export default function SuperAdminMenusIndex() {
     useEffect(() => {
         const getAll = async() => {
             const data = await fetchAllMenus();
-            console.log(data);
             setMenus(data);
             setFilteredMenus(data);
         }
@@ -32,6 +33,10 @@ export default function SuperAdminMenusIndex() {
      */
     const menuColumns: TableColumnsType<MenuStructure> = [
         {
+            title: "Menu Id",
+            dataIndex: "id"
+        },
+        {
             title: "Menu Name",
             dataIndex: "menu_name"
         },
@@ -40,8 +45,16 @@ export default function SuperAdminMenusIndex() {
             dataIndex: "menu_week"
         },
         {
+            title: "Day",
+            dataIndex: "menu_day"
+        },
+        {
             title: "Meal Type",
             dataIndex: "meal_type"
+        },
+        {
+            title: "Size",
+            dataIndex: "menu_size"
         }
     ]
 
@@ -87,6 +100,9 @@ export default function SuperAdminMenusIndex() {
                     columns={menuColumns}
                     dataSource={filteredMenus.map((item, index) => ({...item, key: index}))}
                     bordered
+                    onRow={(item) => ({
+                        onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
+                    })}
                     />
                 </>
             )}
