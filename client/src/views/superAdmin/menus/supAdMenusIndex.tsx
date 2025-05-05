@@ -84,12 +84,14 @@ export default function SuperAdminMenusIndex() {
                     className="d-flex align-items-center justify-content-between mar-bottom-1"
                     >
                         <Search 
+                        size="large"
                         placeholder="input search text" 
                         onSearch={handleSearch} enterButton
                         style={{width: 300}} 
                         />
                         
                         <Button
+                        size="large"
                         type="primary"
                         href="AddMenu"
                         >Add Menu

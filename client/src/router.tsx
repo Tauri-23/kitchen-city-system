@@ -7,6 +7,11 @@ import SuperAdminMenusDefault from "./views/superAdmin/menus/supAdMenusDefault";
 import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
 import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
 import SuperAdminViewMenu from "./views/superAdmin/menus/supAdViewMenu";
+import SuperAdminAddMenuDish from "./views/superAdmin/menus/supAdAddMenuDish";
+import SuperAdminBranchesDefault from "./views/superAdmin/branches/supAdBranchesDefault";
+import SuperAdminBranchesIndex from "./views/superAdmin/branches/supAdBranchesIndex";
+import SuperAdminAccountsDefault from "./views/superAdmin/accounts/supAdAccountsDefault";
+import SuperAdminAccountsIndex from "./views/superAdmin/accounts/supAdAccountsIndex";
 
 const router = createBrowserRouter([
     /**
@@ -40,6 +45,7 @@ const router = createBrowserRouter([
             },
 
 
+
             /**
              * Menus
              */
@@ -58,9 +64,45 @@ const router = createBrowserRouter([
                 element: <SuperAdminAddMenu/>
             },
             {
+                path: "AddMenuDish/:menuId",
+                element: <SuperAdminAddMenuDish/>
+            },
+            {
                 path: "ViewMenu/:id",
                 element: <SuperAdminViewMenu/>
-            }
+            },
+
+
+
+            /**
+             * Branches
+             */
+            {
+                path: "Branches",
+                element: <SuperAdminBranchesDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <SuperAdminBranchesIndex/>
+                    }
+                ]
+            },
+
+
+
+            /**
+             * Accounts
+             */
+            {
+                path: "Accounts",
+                element: <SuperAdminAccountsDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <SuperAdminAccountsIndex/>
+                    }
+                ]
+            },
         ]
     }
 ]);

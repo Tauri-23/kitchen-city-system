@@ -1,4 +1,4 @@
-import { Button, Input, Radio } from "antd";
+import { Button, Input, Select } from "antd";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import axiosClient from "../../../axios-client";
@@ -13,13 +13,13 @@ export default function SuperAdminAddMenu() {
 
     const [menuIn, setMenuIn] = useState({
         menuName: "",
-        menuWeek: null,
+        menuWeek: "",
         menuDay: "",
         mealType: "",
         menuSize: "",
     });
 
-    const isSubmitDisabled = isEmptyOrSpaces(menuIn.menuName) || menuIn.menuWeek === null || 
+    const isSubmitDisabled = isEmptyOrSpaces(menuIn.menuName) || isEmptyOrSpaces(menuIn.menuWeek) || 
     isEmptyOrSpaces(menuIn.menuDay) || isEmptyOrSpaces(menuIn.mealType) || isEmptyOrSpaces(menuIn.menuSize);
 
 
@@ -43,7 +43,7 @@ export default function SuperAdminAddMenu() {
     const clearFields = () => {
         setMenuIn({
             menuName: "",
-            menuWeek: null,
+            menuWeek: "",
             menuDay: "",
             mealType: "",
             menuSize: "",
@@ -86,6 +86,7 @@ export default function SuperAdminAddMenu() {
                 <div className="mar-bottom-2">
                     <label htmlFor="menuName" className="mar-bottom-4">Menu Name</label>
                     <Input
+                    size="large"
                     id="menuName"
                     name="menuName"
                     placeholder="e.g. Menu 1"
@@ -96,94 +97,73 @@ export default function SuperAdminAddMenu() {
                 {/* Menu Week */}
                 <div className="mar-bottom-2">
                     <label htmlFor="menuWeek" className="mar-bottom-4">Menu Week</label>
-                    <Radio.Group
-                    className="d-flex flex-direction-y gap4"
+                    <Select
+                    size="large"
                     id="menuWeek"
-                    name="menuWeek"
+                    className="w-100"
                     value={menuIn.menuWeek}
-                    onChange={(e) =>
-                        handleInputChange({
-                            target: {
-                                name: "menuWeek",
-                                value: e.target.value,
-                            },
-                        } as any)
-                    }
+                    onChange={(val) => handleInputChange({target: {name: "menuWeek", value: val}}as any)}
                     options={[
+                        {label: "Select menu day", value: ""},
                         { label: "Week 1", value: 1 },
                         { label: "Week 2", value: 2 },
                         { label: "Week 3", value: 3 },
                         { label: "Week 4", value: 4 },
-                    ]}
-                    />
+                    ]}/>
                 </div>
 
                 {/* Menu Day */}
                 <div className="mar-bottom-1">
-                    <label htmlFor="menuDay" className="mar-bottom-4">Select Menu Day</label>
+                    <label htmlFor="menuDay" className="mar-bottom-4">Menu Day</label>
 
-                    <div className="d-flex flex-wrap gap3">
-                        {menuDays.map((menuDay, index) => (
-                            <Button
-                            key={index}
-                            type={menuIn.menuDay === menuDay ? "primary" : "default"}
-                            ghost={menuIn.menuDay === menuDay}
-                            onClick={() => handleInputChange({ target: {
-                                    name: "menuDay",
-                                    value: menuDay
-                            }} as any)}
-                            >
-                                {menuDay}
-                            </Button>
-                        ))}
-                    </div>
+                    <Select
+                    size="large"
+                    id="menuDay"
+                    className="w-100"
+                    value={menuIn.menuDay}
+                    onChange={(val) => handleInputChange({target: {name: "menuDay", value: val}}as any)}
+                    options={[
+                        {label: "Select menu day", value: ""},
+                        ...menuDays.map((menuDay) => ({label: menuDay, value: menuDay}))
+                    ]}/>
                 </div>
 
                 {/* Meal Types */}
                 <div className="mar-bottom-1">
-                    <label htmlFor="mealType" className="mar-bottom-4">Select Meal Type</label>
+                    <label htmlFor="mealType" className="mar-bottom-4">Meal Type</label>
 
-                    <div className="d-flex flex-wrap gap3">
-                        {mealTypes.map((mealType, index) => (
-                            <Button
-                            key={index}
-                            type={menuIn.mealType === mealType ? "primary" : "default"}
-                            ghost={menuIn.mealType === mealType}
-                            onClick={() => handleInputChange({ target: {
-                                    name: "mealType",
-                                    value: mealType
-                            }} as any)}
-                            >
-                                {mealType}
-                            </Button>
-                        ))}
-                    </div>
+                    <Select
+                    size="large"
+                    id="mealType"
+                    className="w-100"
+                    value={menuIn.mealType}
+                    onChange={(val) => handleInputChange({target: {name: "mealType", value: val}}as any)}
+                    options={[
+                        {label: "Select meal type", value: ""},
+                        ...mealTypes.map((mealType) => ({label: mealType, value: mealType}))
+                    ]}/>
                 </div>
 
                 {/* Menu Size */}
                 <div className="mar-bottom-1">
-                    <label htmlFor="menuSize" className="mar-bottom-4">Select Menu Size</label>
+                    <label htmlFor="menuSize" className="mar-bottom-4">Menu Size</label>
 
-                    <div className="d-flex flex-wrap gap3">
-                        {menuSizes.map((menuSize, index) => (
-                            <Button
-                            key={index}
-                            type={menuIn.menuSize === menuSize ? "primary" : "default"}
-                            ghost={menuIn.menuSize === menuSize}
-                            onClick={() => handleInputChange({ target: {
-                                    name: "menuSize",
-                                    value: menuSize
-                            }} as any)}
-                            >
-                                {menuSize}
-                            </Button>
-                        ))}
-                    </div>
+                    <Select
+                    size="large"
+                    id="menuSize"
+                    className="w-100"
+                    value={menuIn.menuSize}
+                    onChange={(val) => handleInputChange({target: {name: "menuSize", value: val}}as any)}
+                    options={[
+                        {label: "Select menu size", value: ""},
+                        ...menuSizes.map((menuSize) => ({label: menuSize, value: menuSize}))
+                    ]}/>
                 </div>
 
                 {/* Buttons */}
                 <div className="d-flex gap3 align-items-center">
                     <Button 
+                    size="large"
                     type="primary"
                     htmlType="submit"
                     disabled={isSubmitDisabled}
@@ -192,6 +172,7 @@ export default function SuperAdminAddMenu() {
                     </Button>
 
                     <Button 
+                    size="large"
                     type="primary"
                     ghost
                     onClick={clearFields}

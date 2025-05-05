@@ -16,7 +16,7 @@ class menu_dishes extends Model
         "name",
         "odoo_name",
         "category_id",
-        "unit_price",
+        "unit_cost",
         "production",
         "status",
     ];

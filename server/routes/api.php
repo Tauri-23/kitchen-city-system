@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
+use App\Http\Controllers\Api\MenuDishesController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")
@@ -47,3 +48,14 @@ Route::post('/create-menus', [MenuController::class, "CreateMenu"]);
 |----------------------------------------
 */
 Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::class, "GetAllCategories"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Dishes
+|----------------------------------------
+*/
+Route::post("/create-menu-dish", [MenuDishesController::class, "CreateDishes"]);

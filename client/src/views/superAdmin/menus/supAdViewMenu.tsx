@@ -119,7 +119,9 @@ export default function SuperAdminViewMenu() {
                     className="d-flex align-items-center justify-content-between mar-bottom-1"
                     >
                         <Button
-                        type="primary">
+                        size="large"
+                        type="primary"
+                        href={`../AddMenuDish/${menu.id}`}>
                             Add Dish
                         </Button>
                     </div>
