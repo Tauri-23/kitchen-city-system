@@ -31,16 +31,17 @@ export default function GuestIndex() {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append("user", JSON.stringify(userIn));
+        formData.append("loginCredentials", JSON.stringify(userIn));
 
         axiosClient.post("/login", formData)
         .then(({data}) => {
+            console.log(data.status);
             if(data?.status === 200) {
                 setUser(data.user);
                 setToken(data.token);
                 setUserType(data.userType);
             }
-            notify(data?.status === 200 ? "success" : "error", "Server Error", "top-center", 3000);
+            notify(data?.status === 200 ? "success" : "error", data.message, "top-center", 3000);
         })
         .catch((error) => {
             console.error(error);

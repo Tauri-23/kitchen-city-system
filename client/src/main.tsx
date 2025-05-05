@@ -5,6 +5,7 @@ import router from './router'
 
 import "./assets/css/global.css";
 import "./assets/css/elements.css";
+import "./assets/css/navigations.css";
 
 
 import 'react-toastify/dist/ReactToastify.css';

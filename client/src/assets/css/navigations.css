@@ -1,0 +1,46 @@
+.sidenav1 {
+    width: var(--side-nav-1-width);
+    height: 100vh;
+    position: fixed;
+    background: var(--white1);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.sidenav1-logo {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.sidenav1-logo img {
+    height: 50px;
+    aspect-ratio: 1/1;
+}
+.sidenav1-logo span {
+    font-size: var(--text-l2);
+    font-weight: bold;
+}
+
+.sidenav1-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidenav1-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.sidenav1-link.active {
+    background-color: var(--orange1);
+    color: var(--white1);
+}

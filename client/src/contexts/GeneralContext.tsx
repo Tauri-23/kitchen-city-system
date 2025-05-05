@@ -50,6 +50,7 @@ export const GeneralProvider = ({ children }: { children: ReactNode }) => {
 
 export const useGeneralContext = () => {
     const context = useContext(GeneralContext);
+    
     if(!context) {
         throw new Error("useGeneralContext must be used within a GeneralProvider");
     }

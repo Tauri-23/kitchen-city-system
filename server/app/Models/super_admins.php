@@ -3,10 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Str;
 
-class super_admins extends Model
+class super_admins extends Model 
 {
+
+    use HasApiTokens;
+
+    protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
