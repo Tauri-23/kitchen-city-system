@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\branch_managers;
 use App\Models\super_admins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,8 @@ class AuthController extends Controller
         $loginCreDentials = json_decode($request->input("loginCredentials"));
 
         $superAdmin = super_admins::where('username', $loginCreDentials->username)
+        ->first();
+        $branchManager = branch_managers::where('username', $loginCreDentials->username)
         ->first();
 
         if($superAdmin && Hash::check($loginCreDentials->password, $superAdmin->password))
@@ -33,6 +36,24 @@ class AuthController extends Controller
                 ],
                 "token" => $token,
                 "userType" => "Super Admin"
+            ]);
+        }
+        else if($branchManager && Hash::check($loginCreDentials->password, $branchManager->password))
+        {
+            $token = $branchManager->createToken("branchManager")->plainTextToken;
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Success",
+                "user" => [
+                    "id" => $branchManager->id,
+                    "fname" => $branchManager->fname,
+                    "mname" => $branchManager->mname,
+                    "lname" => $branchManager->lname,
+                    "user_type" => "Branch Manager"
+                ],
+                "token" => $token,
+                "userType" => "Branch Manager"
             ]);
         }
 

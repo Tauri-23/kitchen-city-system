@@ -45,6 +45,8 @@ export default function GuestDefault() {
     if(token) {
         if(userType === "Super Admin") {
             return <Navigate to="/KCSuperAdmin"/>
+        } else if(userType === "Branch Manager") {
+            return <Navigate to="/KCBranchManager"/>
         }
     }
 

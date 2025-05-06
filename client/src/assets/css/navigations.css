@@ -46,3 +46,20 @@
     background-color: var(--orange1);
     color: var(--white1);
 }
+
+
+
+.nav1 {
+    width: calc(100% - var(--side-nav-1-width));
+    height: var(--nav1-height);
+    margin: 0 0 0 var(--side-nav-1-width);
+    padding: 10px 50px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: var(--white1);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    position: sticky;
+    top: 0;
+}

@@ -1,17 +1,14 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import { useLoggedUserContext } from "../../contexts/LoggedUserContext";
 import { useEffect } from "react";
 import axiosClient from "../../axios-client";
-import SuperAdminSideNav from "../../components/navigations/superAdminSideNav";
-import { SuperAdminProvider } from "../../contexts/SuperAdminContext";
-import SuperAdminNav from "../../components/navigations/superAdminNav";
+import { ToastContainer } from "react-toastify";
+import BranchManagerNav from "../../components/navigations/branchManagerNav";
 
-export default function SuperAdminDefault() {
+export default function BranchManagerDefault() {
     const { userType, token, setUserType, setUser, setToken } = useLoggedUserContext();
 
     const location = useLocation();
-
 
 
 
@@ -21,8 +18,6 @@ export default function SuperAdminDefault() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
-
-
 
 
 
@@ -56,27 +51,26 @@ export default function SuperAdminDefault() {
                 setToken(null);
                 setUserType(null);
             });
+        // window.location.href="/";
     };
 
+    console.log(token);
+
     // Handle redirection in the component body
-    if (!token || userType !== 'Super Admin') {
+    if (!token || userType !== 'Branch Manager') {
         return <Navigate to="/" />;
     }
 
-
-
+    
 
     /**
      * Render
      */
-    return(
-        <SuperAdminProvider>
-            <div className="w-100 h-100 position-relative">
-                <SuperAdminSideNav/>
-                <SuperAdminNav onLogout={onLogout}/>
-                <Outlet/>
-                <ToastContainer/>
-            </div>
-        </SuperAdminProvider>
+    return (
+        <div className="w-100 h-100 position-relative">
+            <BranchManagerNav onLogout={onLogout}/>
+            <Outlet/>
+            <ToastContainer/>
+        </div>
     )
 }

@@ -61,6 +61,7 @@ export default function GuestIndex() {
                 <div className="mar-bottom-3">
                     <label htmlFor="username">Username</label>
                     <Input
+                    size="large"
                     id="username"
                     name="username"
                     placeholder="e.g. john123"
@@ -72,6 +73,7 @@ export default function GuestIndex() {
                 <div className="mar-bottom-2">
                     <label htmlFor="password">Password</label>
                     <Input.Password
+                    size="large"
                     id="password"
                     name="password"
                     value={userIn.password}
@@ -79,7 +81,7 @@ export default function GuestIndex() {
                     />
                 </div>
 
-                <Button className="w-100" type="primary" htmlType="submit">Login</Button>
+                <Button size="large" className="w-100" type="primary" htmlType="submit">Login</Button>
             </form>
         </div>
     );

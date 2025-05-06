@@ -15,6 +15,8 @@ import SuperAdminAccountsBranchManagers from "./views/superAdmin/accounts/supAdA
 import SuperAdminAccountsAreaManagers from "./views/superAdmin/accounts/supAdAccountsAreaManagers";
 import SuperAdminAccountsCommissaryWorkers from "./views/superAdmin/accounts/supAdAccountsCommissaryWorkers";
 import SuperAdminBranchesIndex from "./views/superAdmin/branches/supAdBranchesIndex";
+import BranchManagerDefault from "./views/branchManager/braManDefault";
+import BranchManagerIndex from "./views/branchManager/braManIndex";
 
 const router = createBrowserRouter([
     /**
@@ -116,6 +118,24 @@ const router = createBrowserRouter([
                     },
                 ]
             },
+        ]
+    },
+
+
+
+
+
+    /**
+     * Branch Manager
+     */
+    {
+        path: "KCBranchManager",
+        element: <BranchManagerDefault/>,
+        children: [
+            {
+                index: true,
+                element: <BranchManagerIndex/>
+            }
         ]
     }
 ]);
