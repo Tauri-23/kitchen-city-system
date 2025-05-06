@@ -17,6 +17,8 @@ import SuperAdminAccountsCommissaryWorkers from "./views/superAdmin/accounts/sup
 import SuperAdminBranchesIndex from "./views/superAdmin/branches/supAdBranchesIndex";
 import BranchManagerDefault from "./views/branchManager/braManDefault";
 import BranchManagerIndex from "./views/branchManager/braManIndex";
+import BranchManagerAddOrder from "./views/branchManager/orders/braManAddOrder";
+import BranchManagerOrdersIndex from "./views/branchManager/orders/braManOrdersIndex";
 
 const router = createBrowserRouter([
     /**
@@ -135,6 +137,20 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <BranchManagerIndex/>
+            },
+
+
+
+            /**
+             * Orders
+             */
+            {
+                path: "Orders",
+                element: <BranchManagerOrdersIndex/>
+            },
+            {
+                path: "AddOrder",
+                element: <BranchManagerAddOrder/>
             }
         ]
     }

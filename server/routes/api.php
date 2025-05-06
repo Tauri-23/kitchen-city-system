@@ -26,7 +26,6 @@ Route::middleware("auth:sanctum")
 |----------------------------------------
 */
 Route::post("/login", [AuthController::class, "Login"]);
-Route::post("/logout", [AuthController::class, "Logout"]);
 
 
 
@@ -38,6 +37,7 @@ Route::post("/logout", [AuthController::class, "Logout"]);
 |----------------------------------------
 */
 Route::get('/get-all-menus', [MenuController::class, "GetAllMenus"]);
+Route::get('/get-all-menus-where-week/{week}', [MenuController::class, "GetAllMenusWhereWeek"]);
 Route::get('/get-menu-by-id/{id}', [MenuController::class, "GetMenuById"]);
 
 Route::post('/create-menus', [MenuController::class, "CreateMenu"]);

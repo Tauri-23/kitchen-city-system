@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useLoggedUserContext } from "../../contexts/LoggedUserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
 import SuperAdminSideNav from "../../components/navigations/superAdminSideNav";
 import { SuperAdminProvider } from "../../contexts/SuperAdminContext";
@@ -9,7 +9,7 @@ import SuperAdminNav from "../../components/navigations/superAdminNav";
 
 export default function SuperAdminDefault() {
     const { userType, token, setUserType, setUser, setToken } = useLoggedUserContext();
-
+    const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
     const location = useLocation();
 
 
@@ -50,12 +50,16 @@ export default function SuperAdminDefault() {
     }, []);
 
     const onLogout = () => {
+        setIsLoggingOut(true);
         axiosClient.post('/logout')
-            .then(() => {
-                setUser(null);
-                setToken(null);
-                setUserType(null);
-            });
+        .then(() => {
+            setUser(null);
+            setToken(null);
+            setUserType(null);
+        })
+        .finally(() => {
+            setIsLoggingOut(false);
+        });
     };
 
     // Handle redirection in the component body
@@ -73,7 +77,7 @@ export default function SuperAdminDefault() {
         <SuperAdminProvider>
             <div className="w-100 h-100 position-relative">
                 <SuperAdminSideNav/>
-                <SuperAdminNav onLogout={onLogout}/>
+                <SuperAdminNav isLoggingOut={isLoggingOut} onLogout={onLogout}/>
                 <Outlet/>
                 <ToastContainer/>
             </div>

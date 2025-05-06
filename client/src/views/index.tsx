@@ -17,6 +17,7 @@ export default function GuestIndex() {
         username: "",
         password: ""
     });
+    const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
 
 
 
@@ -29,13 +30,13 @@ export default function GuestIndex() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoggingIn(true);
 
         const formData = new FormData();
         formData.append("loginCredentials", JSON.stringify(userIn));
 
         axiosClient.post("/login", formData)
         .then(({data}) => {
-            console.log(data.status);
             if(data?.status === 200) {
                 setUser(data.user);
                 setToken(data.token);
@@ -46,6 +47,9 @@ export default function GuestIndex() {
         .catch((error) => {
             console.error(error);
             notify("error", "Server Error", "top-center", 3000);
+        })
+        .finally(() => {
+            setIsLoggingIn(false);
         });
     }
 
@@ -81,7 +85,15 @@ export default function GuestIndex() {
                     />
                 </div>
 
-                <Button size="large" className="w-100" type="primary" htmlType="submit">Login</Button>
+                <Button 
+                size="large" 
+                className="w-100" 
+                type="primary" 
+                htmlType="submit"
+                loading={isLoggingIn}
+                >
+                    Login
+                </Button>
             </form>
         </div>
     );

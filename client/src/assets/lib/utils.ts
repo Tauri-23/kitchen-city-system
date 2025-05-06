@@ -144,3 +144,29 @@ export function notify(
         });
     }
 }
+
+
+
+
+
+/*
+|----------------------------------------
+| Weeks For Orders
+|----------------------------------------
+*/
+export const getWeekOfMonthFixed4 = (date = new Date()): number => {
+    const year = date.getFullYear();
+    const month = date.getMonth(); // 0 = Jan
+  
+    const firstDayOfMonth = new Date(year, month, 1);
+    const totalDays = new Date(year, month + 1, 0).getDate(); // last day of month
+    const dayOfMonth = date.getDate();
+  
+    // Weeks 1-3 are 7 days each
+    if (dayOfMonth <= 7) return 1;
+    if (dayOfMonth <= 14) return 2;
+    if (dayOfMonth <= 21) return 3;
+  
+    // All remaining days go to week 4
+    return 4;
+}

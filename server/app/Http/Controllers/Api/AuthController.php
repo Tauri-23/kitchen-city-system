@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         if($superAdmin && Hash::check($loginCreDentials->password, $superAdmin->password))
         {
-            $token = $superAdmin->createToken("superAdmin")->plainTextToken;
+            $token = $superAdmin->createToken("Super Admin")->plainTextToken;
 
             return response()->json([
                 "status" => 200,
@@ -40,7 +40,7 @@ class AuthController extends Controller
         }
         else if($branchManager && Hash::check($loginCreDentials->password, $branchManager->password))
         {
-            $token = $branchManager->createToken("branchManager")->plainTextToken;
+            $token = $branchManager->createToken("Branch Manager")->plainTextToken;
 
             return response()->json([
                 "status" => 200,
@@ -91,7 +91,9 @@ class AuthController extends Controller
 
         $userType = $user instanceof super_admins
             ? "Super Admin"
-            : "";
+            : ($user instanceof branch_managers
+            ? "Branch Manager"
+            : "");
         
         return response()->json([
             "user" => [

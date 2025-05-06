@@ -10,6 +10,18 @@ export const fetchAllMenus = async() => {
     }
 }
 
+
+export const fetchAllMenusWhereWeek = async(week: number) => {
+    try {
+        const response = await axiosClient.get(`/get-all-menus-where-week/${week}`);
+        return response.data;
+    } catch(error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+
 export const fetchMenuById = async(id: string) => {
     try {
         const response = await axiosClient.get(`/get-menu-by-id/${id}`);

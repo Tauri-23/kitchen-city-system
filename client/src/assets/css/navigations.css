@@ -57,7 +57,7 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     background: var(--white1);
     filter: drop-shadow(0 0 3px var(--grey1));
     position: sticky;

@@ -25,6 +25,21 @@ class MenuController extends Controller
         );
     }
 
+    public function GetAllMenusWhereWeek($week)
+    {
+        return response()->json(
+            menu::with("menu_dishes")
+            ->where("menu_week", $week)
+            ->orderByRaw("FIELD(menu_day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
+                'Friday', 'Saturday', 'Sunday')") 
+            ->orderByRaw("FIELD(meal_type, 'Breakfast', 'Lunch', 'Snack', 'Dinner', 
+                'Midnight Lunch', 'Midnight Snack')")
+            ->orderByRaw("FIELD(menu_size, 'XL', 'Large', 'Medium', 'Medium Frying', 
+                'Small', 'Small Frying')")
+            ->get()
+        );
+    }
+
     public function GetMenuById($id)
     {
         return response()->json(menu::with("menu_dishes")->find($id));

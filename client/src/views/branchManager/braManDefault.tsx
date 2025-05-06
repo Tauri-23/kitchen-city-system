@@ -1,13 +1,15 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useLoggedUserContext } from "../../contexts/LoggedUserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
 import { ToastContainer } from "react-toastify";
 import BranchManagerNav from "../../components/navigations/branchManagerNav";
+import BranchManagerSideNav from "../../components/navigations/branchManagerSideNav";
+import { BranchManagerProvider } from "../../contexts/BranchManagerContext";
 
 export default function BranchManagerDefault() {
     const { userType, token, setUserType, setUser, setToken } = useLoggedUserContext();
-
+    const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
     const location = useLocation();
 
 
@@ -45,16 +47,17 @@ export default function BranchManagerDefault() {
     }, []);
 
     const onLogout = () => {
+        setIsLoggingOut(true);
         axiosClient.post('/logout')
-            .then(() => {
-                setUser(null);
-                setToken(null);
-                setUserType(null);
-            });
-        // window.location.href="/";
+        .then(() => {
+            setUser(null);
+            setToken(null);
+            setUserType(null);
+        })
+        .finally(() => {
+            setIsLoggingOut(false);
+        });
     };
-
-    console.log(token);
 
     // Handle redirection in the component body
     if (!token || userType !== 'Branch Manager') {
@@ -67,10 +70,13 @@ export default function BranchManagerDefault() {
      * Render
      */
     return (
-        <div className="w-100 h-100 position-relative">
-            <BranchManagerNav onLogout={onLogout}/>
-            <Outlet/>
-            <ToastContainer/>
-        </div>
+        <BranchManagerProvider>
+            <div className="w-100 h-100 position-relative">
+                <BranchManagerSideNav/>
+                <BranchManagerNav isLoggingOut={isLoggingOut} onLogout={onLogout}/>
+                <Outlet/>
+                <ToastContainer/>
+            </div>
+        </BranchManagerProvider>
     )
 }
