@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2025 at 07:30 PM
+-- Generation Time: May 06, 2025 at 02:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -22,6 +22,82 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `kitchen_city` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `kitchen_city`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `area_managers`
+--
+
+CREATE TABLE `area_managers` (
+  `id` varchar(20) NOT NULL,
+  `fname` varchar(50) NOT NULL,
+  `mname` varchar(50) DEFAULT NULL,
+  `lname` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `status` enum('Active','Suspended','Deleted') NOT NULL DEFAULT 'Active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `area_managers`
+--
+
+INSERT INTO `area_managers` (`id`, `fname`, `mname`, `lname`, `email`, `status`, `created_at`, `updated_at`) VALUES
+('97lu6HECbJyXFjZ8LN4f', 'Emily', '', 'Welsh', 'emilywelsh@gmail.com', 'Active', '2025-05-05 20:03:01', '2025-05-05 20:03:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branches`
+--
+
+CREATE TABLE `branches` (
+  `id` varchar(20) NOT NULL,
+  `branch_code` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `area_manager_id` varchar(20) DEFAULT NULL,
+  `status` enum('Active','Suspended','Discontinued') NOT NULL DEFAULT 'Active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `branches`
+--
+
+INSERT INTO `branches` (`id`, `branch_code`, `name`, `address`, `area_manager_id`, `status`, `created_at`, `updated_at`) VALUES
+('DKTLQzdjrPHHWDgVJrfr', 'KC-0001', 'John Deli', 'BGC Taguig', '97lu6HECbJyXFjZ8LN4f', 'Active', '2025-05-05 21:41:35', '2025-05-05 21:41:35'),
+('YT2Bc7EmqaUHRfB4EOnm', 'KC-0002', 'John Deli', 'SM Moa', '97lu6HECbJyXFjZ8LN4f', 'Active', '2025-05-05 21:46:19', '2025-05-05 21:46:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch_managers`
+--
+
+CREATE TABLE `branch_managers` (
+  `id` varchar(20) NOT NULL,
+  `branch_id` varchar(20) DEFAULT NULL,
+  `fname` varchar(50) NOT NULL,
+  `mname` varchar(50) DEFAULT NULL,
+  `lname` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `status` enum('Active','Suspended','Deleted') NOT NULL DEFAULT 'Active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `branch_managers`
+--
+
+INSERT INTO `branch_managers` (`id`, `branch_id`, `fname`, `mname`, `lname`, `username`, `password`, `email`, `status`, `created_at`, `updated_at`) VALUES
+('34WDVdLVEuLAWr5bJ6XY', 'DKTLQzdjrPHHWDgVJrfr', 'Jose', '', 'Black', 'jose123', '$2y$12$5QMBzyz.Vxo72KIVeGNpTep0Ehejn647R.w9lJjIXcmR3/3o4kVXG', 'joseblack@gmail.com', 'Active', '2025-05-05 23:23:44', '2025-05-05 23:23:44');
 
 -- --------------------------------------------------------
 
@@ -122,10 +198,20 @@ CREATE TABLE `menus` (
 INSERT INTO `menus` (`id`, `menu_name`, `menu_week`, `menu_day`, `meal_type`, `menu_size`, `created_at`, `updated_at`) VALUES
 ('1ZL7C7yTZWmtxDngZVbI', 'Monday Week 1 Bfast Small', 1, 'Monday', 'Breakfast', 'Small', '2025-05-05 03:30:29', '2025-05-05 03:30:29'),
 ('3ati547ryA4mBp58aOjt', 'Monday Week 1 Bfast Small Frying', 1, 'Monday', 'Breakfast', 'Small Frying', '2025-05-05 03:30:41', '2025-05-05 03:30:41'),
+('4UvwfnGqjDaxcUDB7w4J', 'Thursday Week 1 Bfast XL', 1, 'Thursday', 'Breakfast', 'XL', '2025-05-05 22:10:05', '2025-05-05 22:10:05'),
+('AlkKScoTY1x5iFpKM3Of', 'Monday Week 2 Bfast Medium', 2, 'Monday', 'Breakfast', 'Medium', '2025-05-05 22:08:57', '2025-05-05 22:08:57'),
+('bowR9BZlvwLeUxOzitWl', 'Wednesday Week 1 Bfast XL', 1, 'Wednesday', 'Breakfast', 'XL', '2025-05-05 22:09:46', '2025-05-05 22:09:46'),
+('CjO58jr6OG5nExtHwy4v', 'Tuesday Week 1 Bfast Small Frying', 1, 'Tuesday', 'Breakfast', 'Small Frying', '2025-05-05 22:25:16', '2025-05-05 22:25:16'),
+('DgmDGrPd7kLvv1fxPorr', 'Monday Week 2 Bfast Large', 2, 'Monday', 'Breakfast', 'Large', '2025-05-05 22:08:35', '2025-05-05 22:08:35'),
 ('dgvm2369GPnC3GFveBvz', 'Monday Week 1 Bfast XL', 1, 'Monday', 'Breakfast', 'XL', '2025-05-05 03:27:02', '2025-05-05 03:27:02'),
+('Eam63XkhjDa9ek0QZ11v', 'Tuesday Week 1 Bfast Medium Frying', 1, 'Tuesday', 'Breakfast', 'Medium Frying', '2025-05-05 22:22:54', '2025-05-05 22:22:54'),
+('gZG3GLSR3JVqycR5WhXa', 'Tuesday Week 1 Bfast Large', 1, 'Tuesday', 'Breakfast', 'Large', '2025-05-05 22:22:01', '2025-05-05 22:22:01'),
 ('HtxLTdZrsgxdr3VUnyZ7', 'Monday Week 1 Bfast Medium Frying', 1, 'Monday', 'Breakfast', 'Medium Frying', '2025-05-05 03:30:17', '2025-05-05 03:30:17'),
+('k8vXbSfW0x6MzuGJmmhF', 'Tuesday Week 1 Bfast Small', 1, 'Tuesday', 'Breakfast', 'Small', '2025-05-05 22:24:48', '2025-05-05 22:24:48'),
 ('kC7tpGtkRvFiK9KmSb04', 'Monday Week 2 Bfast XL', 2, 'Monday', 'Breakfast', 'XL', '2025-05-05 06:44:04', '2025-05-05 06:44:04'),
 ('mMTZ1Psoz8nJEU3sGEk8', 'Monday Week 1 Bfast Large', 1, 'Monday', 'Breakfast', 'Large', '2025-05-05 03:29:49', '2025-05-05 03:29:49'),
+('p2c4iolvhZeI4Km0kITR', 'Tuesday Week 1 Bfast Medium', 1, 'Tuesday', 'Breakfast', 'Medium', '2025-05-05 22:22:38', '2025-05-05 22:22:38'),
+('SpcygPUGVp3JtwbnQmtZ', 'Tuesday Week 1 Bfast XL', 1, 'Tuesday', 'Breakfast', 'XL', '2025-05-05 22:09:32', '2025-05-05 22:09:32'),
 ('ya3COfeKED5rUwp1diAA', 'Monday Week 1 Bfast Medium', 1, 'Monday', 'Breakfast', 'Medium', '2025-05-05 03:30:02', '2025-05-05 03:30:02');
 
 -- --------------------------------------------------------
@@ -212,7 +298,49 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2025_05_05_015138_create_personal_access_tokens_table', 2),
 (27, '2025_05_05_075641_create_menus_table', 3),
 (28, '2025_05_05_115102_create_menu_dishes_categories_table', 4),
-(31, '2025_05_05_120656_create_menu_dishes_table', 5);
+(31, '2025_05_05_120656_create_menu_dishes_table', 5),
+(33, '2025_05_06_032016_create_area_managers_table', 6),
+(36, '2025_05_06_040908_create_branches_table', 7),
+(37, '2025_05_06_063459_create_branch_managers_table', 8),
+(40, '2025_05_06_102734_create_orders_table', 9),
+(41, '2025_05_06_110018_create_order_items_table', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` varchar(20) NOT NULL,
+  `branch_id` varchar(20) DEFAULT NULL,
+  `deadline` datetime DEFAULT NULL,
+  `total_cost` double NOT NULL DEFAULT 0,
+  `status` enum('Open','Pending','Completed','Cancelled') NOT NULL DEFAULT 'Open',
+  `completed_at` timestamp NULL DEFAULT NULL,
+  `cancelled_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` varchar(20) NOT NULL,
+  `order_id` varchar(20) DEFAULT NULL,
+  `menu_dish_id` varchar(20) DEFAULT NULL,
+  `qty` datetime DEFAULT NULL,
+  `unit_cost` double NOT NULL DEFAULT 0,
+  `status` enum('Open','Pending','Completed','Cancelled') NOT NULL DEFAULT 'Open',
+  `completed_at` timestamp NULL DEFAULT NULL,
+  `cancelled_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -250,19 +378,7 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-(1, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '2757ddfd467736c3b02fe027706c4997ddb893ad537c004a7bcd82c222e6e6ac', '[\"*\"]', NULL, NULL, '2025-05-04 18:27:58', '2025-05-04 18:27:58'),
-(2, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', 'e3453110c58b83019e13275fc1db945fc437936a222f96aeee2368391273bf1d', '[\"*\"]', NULL, NULL, '2025-05-04 18:28:01', '2025-05-04 18:28:01'),
-(3, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', 'ecffd2f4e554870e4c0a42a46068b9e6293fe0795bb329540c6b9cd0b4e57c5d', '[\"*\"]', NULL, NULL, '2025-05-04 18:28:19', '2025-05-04 18:28:19'),
-(4, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '00d8b28853f47dd6850911f1bbbd4174af00d6f6c8d5ef490c4a4e6807416d43', '[\"*\"]', NULL, NULL, '2025-05-04 18:28:29', '2025-05-04 18:28:29'),
-(5, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', 'b16fe3d5e25174d146cefff6c5e37eb2d2aa4d360fc963ffeb79fa8eaf363672', '[\"*\"]', NULL, NULL, '2025-05-04 18:29:21', '2025-05-04 18:29:21'),
-(6, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '3b981e279492883ba325fc4ce377c8ee998082ca8b328793004c1ad9373914a4', '[\"*\"]', NULL, NULL, '2025-05-04 18:29:22', '2025-05-04 18:29:22'),
-(7, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', 'ff357c5a04b310116534181af4c7c9db0d19fb267ceb4e6e816a29e1ed3fbac7', '[\"*\"]', NULL, NULL, '2025-05-04 18:29:39', '2025-05-04 18:29:39'),
-(8, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '81adcc7062f1b9cce17e55fa960ae32901fa4163e9760295c99c5e2c8a7ab7a3', '[\"*\"]', NULL, NULL, '2025-05-04 18:29:41', '2025-05-04 18:29:41'),
-(9, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '9c6662256960b9a3df3017b9b7e55f285e15222740fcf237b911c40d1dd2657d', '[\"*\"]', NULL, NULL, '2025-05-04 18:29:42', '2025-05-04 18:29:42'),
-(10, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '08ec012814cb47c26ca27044b1d3819d33b7d71e7ea2e99cd87a29c8c25de579', '[\"*\"]', NULL, NULL, '2025-05-04 18:30:16', '2025-05-04 18:30:16'),
-(11, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '1081cd7f993afe74540f58bda43945aed090b2b464e48305a4cfe7d6674fda84', '[\"*\"]', NULL, NULL, '2025-05-04 18:30:50', '2025-05-04 18:30:50'),
-(12, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', 'dc6160cae04d749979ad7ff0d0e8a499d9d6342ae61b110d746f0f10afb1ea28', '[\"*\"]', '2025-05-04 19:27:53', NULL, '2025-05-04 18:31:19', '2025-05-04 19:27:53'),
-(13, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'superAdmin', '81f05124f0678aa2992c0f1cf01679faabd5c1c41d6ff2b8c3482de01214685e', '[\"*\"]', '2025-05-05 09:29:51', NULL, '2025-05-04 20:47:51', '2025-05-05 09:29:51');
+(34, 'App\\Models\\branch_managers', '34WDVdLVEuLAWr5bJ6XY', 'Branch Manager', '23674e6fa018f983f12551f507613275f8a8d27bcd216b4f38526dee7bfb135a', '[\"*\"]', '2025-05-06 03:58:25', NULL, '2025-05-06 03:58:24', '2025-05-06 03:58:25');
 
 -- --------------------------------------------------------
 
@@ -310,6 +426,7 @@ CREATE TABLE `super_admins` (
 --
 
 INSERT INTO `super_admins` (`id`, `fname`, `mname`, `lname`, `username`, `password`, `email`, `status`, `created_at`, `updated_at`) VALUES
+('we9w99nXjcjRz2fLl9on', 'Test', '', 'test', 'test123', '$2y$12$SJzXsG4kShKhSP9ZLWUu8.Nzur9jE8dBYmQ2iBq9bprV47.U7HT9C', 'testsupad@gmail.com', 'Active', '2025-05-05 19:24:29', '2025-05-05 19:24:29'),
 ('X4r9KxLtQz7UeGvW2Fjd', 'Airich', NULL, 'Diawan', 'adiawan', '$2y$12$0yvf43PEvEq.Xc7/F/s3ouzn1t8yyfI9wOR/zk4.tGAs120GjGQai', 'airichjaydiawan@gmail.com', 'Active', '2025-05-04 15:41:12', '2025-05-04 15:41:12');
 
 -- --------------------------------------------------------
@@ -332,6 +449,30 @@ CREATE TABLE `users` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `area_managers`
+--
+ALTER TABLE `area_managers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `area_managers_email_unique` (`email`);
+
+--
+-- Indexes for table `branches`
+--
+ALTER TABLE `branches`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `branches_branch_code_unique` (`branch_code`),
+  ADD KEY `branches_area_manager_id_foreign` (`area_manager_id`);
+
+--
+-- Indexes for table `branch_managers`
+--
+ALTER TABLE `branch_managers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `branch_managers_username_unique` (`username`),
+  ADD UNIQUE KEY `branch_managers_email_unique` (`email`),
+  ADD KEY `branch_managers_branch_id_foreign` (`branch_id`);
 
 --
 -- Indexes for table `cache`
@@ -390,6 +531,21 @@ ALTER TABLE `menu_dishes_categories`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `orders_branch_id_foreign` (`branch_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_items_order_id_foreign` (`order_id`),
+  ADD KEY `order_items_menu_dish_id_foreign` (`menu_dish_id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -453,13 +609,13 @@ ALTER TABLE `menu_dishes_categories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -472,11 +628,36 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `branches`
+--
+ALTER TABLE `branches`
+  ADD CONSTRAINT `branches_area_manager_id_foreign` FOREIGN KEY (`area_manager_id`) REFERENCES `area_managers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `branch_managers`
+--
+ALTER TABLE `branch_managers`
+  ADD CONSTRAINT `branch_managers_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
 -- Constraints for table `menu_dishes`
 --
 ALTER TABLE `menu_dishes`
   ADD CONSTRAINT `menu_dishes_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `menu_dishes_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `menu_dishes_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_menu_dish_id_foreign` FOREIGN KEY (`menu_dish_id`) REFERENCES `menu_dishes` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
