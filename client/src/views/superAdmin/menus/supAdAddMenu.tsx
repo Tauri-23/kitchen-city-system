@@ -19,7 +19,7 @@ export default function SuperAdminAddMenu() {
         menuSize: "",
     });
 
-    const isSubmitDisabled = isEmptyOrSpaces(menuIn.menuName) || isEmptyOrSpaces(menuIn.menuWeek) || 
+    const isSubmitDisabled = isEmptyOrSpaces(menuIn.menuName) || menuIn.menuWeek === "" || 
     isEmptyOrSpaces(menuIn.menuDay) || isEmptyOrSpaces(menuIn.mealType) || isEmptyOrSpaces(menuIn.menuSize);
 
 

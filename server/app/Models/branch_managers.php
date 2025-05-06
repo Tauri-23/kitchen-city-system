@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Str;
 
-class super_admins extends Model 
+class branch_managers extends Model
 {
-
     use HasApiTokens;
 
     protected $primaryKey = 'id';
@@ -17,6 +15,7 @@ class super_admins extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
+        "branch_id",
         "fname",
         "mname",
         "lname",
@@ -35,5 +34,15 @@ class super_admins extends Model
                 $model->{$model->getKeyName()} = Str::random(20);
             }
         });
+    }
+
+
+
+    /**
+     * Foriegn Joins
+     */
+    public function branch()
+    {
+        return $this->belongsTo(branches::class, "branch_id", "id");
     }
 }

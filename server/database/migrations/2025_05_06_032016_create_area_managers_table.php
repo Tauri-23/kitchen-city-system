@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('super_admins', function (Blueprint $table) {
+        Schema::create('area_managers', function (Blueprint $table) {
             $table->string("id", 20)->primary();
             $table->string("fname", 50);
             $table->string("mname", 50)->nullable();
             $table->string("lname", 50);
-            $table->string("username", 50)->unique();
-            $table->string("password");
+            // $table->string("username", 50);
+            // $table->string("password");
             $table->string("email", 50)->unique();
             $table->enum("status", ["Active", "Suspended", "Deleted"])->default("Active");
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('super_admins');
+        Schema::dropIfExists('area_managers');
     }
 };

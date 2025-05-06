@@ -1,29 +1,38 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { useEffect, useState } from "react";
 import { Button } from "antd";
+
+export type SuperAdminAccountsOutletContextType = {
+    setActiveLink: (value: "Super Admins" | "Branch Admins" | "Branch Managers" | "Area Managers" | "Commissary Workers") => void
+}
 
 export default function SuperAdminAccountsDefault() {
     const { setActiveSideNavLink } = useSuperAdminContext();
     const accountTypes = [
         {
             title: "Super Admins",
-            to: ""
+            to: "/KCSuperAdmin/Accounts/"
         }, 
         {
             title: "Branch Admins",
-            to: "BranchAdmins"
+            to: "/KCSuperAdmin/Accounts/BranchAdmins"
+        }, 
+        {
+            title: "Branch Managers",
+            to: "/KCSuperAdmin/Accounts/BranchManagers"
         }, 
         {
             title: "Area Managers",
-            to: "AreaManagers"
+            to: "/KCSuperAdmin/Accounts/AreaManagers"
         }, 
         {
             title: "Commissary Workers",
-            to: "CommissaryWorkers"
+            to: "/KCSuperAdmin/Accounts/CommissaryWorkers"
         }
     ];
-    const [activeLink, setActiveLink] = useState<"Super Admins" | "Branch Admins" | "Area Managers" | "Commissary Workers">("Super Admins")
+    const navigate = useNavigate();
+    const [activeLink, setActiveLink] = useState<"Super Admins" | "Branch Admins" | "Branch Managers" | "Area Managers" | "Commissary Workers">("Super Admins")
 
 
 
@@ -48,9 +57,9 @@ export default function SuperAdminAccountsDefault() {
                     <Button
                     className="text-decoration-none"
                     key={index}
-                    size="large"
+                    // size="large"
                     type="primary"
-                    href={type.to}
+                    onClick={() => navigate(type.to)}
                     ghost={type.title !== activeLink}>
                         {type.title}
                     </Button>

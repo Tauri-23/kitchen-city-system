@@ -55,6 +55,10 @@ export default function SuperAdminMenusIndex() {
         {
             title: "Size",
             dataIndex: "menu_size"
+        },
+        {
+            title: "Dishes",
+            render: (_, row) => row?.menu_dishes?.length
         }
     ]
 

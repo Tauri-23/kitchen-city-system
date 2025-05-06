@@ -12,7 +12,17 @@ class MenuController extends Controller
     //GET
     public function GetAllMenus()
     {
-        return response()->json(menu::all());
+        return response()->json(
+            menu::with("menu_dishes")
+            ->orderBy("menu_week", "asc")
+            ->orderByRaw("FIELD(menu_day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
+                'Friday', 'Saturday', 'Sunday')") 
+            ->orderByRaw("FIELD(meal_type, 'Breakfast', 'Lunch', 'Snack', 'Dinner', 
+                'Midnight Lunch', 'Midnight Snack')")
+            ->orderByRaw("FIELD(menu_size, 'XL', 'Large', 'Medium', 'Medium Frying', 
+                'Small', 'Small Frying')")
+            ->get()
+        );
     }
 
     public function GetMenuById($id)

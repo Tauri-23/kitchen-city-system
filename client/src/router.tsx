@@ -8,10 +8,13 @@ import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
 import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
 import SuperAdminViewMenu from "./views/superAdmin/menus/supAdViewMenu";
 import SuperAdminAddMenuDish from "./views/superAdmin/menus/supAdAddMenuDish";
-import SuperAdminBranchesDefault from "./views/superAdmin/branches/supAdBranchesDefault";
-import SuperAdminBranchesIndex from "./views/superAdmin/branches/supAdBranchesIndex";
 import SuperAdminAccountsDefault from "./views/superAdmin/accounts/supAdAccountsDefault";
-import SuperAdminAccountsIndex from "./views/superAdmin/accounts/supAdAccountsIndex";
+import SuperAdminAccountsSuperAdmins from "./views/superAdmin/accounts/supAdAccountsSuperAdmins";
+import SuperAdminAccountsBranchAdmins from "./views/superAdmin/accounts/supAdAccountsBranchAdmins";
+import SuperAdminAccountsBranchManagers from "./views/superAdmin/accounts/supAdAccountsBranchManagers";
+import SuperAdminAccountsAreaManagers from "./views/superAdmin/accounts/supAdAccountsAreaManagers";
+import SuperAdminAccountsCommissaryWorkers from "./views/superAdmin/accounts/supAdAccountsCommissaryWorkers";
+import SuperAdminBranchesIndex from "./views/superAdmin/branches/supAdBranchesIndex";
 
 const router = createBrowserRouter([
     /**
@@ -79,13 +82,7 @@ const router = createBrowserRouter([
              */
             {
                 path: "Branches",
-                element: <SuperAdminBranchesDefault/>,
-                children: [
-                    {
-                        index: true,
-                        element: <SuperAdminBranchesIndex/>
-                    }
-                ]
+                element: <SuperAdminBranchesIndex/>
             },
 
 
@@ -99,8 +96,24 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <SuperAdminAccountsIndex/>
-                    }
+                        element: <SuperAdminAccountsSuperAdmins/>
+                    },
+                    {
+                        path: "BranchAdmins",
+                        element: <SuperAdminAccountsBranchAdmins/>
+                    },
+                    {
+                        path: "BranchManagers",
+                        element: <SuperAdminAccountsBranchManagers/>
+                    },
+                    {
+                        path: "AreaManagers",
+                        element: <SuperAdminAccountsAreaManagers/>
+                    },
+                    {
+                        path: "CommissaryWorkers",
+                        element: <SuperAdminAccountsCommissaryWorkers/>
+                    },
                 ]
             },
         ]

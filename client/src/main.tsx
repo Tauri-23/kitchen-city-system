@@ -19,6 +19,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { GeneralProvider } from './contexts/GeneralContext';
 import { LoggedUserProvider } from './contexts/LoggedUserContext';
 import { ConfigProvider } from 'antd';
+import ModalManager from './managers/modalManager';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
 		>
 			<GeneralProvider>
 				<LoggedUserProvider>
+					<ModalManager/>
 					<RouterProvider router={router}/>
 				</LoggedUserProvider>
 			</GeneralProvider>

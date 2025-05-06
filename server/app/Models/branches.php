@@ -3,27 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens;
 use Str;
 
-class super_admins extends Model 
+class branches extends Model
 {
-
-    use HasApiTokens;
-
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        "fname",
-        "mname",
-        "lname",
-        "username",
-        "password",
-        "email",
-        "status",
+        "branch_code",
+        "name",
+        "address",
+        "area_manager_id",
+        "status"
     ];
 
     public static function boot()
@@ -35,5 +28,15 @@ class super_admins extends Model
                 $model->{$model->getKeyName()} = Str::random(20);
             }
         });
+    }
+
+
+
+    /**
+     * Foreing Join
+     */
+    public function area_manager()
+    {
+        return $this->belongsTo(area_managers::class, "area_manager_id", "id");
     }
 }

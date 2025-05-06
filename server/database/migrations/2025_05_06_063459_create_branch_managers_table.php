@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('super_admins', function (Blueprint $table) {
+        Schema::create('branch_managers', function (Blueprint $table) {
             $table->string("id", 20)->primary();
+            $table->string("branch_id", 20)->nullable();
             $table->string("fname", 50);
             $table->string("mname", 50)->nullable();
             $table->string("lname", 50);
@@ -21,6 +22,15 @@ return new class extends Migration
             $table->string("email", 50)->unique();
             $table->enum("status", ["Active", "Suspended", "Deleted"])->default("Active");
             $table->timestamps();
+
+            /**
+             * Foreign Keys
+             */
+            $table->foreign("branch_id")
+            ->references("id")
+            ->on("branches")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
         });
     }
 
@@ -29,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('super_admins');
+        Schema::dropIfExists('branch_managers');
     }
 };
