@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string("order_id", 20)->nullable();
             $table->string("menu_dish_id", 20)->nullable();
             
-            $table->dateTime("qty")->nullable();
+            $table->integer("qty")->nullable();
             $table->float("unit_cost")->default(0);
+            $table->float("total_cost")->default(0);
             $table->enum("status", ["Open", "Pending", "Completed", "Cancelled"])->default("Open");
             
             $table->timestamp("completed_at")->nullable();
@@ -33,7 +34,7 @@ return new class extends Migration
             $table->foreign("order_id")
             ->references("id")
             ->on("orders")
-            ->nullOnDelete()
+            ->cascadeOnDelete()
             ->cascadeOnDelete();
 
             $table->foreign("menu_dish_id")

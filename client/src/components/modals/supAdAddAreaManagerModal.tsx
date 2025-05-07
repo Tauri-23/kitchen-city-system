@@ -1,5 +1,5 @@
 import { Button, Input, Modal } from "antd";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import axiosClient from "../../axios-client";
 import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import { AreaManagerStructure } from "../../types/areaManagerSturcture";
@@ -39,7 +39,11 @@ const SuperAdminAddAreaManagerModal: React.FC<SuperAdminAddAreaManagerModalTypes
         })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if(isSubmitBtnDisabled) return;
+
         setIsAdding(true);
         const formData = new FormData();
         formData.append("areaManagerIn", JSON.stringify(areaManagerIn));
@@ -71,30 +75,10 @@ const SuperAdminAddAreaManagerModal: React.FC<SuperAdminAddAreaManagerModalTypes
         title="Add Area Manager"
         open={true}
         onCancel={onClose}
-        footer={(_, { CancelBtn }) => (
-            <>
-                <CancelBtn />
-                <Button 
-                type="primary"
-                ghost
-                onClick={clearFields}
-                >
-                    Clear
-                </Button>
-
-                <Button 
-                type="primary"
-                loading={isAdding}
-                onClick={handleSubmit}
-                disabled={isSubmitBtnDisabled}
-                >
-                    Add
-                </Button>
-            </>
-        )}
+        footer={null}
         width={650}
         >
-            <form className="mar-y-1">
+            <form onSubmit={handleSubmit} className="mar-top-1">
                 {/* Name */}
                 <div className="d-flex gap3 align-items-center mar-bottom-3">
                     <div>
@@ -132,7 +116,7 @@ const SuperAdminAddAreaManagerModal: React.FC<SuperAdminAddAreaManagerModalTypes
                 </div>
 
                 {/* Email */}
-                <div className="mar-bottom-3">
+                <div className="mar-bottom-1">
                     <label htmlFor="email">Email</label>
                     <Input
                     size="large"
@@ -141,6 +125,35 @@ const SuperAdminAddAreaManagerModal: React.FC<SuperAdminAddAreaManagerModalTypes
                     placeholder="e.g. John@domain.com"
                     value={areaManagerIn.email}
                     onChange={handleInputChange}/>
+                </div>
+
+                {/* Buttons */}
+                <div className="d-flex justify-content-end gap3 align-items-center">
+                    <Button
+                    size="large"
+                    onClick={onClose}
+                    >
+                        Cancel
+                    </Button>
+
+                    <Button 
+                    size="large"
+                    type="primary"
+                    ghost
+                    onClick={clearFields}
+                    >
+                        Clear
+                    </Button>
+
+                    <Button 
+                    size="large"
+                    type="primary"
+                    loading={isAdding}
+                    disabled={isSubmitBtnDisabled}
+                    htmlType="submit"
+                    >
+                        Add
+                    </Button>
                 </div>
             </form>
         </Modal>

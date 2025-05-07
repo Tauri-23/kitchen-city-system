@@ -1,3 +1,5 @@
+import BranchManagerAddOrderModal from "../components/modals/braManAddOrderModal";
+import BranchManagerOrderCheckoutModal from "../components/modals/braManOrderCheckoutModal";
 import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaManagerModal";
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
 import SuperAdminAddBranchModal from "../components/modals/supAdAddBranchModal";
@@ -6,6 +8,8 @@ import { useGeneralContext } from "../contexts/GeneralContext"
 import { AreaManagerStructure } from "../types/areaManagerSturcture";
 import { BranchManagerStructure } from "../types/branchManagerSturcture";
 import { BranchStructure } from "../types/branchStructure";
+import { MenuDishStructure } from "../types/menuDishStructure";
+import { MenuStructure } from "../types/menuStructure";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
 
 const ModalManager = () => {
@@ -39,6 +43,27 @@ const ModalManager = () => {
                 setFilteredBranchManagers={props.setFilteredBranchManagers as (value: BranchManagerStructure[]) => void}
                 branches={props.branches as BranchStructure[]}
                 onClose={hideModal}/>
+
+
+
+
+            /**
+             * Branch Manager
+             */
+            case "BranchManagerAddOrderModal":
+                return <BranchManagerAddOrderModal
+                menuDish={props.menuDish as MenuDishStructure}
+                processedMenus={props.processedMenus as MenuStructure[]}
+                setprocessedMenus={props.setprocessedMenus as (value: MenuStructure[]) => void}
+                onClose={hideModal}
+                />
+
+            case "BranchManagerOrderCheckoutModal":
+                return <BranchManagerOrderCheckoutModal
+                orderedDishes={props.orderedDishes as MenuDishStructure[]}
+                onSuccess={props.onSuccess as () => void}
+                onClose={hideModal}
+                />
 
 
 

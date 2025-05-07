@@ -14,4 +14,10 @@ export interface MenuDishStructure {
     status: "Active" | "Discontinued";
     created_type: string | Date;
     updated_at: string | Date;
+
+
+
+
+    // Optionals
+    qtySelected: number;
 }

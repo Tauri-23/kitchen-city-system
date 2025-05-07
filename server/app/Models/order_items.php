@@ -16,6 +16,7 @@ class order_items extends Model
         "menu_dish_id",
         "qty",
         "unit_cost",
+        "total_cost",
         "status",
         "completed_at",
         "cancelled_at",

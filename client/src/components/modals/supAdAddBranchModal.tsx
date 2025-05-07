@@ -1,5 +1,5 @@
 import { Button, Input, Modal, Select } from "antd";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import axiosClient from "../../axios-client";
 import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import { AreaManagerStructure } from "../../types/areaManagerSturcture";
@@ -43,7 +43,11 @@ const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setB
         })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if(isSubmitBtnDisabled) return;
+
         setIsAdding(true);
         const formData = new FormData();
         formData.append("branchIn", JSON.stringify(branchIn));
@@ -76,31 +80,10 @@ const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setB
         title="Add Area Manager"
         open={true}
         onCancel={onClose}
-        footer={(_, { CancelBtn }) => (
-            <>
-                <CancelBtn />
-
-                <Button 
-                type="primary"
-                ghost
-                onClick={clearFields}
-                >
-                    Clear
-                </Button>
-
-                <Button 
-                type="primary"
-                loading={isAdding}
-                onClick={handleSubmit}
-                disabled={isSubmitBtnDisabled}
-                >
-                    Add
-                </Button>
-            </>
-        )}
+        footer={null}
         width={650}
         >
-            <form className="mar-y-1">
+            <form onSubmit={handleSubmit} className="mar-top-1">
                 {/* Branch Code */}
                 <div className="mar-bottom-3">
                     <label htmlFor="branchCode">Branch Code</label>
@@ -150,6 +133,35 @@ const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setB
                         {label: "Select Area Manager", value: ""},
                         ...areaManagers.map((manager) => ({label: `${manager.fname} ${manager.lname}`, value: manager.id}))
                     ]}/>
+                </div>
+
+                {/* Buttons */}
+                <div className="d-flex justify-content-end gap3 align-items-center">
+                    <Button
+                    size="large"
+                    onClick={onClose}
+                    >
+                        Cancel
+                    </Button>
+
+                    <Button 
+                    size="large"
+                    type="primary"
+                    ghost
+                    onClick={clearFields}
+                    >
+                        Clear
+                    </Button>
+
+                    <Button 
+                    size="large"
+                    type="primary"
+                    loading={isAdding}
+                    disabled={isSubmitBtnDisabled}
+                    htmlType="submit"
+                    >
+                        Add
+                    </Button>
                 </div>
             </form>
         </Modal>

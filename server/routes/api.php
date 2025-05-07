@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BranchManagerController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
+use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
@@ -115,3 +116,17 @@ Route::post("/create-branch", [BranchesController::class, "CreateBranch"]);
 Route::get("/get-all-branch-managers", [BranchManagerController::class, "GetAllBranchManagers"]);
 
 Route::post("/create-branch-manager", [BranchManagerController::class, "CreateBranchManager"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Orders
+|----------------------------------------
+*/
+Route::get("/get-all-orders", [OrdersController::class, "GetAllOrders"]);
+Route::get("/get-all-orders/{with}", [OrdersController::class, "GetAllOrdersWith"]);
+
+Route::post("/create-order", [OrdersController::class, "CreateOrder"]);
