@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchMenuById } from "../../../services/menusServices";
 import { MenuStructure } from "../../../types/menuStructure";
-import { Button, Spin, Table, TableColumnsType } from "antd";
+import { Breadcrumb, Button, Spin, Table, TableColumnsType } from "antd";
 import "../../../assets/css/viewMenu.css";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { formatToPhilPeso } from "../../../assets/lib/utils";
@@ -14,6 +14,7 @@ export default function SuperAdminViewMenu() {
     const [menu, setMenu] = useState<MenuStructure | null>(null);
 
     const params = useParams();
+    const navigate = useNavigate();
 
 
 
@@ -71,6 +72,18 @@ export default function SuperAdminViewMenu() {
             ? (<Spin size="large"/>)
             : ( 
                 <>
+                    <Breadcrumb
+                    className="mar-bottom-1 text-m2"
+                    items={[
+                        {
+                        title: <Link to={`/KCSuperAdmin/Menus`}>Menus</Link>,
+                        },
+                        {
+                        title: menu.menu_name,
+                        },
+                    ]}
+                    />
+                
                     <h3 className="fw-bold mar-bottom-1">{menu.menu_name}</h3>
 
                     {/* Menu Information */}
@@ -121,7 +134,7 @@ export default function SuperAdminViewMenu() {
                         <Button
                         size="large"
                         type="primary"
-                        href={`../AddMenuDish/${menu.id}`}>
+                        onClick={() => navigate(`../AddMenuDish/${menu.id}`)}>
                             Add Dish
                         </Button>
                     </div>

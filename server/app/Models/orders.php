@@ -38,7 +38,7 @@ class orders extends Model
      */
     public function order_items()
     {
-        return $this->hasMany(order_items::class, "order_id", "id");
+        return $this->hasMany(order_items::class, "order_id", "id")->with("menu_dish");
     }    
 
     public function branch()

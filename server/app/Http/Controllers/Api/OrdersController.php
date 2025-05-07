@@ -17,15 +17,31 @@ class OrdersController extends Controller
         return response()->json(orders::all());
     }
 
-    public function GetAllOrdersWith($with)
+    public function GetAllOrdersWith(Request $request)
     {
-        if (in_array('*', $with)) {
-            $orders = orders::with(['order_items', 'branch'])->get();
-        } else if (is_array($with) && !empty($with)) {
-            $orders = orders::with($with)->get();
-        } else {
-            $orders = orders::all();
+        $with = $request->query('with');
+
+        // Convert to array if it's a single string like "*"
+        if (!is_array($with)) {
+            $with = [$with];
         }
+
+        $orders = orders::with($with)->get();
+
+        return response()->json($orders);
+    }
+
+    public function GetOrderInformation(Request $request)
+    {
+        $with = $request->query('with');
+        $id = $request->query('id');
+
+        // Convert to array if it's a single string like "*"
+        if ($with && !is_array($with)) {
+            $with = [$with];
+        }
+
+        $orders = $with ? orders::with($with)->find($id) : orders::find($id);
 
         return response()->json($orders);
     }

@@ -1,14 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useBranchManagerContext } from "../../../contexts/BranchManagerContext"
-import { Button, Input, Table } from "antd";
+import { Button, Input, Spin, Table, TableColumnsType, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
+import { fetchAllOrdersWith } from "../../../services/ordersServices";
+import { OrderStructure } from "../../../types/orderSturcture";
+import { formatToPhilPeso } from "../../../assets/lib/utils";
 
 export default function BranchManagerOrdersIndex() {
     const { setActiveSideNavLink } = useBranchManagerContext();
 
+    const [orders, setOrders] = useState<OrderStructure[] | null>(null);
+    const [filteredOrders, setFilteredOrders] = useState<OrderStructure[] | null>(null);
+
     const {Search} = Input;
     const navigate = useNavigate();
-
+    const statusColors = {
+        Open: "blue",
+        Pending: "orange",
+        Completed: "green",
+        Cancelled: "red",
+    }
 
 
 
@@ -17,7 +28,39 @@ export default function BranchManagerOrdersIndex() {
      */
     useEffect(() => {
         setActiveSideNavLink("Orders");
-    });
+
+        const getAll = async() => {
+            const data = await fetchAllOrdersWith(["order_items"]);
+            setOrders(data);
+            setFilteredOrders(data);
+        }
+
+        getAll();
+    }, []);
+
+
+
+    /**
+     * Setup Columns
+     */
+    const orderColumns: TableColumnsType<OrderStructure> = [
+        {
+            title: "Order ID",
+            dataIndex: "id"
+        },
+        {
+            title: "Dishes Ordered",
+            render: (_, row) => `${row.order_items.length} Dishes`
+        },
+        {
+            title: "Total Cost",
+            render: (_, row) => formatToPhilPeso(row.total_cost)
+        },
+        {
+            title: "Status",
+            render: (_, row) => <Tag color={statusColors[row.status]}>{row.status}</Tag>
+        },
+    ]
 
 
 
@@ -53,10 +96,20 @@ export default function BranchManagerOrdersIndex() {
                 </Button>
             </div>
 
-            <Table
-            columns={[]}
-            dataSource={[]}
-            bordered/>
+            {!orders || !filteredOrders
+            ? (
+                <Spin size="large"/>
+            )
+            : (
+                <Table
+                columns={orderColumns}
+                dataSource={filteredOrders.map((item, index) => ({...item, key: index}))}
+                bordered
+                onRow={(row) => ({
+                    onDoubleClick: () => navigate(`../ViewOrder/${row.id}`)
+                })}/>
+            )}
+            
         </div>
     )
 }

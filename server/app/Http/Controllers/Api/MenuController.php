@@ -105,4 +105,65 @@ class MenuController extends Controller
             ], 500);
         }
     }
+
+    public function CreateMenuViaExcel(Request $request)
+    {
+        $excelData = json_decode($request->input("excelData"));
+
+        try
+        {
+            DB::beginTransaction();
+
+            foreach ($excelData as $key => $excelInfo) {
+                $menuExistBasedOnTypeDayWeekSize = menu::where("menu_week", $excelInfo->menuWeek)
+                ->where("menu_day", $excelInfo->menuDay)
+                ->where("meal_type", $excelInfo->mealType)
+                ->where("menu_size", $excelInfo->menuSize)
+                ->exists();
+
+                $menuExistBasedOnName = menu::where("menu_name", $excelInfo->menuName)->exists();
+
+                // CHECK IF NAME ALRDY EXIST
+                if($menuExistBasedOnName)
+                {
+                    return response()->json([
+                        "status" => 422,
+                        "message" => "Menu name $excelInfo->menuName already exist."
+                    ]);
+                }
+
+                // CHECK IF WEEK AND MEAL TYPE EXIST
+                if($menuExistBasedOnTypeDayWeekSize)
+                {
+                    return response()->json([
+                        "status" => 422,
+                        "message" => "Menu for week $excelInfo->menuWeek $excelInfo->menuDay $excelInfo->mealType $excelInfo->menuSize already exist."
+                    ]);
+                }
+
+                menu::Create([
+                    "menu_name" => $excelInfo->menuName,
+                    "menu_week" => $excelInfo->menuWeek,
+                    "menu_day" => $excelInfo->menuDay,
+                    "meal_type" => $excelInfo->mealType,
+                    "menu_size" => $excelInfo->menuSize
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Menu created successfully."
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack();
+            return response()->json([
+                "status" => 500,
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
 }

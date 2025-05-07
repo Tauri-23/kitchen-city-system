@@ -3,10 +3,10 @@ import { useBranchManagerContext } from "../../../contexts/BranchManagerContext"
 import { formatToPhilPeso, getWeekOfMonthFixed4, notify } from "../../../assets/lib/utils";
 import { MenuStructure } from "../../../types/menuStructure";
 import { fetchAllMenusWhereWeek } from "../../../services/menusServices";
-import { Button, Select, Spin, Table, TableColumnsType } from "antd";
+import { Breadcrumb, Button, Select, Spin, Table, TableColumnsType } from "antd";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { useGeneralContext } from "../../../contexts/GeneralContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function BranchManagerAddOrder() {
     const { setActiveSideNavLink } = useBranchManagerContext();
@@ -161,6 +161,18 @@ export default function BranchManagerAddOrder() {
      */
     return(
         <div className="content1 compressed">
+            <Breadcrumb
+            className="mar-bottom-1 text-m2"
+            items={[
+                {
+                  title: <Link to={`/KCBranchManager/Orders`}>Orders</Link>,
+                },
+                {
+                  title: "Add Order",
+                },
+            ]}
+            />
+
             <h3 className="fw-bold mar-bottom-1">Add Orders</h3>
 
             <div className="mar-bottom-2">Avaliable menus (Week {weekNow})</div>

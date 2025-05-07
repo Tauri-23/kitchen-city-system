@@ -19,6 +19,7 @@ import BranchManagerDefault from "./views/branchManager/braManDefault";
 import BranchManagerIndex from "./views/branchManager/braManIndex";
 import BranchManagerAddOrder from "./views/branchManager/orders/braManAddOrder";
 import BranchManagerOrdersIndex from "./views/branchManager/orders/braManOrdersIndex";
+import BranchManagerViewOrder from "./views/branchManager/orders/braManViewOrder";
 
 const router = createBrowserRouter([
     /**
@@ -151,6 +152,10 @@ const router = createBrowserRouter([
             {
                 path: "AddOrder",
                 element: <BranchManagerAddOrder/>
+            },
+            {
+                path: "ViewOrder/:id",
+                element: <BranchManagerViewOrder/>
             }
         ]
     }

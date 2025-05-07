@@ -42,6 +42,7 @@ Route::get('/get-all-menus-where-week/{week}', [MenuController::class, "GetAllMe
 Route::get('/get-menu-by-id/{id}', [MenuController::class, "GetMenuById"]);
 
 Route::post('/create-menus', [MenuController::class, "CreateMenu"]);
+Route::post('/create-menus-via-excel', [MenuController::class, "CreateMenuViaExcel"]);
 
 
 
@@ -127,6 +128,7 @@ Route::post("/create-branch-manager", [BranchManagerController::class, "CreateBr
 |----------------------------------------
 */
 Route::get("/get-all-orders", [OrdersController::class, "GetAllOrders"]);
-Route::get("/get-all-orders/{with}", [OrdersController::class, "GetAllOrdersWith"]);
+Route::get("/get-all-orders-with", [OrdersController::class, "GetAllOrdersWith"]);
+Route::get("/get-order-informations", [OrdersController::class, "GetOrderInformation"]);
 
 Route::post("/create-order", [OrdersController::class, "CreateOrder"]);

@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext"
-import { Button, Input, InputNumber, Select, Spin } from "antd";
-import { useParams } from "react-router-dom";
+import { Breadcrumb, Button, Input, InputNumber, Select, Spin } from "antd";
+import { Link, useParams } from "react-router-dom";
 import { MenuStructure } from "../../../types/menuStructure";
 import { fetchMenuById } from "../../../services/menusServices";
 import { MenuDishesCategoryStructure } from "../../../types/menuDishesCategoryStucture";
@@ -115,6 +115,21 @@ export default function SuperAdminAddMenuDish() {
                 )
                 : (
                     <>
+                        <Breadcrumb
+                        className="mar-bottom-1 text-m2"
+                        items={[
+                            {
+                                title: <Link to={`/KCSuperAdmin/Menus`}>Menus</Link>,
+                            },
+                            {
+                                title: <Link to={`/KCSuperAdmin/ViewMenu/${menu.id}`}>{menu.menu_name}</Link>,
+                            },
+                            {
+                                title: "Add Menu Dish",
+                            },
+                        ]}
+                        />
+
                         <h3 className="fw-bold mar-bottom-1">Add Dish</h3>
 
                         <form 

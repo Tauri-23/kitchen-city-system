@@ -11,6 +11,11 @@ export default function SuperAdminMenusIndex() {
     const {Search} = Input;
     const navigate = useNavigate();
 
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const weeks = [1, 2, 3, 4];
+    const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
+    const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
+
 
 
     /**
@@ -97,19 +102,24 @@ export default function SuperAdminMenusIndex() {
                         <Button
                         size="large"
                         type="primary"
-                        href="AddMenu"
+                        onClick={() => navigate("/KCSuperAdmin/AddMenu")}
                         >Add Menu
                         </Button>
                     </div>
 
-                    <Table
-                    columns={menuColumns}
-                    dataSource={filteredMenus.map((item, index) => ({...item, key: index}))}
-                    bordered
-                    onRow={(item) => ({
-                        onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
-                    })}
-                    />
+                    {weeks.map((week, index) => (
+                        <div key={index} className="mar-bottom-1">
+                            <h4 className="fw-bold mar-bottom-2">Week {week}</h4>
+                            <Table
+                            columns={menuColumns}
+                            dataSource={filteredMenus.filter(menu => menu.menu_week === week).map((item, index) => ({...item, key: index}))}
+                            bordered
+                            onRow={(item) => ({
+                                onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
+                            })}
+                            />
+                        </div>
+                    ))}
                 </>
             )}
         </>
