@@ -1,4 +1,4 @@
-import { Button, Input, Spin, Table, TableColumnsType } from "antd";
+import { Button, Input, Select, Spin, Table, TableColumnsType } from "antd";
 import { MenuStructure } from "../../../types/menuStructure";
 import { useEffect, useState } from "react";
 import { fetchAllMenus } from "../../../services/menusServices";
@@ -11,10 +11,13 @@ export default function SuperAdminMenusIndex() {
     const {Search} = Input;
     const navigate = useNavigate();
 
+    const [selectedSize, setSelectedSize] = useState<string>("XL");
+    const [selectedDay, setSelectedDay] = useState<string>("Monday");
+
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const weeks = [1, 2, 3, 4];
     const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
-    const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
+    // const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
 
 
 
@@ -107,12 +110,38 @@ export default function SuperAdminMenusIndex() {
                         </Button>
                     </div>
 
+                    <div className="d-flex gap3 mar-bottom-1">
+                        <Select
+                        style={{width: 150}}
+                        size="large"
+                        options={[
+                            ...days.map(day => ({label: day, value: day}))
+                        ]}
+                        value={selectedDay}
+                        onChange={(val) => {setSelectedDay(val); console.log(val)}}
+                        />
+
+                        <Select
+                        size="large"
+                        style={{width: 180}}
+                        options={[
+                            ...sizes.map(size => ({label: size, value: size}))
+                        ]}
+                        value={selectedSize}
+                        onChange={(val) => setSelectedSize(val)}
+                        />
+                    </div>
+
                     {weeks.map((week, index) => (
-                        <div key={index} className="mar-bottom-1">
-                            <h4 className="fw-bold mar-bottom-2">Week {week}</h4>
+                        <div key={index} className="mar-bottom-l3">
+                            <h5 className="fw-bold mar-bottom-1">Week {week}</h5>
                             <Table
                             columns={menuColumns}
-                            dataSource={filteredMenus.filter(menu => menu.menu_week === week).map((item, index) => ({...item, key: index}))}
+                            dataSource={filteredMenus
+                                .filter(menu => menu.menu_week === week && menu.menu_size === selectedSize
+                                    && menu.menu_day === selectedDay
+                                )
+                                .map((item, index) => ({...item, key: index}))}
                             bordered
                             onRow={(item) => ({
                                 onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)

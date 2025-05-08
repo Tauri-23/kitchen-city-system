@@ -313,7 +313,8 @@ export default function SuperAdminAddMenu() {
                         <Button
                         size="large"
                         type="primary"
-                        onClick={handleAddViaExcel}>
+                        onClick={handleAddViaExcel}
+                        disabled={!excelData || fileList.length < 1}>
                             Add Menu
                         </Button>
                     </div>
