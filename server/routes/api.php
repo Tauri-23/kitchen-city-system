@@ -66,6 +66,8 @@ Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::c
 */
 Route::post("/create-menu-dish", [MenuDishesController::class, "CreateDishes"]);
 
+Route::post("/create-menu-dish-via-excel", [MenuDishesController::class, "CreateDishesViaExcel"]);
+
 
 
 

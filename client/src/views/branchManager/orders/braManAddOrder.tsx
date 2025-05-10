@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useBranchManagerContext } from "../../../contexts/BranchManagerContext"
-import { formatToPhilPeso, getWeekOfMonthFixed4, notify } from "../../../assets/lib/utils";
+import { formatToPhilPeso } from "../../../assets/lib/utils";
 import { MenuStructure } from "../../../types/menuStructure";
 import { fetchAllMenusWhereWeek } from "../../../services/menusServices";
-import { Breadcrumb, Button, Select, Spin, Table, TableColumnsType } from "antd";
+import { Breadcrumb, Button, InputNumber, Select, Spin, Table, TableColumnsType } from "antd";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { useGeneralContext } from "../../../contexts/GeneralContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,11 +20,11 @@ export default function BranchManagerAddOrder() {
     
     const navigate = useNavigate();
     const dateNow = new Date();
-    const weekNow = getWeekOfMonthFixed4(dateNow);
+    const weekNow = 1;
 
     const [selectedDay, setSelectedDay] = useState<string>((days[dateNow.getDay() -1]));
-    const [selectedSize, setSelectedSize] = useState<string>("XL");
-
+    const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
+    const [selectedMealType, setSelectedMealType] = useState<string>(mealTypes[0]);
     const [processedMenus, setprocessedMenus] = useState<MenuStructure[] | null>(null);
 
     const orderedDishes = processedMenus
@@ -88,25 +88,40 @@ export default function BranchManagerAddOrder() {
         },
         {
             title: "QTY Ordered",
-            dataIndex: "qtySelected"
-        },
-        {
-            title: "Actions",
             render: (_, row) => (
-                row.qtySelected > 0
-                ? (
-                    <div className="d-flex flex-direction-y gap3">
-                        <Button variant="dashed" color="blue" onClick={() => handleOrderItem(row)}>Edit Order</Button>
-                        <Button variant="dashed" color="red" ghost onClick={() => handleRemoveOrder(row)}>Remove Order</Button>
-                    </div>
-                )
-                : (
-                    <>
-                        <Button type="primary" ghost onClick={() => handleOrderItem(row)}>Order Item</Button>
-                    </>
-                )
+                <>
+                    <InputNumber
+                    size="large"
+                    style={{width: 100}}
+                    value={row.qtySelected}
+                    maxLength={1000}
+                    min={0}
+                    onChange={(value) => {
+                        const updatedMenus = processedMenus?.map(menu => {
+                            const updatedDishes = menu.menu_dishes
+                                ? menu.menu_dishes.map(dish => {
+                                    if (dish.id === row.id) {
+                                        return {
+                                            ...dish,
+                                            qtySelected: value
+                                        };
+                                    }
+                                    return dish;
+                                })
+                                : null;
+                        
+                            return {
+                                ...menu,
+                                menu_dishes: updatedDishes
+                            };
+                        });
+                        
+                        setprocessedMenus(updatedMenus as MenuStructure[] | null);
+                    }}
+                    />
+                </>
             )
-        },
+        }
     ];
 
 
@@ -114,38 +129,30 @@ export default function BranchManagerAddOrder() {
     /**
      * Handlers
      */
-    const handleOrderItem = (menuDish: MenuDishStructure) => {
-        showModal("BranchManagerAddOrderModal", {
-            menuDish,
-            processedMenus,
-            setprocessedMenus
-        });
-    }
-
-    const handleRemoveOrder = (menuDish: MenuDishStructure) => {
-        const updatedMenus = processedMenus?.map(menu => {
-            const updatedDishes = menu.menu_dishes
-                ? menu.menu_dishes.map(dish => {
-                    if (dish.id === menuDish.id) {
-                        return {
-                            ...dish,
-                            qtySelected: 0
-                        };
-                    }
-                    return dish;
-                })
-                : null;
+    // const handleRemoveOrder = (menuDish: MenuDishStructure) => {
+    //     const updatedMenus = processedMenus?.map(menu => {
+    //         const updatedDishes = menu.menu_dishes
+    //             ? menu.menu_dishes.map(dish => {
+    //                 if (dish.id === menuDish.id) {
+    //                     return {
+    //                         ...dish,
+    //                         qtySelected: 0
+    //                     };
+    //                 }
+    //                 return dish;
+    //             })
+    //             : null;
         
-            return {
-                ...menu,
-                menu_dishes: updatedDishes
-            };
-        });
+    //         return {
+    //             ...menu,
+    //             menu_dishes: updatedDishes
+    //         };
+    //     });
     
-        setprocessedMenus(updatedMenus || null);
+    //     setprocessedMenus(updatedMenus || null);
 
-        notify("success", "Order Removed", "top-center", 3000);
-    }
+    //     notify("success", "Order Removed", "top-center", 3000);
+    // }
 
     const handleCheckout = () => {
         showModal("BranchManagerOrderCheckoutModal", {
@@ -198,6 +205,16 @@ export default function BranchManagerAddOrder() {
                     value={selectedSize}
                     onChange={(val) => setSelectedSize(val)}
                     />
+
+                    <Select
+                    size="large"
+                    style={{width: 200}}
+                    options={[
+                        ...mealTypes.map(mealType => ({label: mealType, value: mealType}))
+                    ]}
+                    value={selectedMealType}
+                    onChange={(val) => setSelectedMealType(val)}
+                    />
                 </div>
 
                 <Button
@@ -214,18 +231,17 @@ export default function BranchManagerAddOrder() {
             : (
                 <>
                     {/* Breakfast */}
-                    {mealTypes.map((mealType, index) => (
-                        <div key={index} className="mar-bottom-3">
-                            <h4>{mealType}</h4>
-                            <Table
-                            columns={orderCols}
-                            dataSource={
-                                processedMenus?.find((menu) => menu.meal_type === mealType && menu.menu_day === selectedDay && menu.menu_size === selectedSize)
-                                ?.menu_dishes?.map((menuDish: any, index: any) => ({...menuDish, key: index}))
-                            }
-                            bordered/>
-                        </div>
-                    ))}
+                    <div className="mar-bottom-3">
+                        <h4>{selectedMealType}</h4>
+                        <Table
+                        columns={orderCols}
+                        dataSource={
+                            processedMenus?.find((menu) => menu.meal_type === selectedMealType && menu.menu_day === selectedDay && menu.menu_size === selectedSize)
+                            ?.menu_dishes?.map((menuDish: any, index: any) => ({...menuDish, key: index}))
+                        }
+                        bordered
+                        pagination={false}/>
+                    </div>
                 </>
             )}
         </div>

@@ -130,6 +130,9 @@ export default function SuperAdminAddMenuDish() {
             unitCost: 1,
             production: "",
         });
+
+        setExcelData(null);
+        setFileList([]);
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -142,6 +145,26 @@ export default function SuperAdminAddMenuDish() {
             formData.append("menuId", menu.id);
 
             axiosClient.post("/create-menu-dish", formData)
+            .then(({data}) => {
+                if(data.status === 200) {
+                    clearFields();
+                }
+                notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+            })
+            .catch((error) => {
+                console.error(error);
+                notify("error", "Server Error", "top-center", 3000);
+            })
+        }
+    }
+
+    const handleAddViaExcel = () => {
+        if(menu)
+        {
+            const formData = new FormData();
+            formData.append("excelData", JSON.stringify(excelData));
+
+            axiosClient.post("/create-menu-dish-via-excel", formData)
             .then(({data}) => {
                 if(data.status === 200) {
                     clearFields();
@@ -323,7 +346,7 @@ export default function SuperAdminAddMenuDish() {
                                     <Button
                                     size="large"
                                     type="primary"
-                                    // onClick={handleAddViaExcel}
+                                    onClick={handleAddViaExcel}
                                     disabled={!excelData || fileList.length < 1}>
                                         Add Menu
                                     </Button>

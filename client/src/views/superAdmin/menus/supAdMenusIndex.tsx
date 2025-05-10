@@ -11,12 +11,13 @@ export default function SuperAdminMenusIndex() {
     const {Search} = Input;
     const navigate = useNavigate();
 
-    const [selectedSize, setSelectedSize] = useState<string>("XL");
-    const [selectedDay, setSelectedDay] = useState<string>("Monday");
-
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const weeks = [1, 2, 3, 4];
     const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
+
+    const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
+    const [selectedDay, setSelectedDay] = useState<string>(days[0]);
+    const [selectedWeek, setSelectedWeek] = useState<number>(weeks[0]);
     // const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
 
 
@@ -130,25 +131,35 @@ export default function SuperAdminMenusIndex() {
                         value={selectedSize}
                         onChange={(val) => setSelectedSize(val)}
                         />
+                        
+                        <Select
+                        size="large"
+                        style={{width: 180}}
+                        options={[
+                            ...weeks.map(week => ({label: `Week ${week}`, value: week}))
+                        ]}
+                        value={selectedWeek}
+                        onChange={(val) => setSelectedWeek(val)}
+                        />
                     </div>
+                    
 
-                    {weeks.map((week, index) => (
-                        <div key={index} className="mar-bottom-l3">
-                            <h5 className="fw-bold mar-bottom-1">Week {week}</h5>
-                            <Table
-                            columns={menuColumns}
-                            dataSource={filteredMenus
-                                .filter(menu => menu.menu_week === week && menu.menu_size === selectedSize
-                                    && menu.menu_day === selectedDay
-                                )
-                                .map((item, index) => ({...item, key: index}))}
-                            bordered
-                            onRow={(item) => ({
-                                onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
-                            })}
-                            />
-                        </div>
-                    ))}
+                    {/* Table Itself */}
+                    <div className="mar-bottom-l3">
+                        <h5 className="fw-bold mar-bottom-1">Week {selectedWeek}</h5>
+                        <Table
+                        columns={menuColumns}
+                        dataSource={filteredMenus
+                            .filter(menu => menu.menu_week === selectedWeek && menu.menu_size === selectedSize
+                                && menu.menu_day === selectedDay
+                            )
+                            .map((item, index) => ({...item, key: index}))}
+                        bordered
+                        onRow={(item) => ({
+                            onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
+                        })}
+                        />
+                    </div>
                 </>
             )}
         </>
