@@ -1,0 +1,12 @@
+.dash-kpi-box, .dash-box1 {
+    width: calc((100% / 4) - 5px);
+    background: var(--white1);
+    filter: drop-shadow(0 0 3px var(--grey1));
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.dash-box1 {
+    width: 100%;
+    min-height: 300px;
+}
