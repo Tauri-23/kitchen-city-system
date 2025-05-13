@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import GuestDefault from "./views/default";
 import GuestIndex from "./views";
 import SuperAdminDefault from "./views/superAdmin/supAdDefault";
-import SuperAdminIndex from "./views/superAdmin/supAdIndex";
+import SuperAdminDashboard from "./views/superAdmin/dashboard/supAdDashboard";
 import SuperAdminMenusDefault from "./views/superAdmin/menus/supAdMenusDefault";
 import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
 import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <SuperAdminIndex/>
+                element: <SuperAdminDashboard/>
             },
 
 

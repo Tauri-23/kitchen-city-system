@@ -32,7 +32,6 @@ export default function BranchManagerViewOrder() {
 
         const getAll = async() => {
             const data = await fetchOrderInformation(["order_items"], String(params.id));
-            console.log(data);
             setOrder(data);
         }
 
@@ -54,8 +53,8 @@ export default function BranchManagerViewOrder() {
             render: (_, row) => `${row.menu_dish.name} (${row.menu_dish.odoo_name})`
         },
         {
-            title: "Dish",
-            dataIndex: "unit_cost"
+            title: "Cost",
+            render: (_ ,row) => formatToPhilPeso(row.unit_cost)
         },
         {
             title: "Ordered Quantity",
