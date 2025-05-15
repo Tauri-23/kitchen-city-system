@@ -102,6 +102,7 @@ export default function SuperAdminAccountsSuperAdmins() {
                     </div>
 
                     <Table
+                    size="small"
                     dataSource={superAdmins.map((item, index) => ({...item, key: index}))}
                     columns={tableCols}
                     bordered/>

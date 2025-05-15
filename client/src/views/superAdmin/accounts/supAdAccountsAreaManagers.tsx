@@ -98,6 +98,7 @@ export default function SuperAdminAccountsAreaManagers() {
                     </div>
 
                     <Table
+                    size="small"
                     dataSource={areaManagers.map((item, index) => ({...item, key: index}))}
                     columns={tableCols}
                     bordered/>

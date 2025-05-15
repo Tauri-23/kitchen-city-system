@@ -113,6 +113,7 @@ export default function SuperAdminAccountsBranchManagers() {
                     </div>
 
                     <Table
+                    size="small"
                     dataSource={filteredBranchManagers.map((item, index) => ({...item, key: index}))}
                     columns={tableCols}
                     bordered/>
