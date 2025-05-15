@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
 import { MenuShiftStructure } from "../../../../types/menuShiftStructure";
 import { fetchAllMenuShiftsFull } from "../../../../services/menuShiftsServices";
-import { Spin, Table, TableColumnsType } from "antd";
+import { Button, Spin, Table, TableColumnsType } from "antd";
 
 interface OutletContextTypes {
     setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
@@ -49,9 +49,34 @@ export default function SuperAdminMenuSettingsDefault() {
             },
             onCell: (row) => ({
                 style: {
-                    backgroundColor: row.shift ? 'orange' : undefined,
+                    backgroundColor: row.shift ? 'black' : "orange",
+                    color: row.shift ? "white" : "black"
                 },
             })
+        },
+        {
+            title: "Actions",
+            render: (_, row) => {
+                if(row.shift) {
+                    return(
+                        <Button
+                        color="orange"
+                        variant="solid"
+                        size="small">
+                            Add Category
+                        </Button>
+                    )
+                } else {
+                    return(
+                        <Button
+                        variant="solid"
+                        size="small">
+                            Add Menu Tag
+                        </Button>
+                    )
+                }
+            },
+            width: 200
         }
     ]
 
