@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BranchManagerController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
+use App\Http\Controllers\Api\MenuShiftsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,17 @@ Route::middleware("auth:sanctum")
 |----------------------------------------
 */
 Route::post("/login", [AuthController::class, "Login"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Shifts 
+|----------------------------------------
+*/
+Route::get("/get-all-menu-shifts-full", [MenuShiftsController::class, "GetAllMenuShiftsFull"]);
 
 
 

@@ -1,0 +1,11 @@
+import axiosClient from "../axios-client"
+
+export const fetchAllMenuShiftsFull = async() => {
+    try {
+        const response = await axiosClient.get(`/get-all-menu-shifts-full`);
+        return response.data;
+    } catch(error) {
+        console.error(error);
+        throw error;
+    }
+}

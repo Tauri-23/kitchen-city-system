@@ -1,9 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { Button } from "antd";
+
+export type SuperAdminMenuActivePageTypes = "Menu" | "Menu Settings";
 
 export default function SuperAdminMenusDefault() {
     const { setActiveSideNavLink } = useSuperAdminContext();
+    const [supAdMenuActivePage, setSupAdMenuActivePage] = useState<SuperAdminMenuActivePageTypes>("Menu");
+
+    const navigate = useNavigate();
 
 
 
@@ -21,7 +27,25 @@ export default function SuperAdminMenusDefault() {
      */
     return(
         <div className="content1 compressed">
-            <Outlet/>
+            <div className="d-flex align-items-center gap3 mar-bottom-1">
+                <Button
+                color="primary"
+                variant={supAdMenuActivePage === "Menu" ? "solid" : "outlined"}
+                onClick={() => navigate("")}>
+                    Menus
+                </Button>
+
+                <Button
+                color="primary"
+                variant={supAdMenuActivePage === "Menu Settings" ? "solid" : "outlined"}
+                onClick={() => navigate("MenuSettings")}>
+                    Menu Settings
+                </Button>
+            </div>
+            <Outlet
+            context={{
+                setSupAdMenuActivePage
+            }}/>
         </div>
     )
 }

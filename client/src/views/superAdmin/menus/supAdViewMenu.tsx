@@ -88,7 +88,7 @@ export default function SuperAdminViewMenu() {
 
                     return dish ? dish.odoo_name : "-"
                 },
-                width: 250,
+                width: 400,
             },
             {
                 title: "Category",

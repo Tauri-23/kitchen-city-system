@@ -2,28 +2,30 @@ import { Button, Input, Spin, Table, TableColumnsType } from "antd";
 import { MenuStructure } from "../../../types/menuStructure";
 import { useEffect, useState } from "react";
 import { fetchAllMenus } from "../../../services/menusServices";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { SuperAdminMenuActivePageTypes } from "./supAdMenusDefault";
 
 interface SimplifiedMenuStructure {
     week: number;
     dishes_count: number;
 }
 
+interface OutletContextTypes {
+    setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
+}
+
 export default function SuperAdminMenusIndex() {
+    const {setSupAdMenuActivePage} = useOutletContext<OutletContextTypes>();
     const [menus, setMenus] = useState<MenuStructure[] | null>(null);
     const [filteredMenus, setFilteredMenus] = useState<MenuStructure[] | null>(null);
+    const [simplifiedMenus, setSimplifiedMenus] = useState<SimplifiedMenuStructure[] | null>(null);
 
     const {Search} = Input;
+
     const navigate = useNavigate();
-
-    // const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    
     const weeks = [1, 2, 3, 4];
-    // const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
-
-    // const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
-    // const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
-
-    const [simplifiedMenus, setSimplifiedMenus] = useState<SimplifiedMenuStructure[] | null>(null);
+    
 
 
 
@@ -31,6 +33,8 @@ export default function SuperAdminMenusIndex() {
      * Onmount
      */
     useEffect(() => {
+        setSupAdMenuActivePage("Menu");
+
         const getAll = async() => {
             const menuData = await fetchAllMenus();
             setMenus(menuData);
@@ -49,8 +53,6 @@ export default function SuperAdminMenusIndex() {
             console.log(simplifiedMenusData);
             setSimplifiedMenus(simplifiedMenusData);
         }
-
-        
 
         getAll();
     }, []);
@@ -110,65 +112,18 @@ export default function SuperAdminMenusIndex() {
                         >Add Menu
                         </Button>
                     </div>
-
-                    <div className="d-flex gap3 mar-bottom-1">
-                        {/* <Select
-                        style={{width: 150}}
-                        size="large"
-                        options={[
-                            ...days.map(day => ({label: day, value: day}))
-                        ]}
-                        value={selectedDay}
-                        onChange={(val) => {setSelectedDay(val); console.log(val)}}
-                        /> */}
-
-                        {/* <Select
-                        size="large"
-                        style={{width: 180}}
-                        options={[
-                            ...sizes.map(size => ({label: size, value: size}))
-                        ]}
-                        value={selectedSize}
-                        onChange={(val) => setSelectedSize(val)}
-                        /> */}
-                        
-                        {/* <Select
-                        size="large"
-                        style={{width: 180}}
-                        options={[
-                            ...weeks.map(week => ({label: `Week ${week}`, value: week}))
-                        ]}
-                        value={selectedWeek}
-                        onChange={(val) => setSelectedWeek(val)}
-                        /> */}
-                    </div>
                     
 
                     {/* Table Itself */}
-                    <div className="mar-bottom-l3">
-                        <h5 className="fw-bold mar-bottom-1">Menus</h5>
-                        <Table
-                        size="small"
-                        columns={simplifiedMenuColumns}
-                        dataSource={simplifiedMenus}
-                        bordered
-                        onRow={(item) => ({
-                            onDoubleClick: () => navigate(`../ViewMenu/${item.week}`)
-                        })}
-                        />
-
-                        {/* <Table
-                        size="small"
-                        columns={menuColumns}
-                        dataSource={filteredMenus
-                            .filter(menu => menu.menu_size === selectedSize)
-                            .map((item, index) => ({...item, key: index}))}
-                        bordered
-                        onRow={(item) => ({
-                            onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
-                        })}
-                        /> */}
-                    </div>
+                    <Table
+                    size="small"
+                    columns={simplifiedMenuColumns}
+                    dataSource={simplifiedMenus}
+                    bordered
+                    onRow={(item) => ({
+                        onDoubleClick: () => navigate(`../ViewMenu/${item.week}`)
+                    })}
+                    />
                 </>
             )}
         </>
