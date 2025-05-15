@@ -47,6 +47,7 @@ class BranchesController extends Controller
                 "name" => $branchIn->name,
                 "address" => $branchIn->address,
                 "area_manager_id" => $branchIn->areaManagerId,
+                "size" => $branchIn->size
             ]);
 
             DB::commit();
@@ -65,5 +66,39 @@ class BranchesController extends Controller
                 "message" => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function UpdateBranch(Request $request)
+    {
+        $editBranchIn = json_decode($request->input("editBranchIn"));
+        try
+        {
+            DB::beginTransaction();
+
+            branches::find($editBranchIn->id)->update([
+                "name" => $editBranchIn->name,
+                "address" => $editBranchIn->address,
+                "size" => $editBranchIn->size,
+                "area_manager_id" => $editBranchIn->areaManager,
+                "status" => $editBranchIn->status,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Branch successfully updated.",
+                "branches" => branches::with("area_manager")->get()
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack();
+            return response()->json([
+                "status" => 500,
+                "message" => $e->getMessage()
+            ], 500);
+        }
+
     }
 }

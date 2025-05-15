@@ -1,8 +1,13 @@
-import { Button, Input, Select, Spin, Table, TableColumnsType } from "antd";
+import { Button, Input, Spin, Table, TableColumnsType } from "antd";
 import { MenuStructure } from "../../../types/menuStructure";
 import { useEffect, useState } from "react";
 import { fetchAllMenus } from "../../../services/menusServices";
 import { useNavigate } from "react-router-dom";
+
+interface SimplifiedMenuStructure {
+    week: number;
+    dishes_count: number;
+}
 
 export default function SuperAdminMenusIndex() {
     const [menus, setMenus] = useState<MenuStructure[] | null>(null);
@@ -11,14 +16,14 @@ export default function SuperAdminMenusIndex() {
     const {Search} = Input;
     const navigate = useNavigate();
 
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    // const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const weeks = [1, 2, 3, 4];
-    const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
+    // const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
 
-    const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
-    const [selectedDay, setSelectedDay] = useState<string>(days[0]);
-    const [selectedWeek, setSelectedWeek] = useState<number>(weeks[0]);
+    // const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
     // const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
+
+    const [simplifiedMenus, setSimplifiedMenus] = useState<SimplifiedMenuStructure[] | null>(null);
 
 
 
@@ -27,10 +32,25 @@ export default function SuperAdminMenusIndex() {
      */
     useEffect(() => {
         const getAll = async() => {
-            const data = await fetchAllMenus();
-            setMenus(data);
-            setFilteredMenus(data);
+            const menuData = await fetchAllMenus();
+            setMenus(menuData);
+            setFilteredMenus(menuData);
+
+            const simplifiedMenusData = weeks.map((week) => {
+                const filteredMenuData = menuData.filter((menu: MenuStructure) => menu.menu_week === week);
+
+                const dishCount = filteredMenuData.reduce((sum: any, dish: MenuStructure) => {
+                    return sum + (dish.menu_dishes?.length);
+                }, 0);
+
+                return {week, dishes_count: dishCount}
+            });
+
+            console.log(simplifiedMenusData);
+            setSimplifiedMenus(simplifiedMenusData);
         }
+
+        
 
         getAll();
     }, []);
@@ -40,34 +60,14 @@ export default function SuperAdminMenusIndex() {
     /**
      * Setup Columns
      */
-    const menuColumns: TableColumnsType<MenuStructure> = [
-        {
-            title: "Menu Id",
-            dataIndex: "id"
-        },
-        {
-            title: "Menu Name",
-            dataIndex: "menu_name"
-        },
+    const simplifiedMenuColumns: TableColumnsType<SimplifiedMenuStructure> = [
         {
             title: "Week",
-            dataIndex: "menu_week"
-        },
-        {
-            title: "Day",
-            dataIndex: "menu_day"
-        },
-        {
-            title: "Meal Type",
-            dataIndex: "meal_type"
-        },
-        {
-            title: "Size",
-            dataIndex: "menu_size"
+            render: (_, row) => `Week ${row.week}`
         },
         {
             title: "Dishes",
-            render: (_, row) => row?.menu_dishes?.length
+            render: (_, row) =>  `${row.dishes_count} Dishes`
         }
     ]
 
@@ -87,7 +87,7 @@ export default function SuperAdminMenusIndex() {
      */
     return(
         <>
-            {!menus || !filteredMenus
+            {!menus || !filteredMenus || !simplifiedMenus
             ? (<Spin size="large"/>)
             : (
                 <>
@@ -112,7 +112,7 @@ export default function SuperAdminMenusIndex() {
                     </div>
 
                     <div className="d-flex gap3 mar-bottom-1">
-                        <Select
+                        {/* <Select
                         style={{width: 150}}
                         size="large"
                         options={[
@@ -120,9 +120,9 @@ export default function SuperAdminMenusIndex() {
                         ]}
                         value={selectedDay}
                         onChange={(val) => {setSelectedDay(val); console.log(val)}}
-                        />
+                        /> */}
 
-                        <Select
+                        {/* <Select
                         size="large"
                         style={{width: 180}}
                         options={[
@@ -130,9 +130,9 @@ export default function SuperAdminMenusIndex() {
                         ]}
                         value={selectedSize}
                         onChange={(val) => setSelectedSize(val)}
-                        />
+                        /> */}
                         
-                        <Select
+                        {/* <Select
                         size="large"
                         style={{width: 180}}
                         options={[
@@ -140,25 +140,34 @@ export default function SuperAdminMenusIndex() {
                         ]}
                         value={selectedWeek}
                         onChange={(val) => setSelectedWeek(val)}
-                        />
+                        /> */}
                     </div>
                     
 
                     {/* Table Itself */}
                     <div className="mar-bottom-l3">
-                        <h5 className="fw-bold mar-bottom-1">Week {selectedWeek}</h5>
+                        <h5 className="fw-bold mar-bottom-1">Menus</h5>
                         <Table
+                        size="small"
+                        columns={simplifiedMenuColumns}
+                        dataSource={simplifiedMenus}
+                        bordered
+                        onRow={(item) => ({
+                            onDoubleClick: () => navigate(`../ViewMenu/${item.week}`)
+                        })}
+                        />
+
+                        {/* <Table
+                        size="small"
                         columns={menuColumns}
                         dataSource={filteredMenus
-                            .filter(menu => menu.menu_week === selectedWeek && menu.menu_size === selectedSize
-                                && menu.menu_day === selectedDay
-                            )
+                            .filter(menu => menu.menu_size === selectedSize)
                             .map((item, index) => ({...item, key: index}))}
                         bordered
                         onRow={(item) => ({
                             onDoubleClick: () => navigate(`../ViewMenu/${item.id}`)
                         })}
-                        />
+                        /> */}
                     </div>
                 </>
             )}

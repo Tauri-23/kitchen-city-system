@@ -13,17 +13,20 @@ interface SuperAdminAddBranchModalTypes {
 }
 
 const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setBranches, setFilteredBranches, areaManagers, onClose}) => {
+    const branchSizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
+
     const [branchIn, setBranchIn] = useState({
         branchCode: "",
         name: "",
         address: "",
         areaManagerId: "",
+        size: ""
     });
 
     const [isAdding, setIsAdding] = useState<boolean>(false);
 
     const isSubmitBtnDisabled = isEmptyOrSpaces(branchIn.branchCode) || isEmptyOrSpaces(branchIn.name) || 
-    isEmptyOrSpaces(branchIn.address) || branchIn.areaManagerId === "";
+    isEmptyOrSpaces(branchIn.address) || branchIn.areaManagerId === "" || branchIn.size === "";
 
 
 
@@ -40,6 +43,7 @@ const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setB
             name: "",
             address: "",
             areaManagerId: "",
+            size: ""
         })
     }
 
@@ -121,7 +125,7 @@ const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setB
                 </div>
 
                 {/* Area Managers */}
-                <div className="mar-bottom-1">
+                <div className="mar-bottom-3">
                     <label htmlFor="areaManagerId">Area Managers</label>
                     <Select
                     className="w-100"
@@ -132,6 +136,21 @@ const SuperAdminAddBranchModal: React.FC<SuperAdminAddBranchModalTypes> = ({setB
                     options={[
                         {label: "Select Area Manager", value: ""},
                         ...areaManagers.map((manager) => ({label: `${manager.fname} ${manager.lname}`, value: manager.id}))
+                    ]}/>
+                </div>
+
+                {/* Size */}
+                <div className="mar-bottom-1">
+                    <label htmlFor="size">Branch Size</label>
+                    <Select
+                    className="w-100"
+                    size="large"
+                    id="size"
+                    value={branchIn.size}
+                    onChange={(value) => handleInputChange({target: {name: "size", value: value}} as ChangeEvent<HTMLInputElement>)}
+                    options={[
+                        {label: "Select Branch Size", value: ""},
+                        ...branchSizes.map((size) => ({label: size, value: size}))
                     ]}/>
                 </div>
 

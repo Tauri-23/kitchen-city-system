@@ -16,6 +16,7 @@ class branches extends Model
         "name",
         "address",
         "area_manager_id",
+        "size",
         "status"
     ];
 

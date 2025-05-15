@@ -2,10 +2,14 @@ import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { useEffect, useState } from "react";
 import { BranchStructure } from "../../../types/branchStructure";
 import { fetchAllBranches } from "../../../services/branchServices";
-import { Button, Input, Spin, Table, TableColumnsType } from "antd";
+import { Button, Input, Select, Spin, Table, TableColumnsType } from "antd";
 import { useGeneralContext } from "../../../contexts/GeneralContext";
 import { fetchAllAreaManagers } from "../../../services/areaManagerServices";
 import { AreaManagerStructure } from "../../../types/areaManagerSturcture";
+import { LuSquareCheckBig, LuSquarePen } from "react-icons/lu";
+import { GiCancel } from "react-icons/gi";
+import { isEmptyOrSpaces, notify } from "../../../assets/lib/utils";
+import axiosClient from "../../../axios-client";
 
 export default function SuperAdminBranchesIndex() {
     const { setActiveSideNavLink } = useSuperAdminContext();
@@ -17,6 +21,26 @@ export default function SuperAdminBranchesIndex() {
     const [areaManagers, setAreaManagers] = useState<AreaManagerStructure[] | null>(null);
 
     const {Search} = Input;
+
+    const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
+    const branchStatuses = ["Active", "Suspended", "Discontinued"];
+
+    const [selectedBranch, setSelectedBranch] = useState<BranchStructure | null>(null);
+
+    const [isEditBranch, setIsEditBranch] = useState<boolean>(false);
+
+    const [editBranchIn, setEditBranchIn] = useState({
+        id: "",
+        name: "",
+        address: "",
+        size: "",
+        areaManager: "",
+        status: "",
+    })
+
+    const isSaveEditBranchBtnDisabled = editBranchIn.id === "" || isEmptyOrSpaces(editBranchIn.name) || 
+    isEmptyOrSpaces(editBranchIn.address) || editBranchIn.size === "" || 
+    editBranchIn.areaManager === "" || editBranchIn.status === "";
 
 
 
@@ -55,21 +79,143 @@ export default function SuperAdminBranchesIndex() {
         },
         {
             title: "Branch Name",
-            dataIndex: "name"
+            render: (_, row) => {
+                return (isEditBranch && selectedBranch?.id === row.id) 
+                ? (
+                    <Input
+                    size="small"
+                    className="w-100"
+                    value={editBranchIn.name}
+                    onChange={(e) => setEditBranchIn(prev => ({...prev, name: e.target.value}))}
+                    />
+                )
+                : row.name
+            }
         },
         {
             title: "Branch Address",
-            dataIndex: "address"
+            render: (_, row) => {
+                return (isEditBranch && selectedBranch?.id === row.id) 
+                ? (
+                    <Input
+                    size="small"
+                    className="w-100"
+                    value={editBranchIn.address}
+                    onChange={(e) => setEditBranchIn(prev => ({...prev, address: e.target.value}))}
+                    />
+                )
+                : row.address
+            }
         },
         {
             title: "Area Manager",
-            render: (_, row) => row.area_manager 
-            ? `${row.area_manager.fname} ${row.area_manager.lname}`
-            : "N/A"
+            render: (_, row) => {
+                return (isEditBranch && selectedBranch?.id === row.id) 
+                ? (
+                    <Select
+                    size="small"
+                    className="w-100"
+                    value={editBranchIn.areaManager}
+                    options={areaManagers?.map(areaMngr => ({label: `${areaMngr.fname} ${areaMngr.mname} ${areaMngr.lname}`, value: areaMngr.id}))}
+                    onChange={(val) => setEditBranchIn(prev => ({...prev, areaManager: val}))}
+                    />
+                )
+                : (
+                    row.area_manager 
+                    ? `${row.area_manager.fname} ${row.area_manager.lname}`
+                    : "N/A"
+                )
+            }
+        },
+        {
+            title: "Branch Size",
+            render: (_, row) => {
+                return (isEditBranch && selectedBranch?.id === row.id) 
+                ? (
+                    <Select
+                    size="small"
+                    className="w-100"
+                    value={editBranchIn.size}
+                    options={sizes.map(size => ({label: size, value: size}))}
+                    onChange={(val) => setEditBranchIn(prev => ({...prev, size: val}))}
+                    />
+                )
+                : row.size
+            }
         },
         {
             title: "Status",
-            dataIndex: "status"
+            render: (_, row) => {
+                return (isEditBranch && selectedBranch?.id === row.id) 
+                ? (
+                    <Select
+                    size="small"
+                    className="w-100"
+                    value={editBranchIn.status}
+                    options={branchStatuses.map(status => ({label: status, value: status}))}
+                    onChange={(val) => setEditBranchIn(prev => ({...prev, status: val}))}
+                    />
+                )
+                : row.status
+            }
+        },
+        {
+            title: "Actions",
+            render: (row) => {
+                return(
+                    <>
+                        {(isEditBranch && selectedBranch?.id === row.id)
+                        ? (
+                            <>
+                                <Button
+                                size="small"
+                                color="green"
+                                variant="solid"
+                                className="mar-end-3"
+                                icon={<LuSquareCheckBig/>}
+                                onClick={handleSaveEdit}
+                                disabled={isSaveEditBranchBtnDisabled}/>
+
+                                <Button
+                                size="small"
+                                icon={<GiCancel/>}
+                                onClick={() => {
+                                    setSelectedBranch(null);
+                                    setIsEditBranch(false);
+                                    setEditBranchIn({
+                                        id: "",
+                                        name: "",
+                                        address: "",
+                                        size: "",
+                                        areaManager: "",
+                                        status: "",
+                                    })
+                                }}/>
+                            </>
+                        )
+                        : (
+                            <Button
+                            size="small"
+                            icon={<LuSquarePen/>}
+                            color="blue"
+                            variant="solid"
+                            className="mar-end-3"
+                            onClick={() => {
+                                setSelectedBranch(row);
+                                setIsEditBranch(true);
+                                setEditBranchIn({
+                                    id: row.id,
+                                    name: row.name,
+                                    address: row.address,
+                                    size: row.size,
+                                    areaManager: row.area_manager_id,
+                                    status: row.status,
+                                })
+                            }}/>
+                        )}
+                    </>
+                )
+            }
         }
     ]
 
@@ -87,6 +233,34 @@ export default function SuperAdminBranchesIndex() {
             setBranches,
             setFilteredBranches,
             areaManagers
+        });
+    }
+
+    const handleSaveEdit = () => {
+        const formData = new FormData();
+        formData.append("editBranchIn", JSON.stringify(editBranchIn));
+
+        axiosClient.post("/update-branch", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+            if(data.status === 200) {
+                setSelectedBranch(null);
+                setIsEditBranch(false);
+                setEditBranchIn({
+                    id: "",
+                    name: "",
+                    address: "",
+                    size: "",
+                    areaManager: "",
+                    status: "",
+                });
+                setBranches(data.branches);
+                setFilteredBranches(data.branches)
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
         });
     }
 
@@ -123,6 +297,7 @@ export default function SuperAdminBranchesIndex() {
             )
             : (
                 <Table
+                size="small"
                 columns={brancheCols}
                 dataSource={filteredBranches.map((item, index) => ({...item, key: index}))}
                 bordered

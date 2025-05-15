@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("address");
             $table->string("area_manager_id", 20)->nullable();
+            $table->enum("size", ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"])->default("XL");
             $table->enum("status", ["Active", "Suspended", "Discontinued"])->default("Active");
             $table->timestamps();
 

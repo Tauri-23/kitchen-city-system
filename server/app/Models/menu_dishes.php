@@ -41,4 +41,9 @@ class menu_dishes extends Model
     {
         return $this->belongsTo(menu_dishes_categories::class, "category_id", "id");
     }
+
+    public function menu()
+    {
+        return $this->belongsTo(menu::class, "menu_id", "id");
+    }
 }

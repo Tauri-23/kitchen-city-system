@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2025 at 08:45 AM
+-- Generation Time: May 15, 2025 at 12:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -59,6 +59,7 @@ CREATE TABLE `branches` (
   `name` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `area_manager_id` varchar(20) DEFAULT NULL,
+  `size` enum('XL','Large','Medium','Medium Frying','Small','Small Frying') NOT NULL,
   `status` enum('Active','Suspended','Discontinued') NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -68,9 +69,10 @@ CREATE TABLE `branches` (
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `branch_code`, `name`, `address`, `area_manager_id`, `status`, `created_at`, `updated_at`) VALUES
-('DKTLQzdjrPHHWDgVJrfr', 'KC-0001', 'John Deli', 'BGC Taguig', '97lu6HECbJyXFjZ8LN4f', 'Active', '2025-05-05 21:41:35', '2025-05-05 21:41:35'),
-('YT2Bc7EmqaUHRfB4EOnm', 'KC-0002', 'John Deli', 'SM Moa', '97lu6HECbJyXFjZ8LN4f', 'Active', '2025-05-05 21:46:19', '2025-05-05 21:46:19');
+INSERT INTO `branches` (`id`, `branch_code`, `name`, `address`, `area_manager_id`, `size`, `status`, `created_at`, `updated_at`) VALUES
+('DKTLQzdjrPHHWDgVJrfr', 'KC-0001', 'John Deli', 'BGC Taguig', '97lu6HECbJyXFjZ8LN4f', 'XL', 'Active', '2025-05-05 21:41:35', '2025-05-15 02:47:13'),
+('EGj9rFHlwSl5zO7Xl86t', 'KC-0003', 'Al Fredo s', 'Mckinley Taguig', 'nLO4rfS1nlaWWRTnk7bq', 'Large', 'Active', '2025-05-15 01:44:43', '2025-05-15 02:44:20'),
+('YT2Bc7EmqaUHRfB4EOnm', 'KC-0002', 'John Deli', 'SM Moa', '97lu6HECbJyXFjZ8LN4f', 'Medium', 'Active', '2025-05-05 21:46:19', '2025-05-15 08:39:58');
 
 -- --------------------------------------------------------
 
@@ -1680,13 +1682,6 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `branch_id`, `deadline`, `total_cost`, `status`, `completed_at`, `cancelled_at`, `created_at`, `updated_at`) VALUES
-('2Yvg3ord4gVBdjl6Y3HF', 'DKTLQzdjrPHHWDgVJrfr', NULL, 32562.66, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26');
-
 -- --------------------------------------------------------
 
 --
@@ -1706,35 +1701,6 @@ CREATE TABLE `order_items` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `menu_dish_id`, `qty`, `unit_cost`, `total_cost`, `status`, `completed_at`, `cancelled_at`, `created_at`, `updated_at`) VALUES
-('3D1389aBwS5FkfGECdpF', '2Yvg3ord4gVBdjl6Y3HF', 'i8Bu9Teect844HvshDdY', 10, 0, 0, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('aCAnEFH0sHqMrVawfzo2', '2Yvg3ord4gVBdjl6Y3HF', 'XsvzpsUxYQp7C5ys8UKr', 23, 5.55, 127.65, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('b6KJRyzt5b0CLMBk1Xby', '2Yvg3ord4gVBdjl6Y3HF', 'CR9SigHHar28EwV687rI', 12, 3.04, 36.48, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('bokZPLR0PrUg0hQzchwQ', '2Yvg3ord4gVBdjl6Y3HF', 'akDT76NRKbFHjjE4Dy0a', 10, 7, 70, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('ce14P1gTXFhQxX5rJQ0V', '2Yvg3ord4gVBdjl6Y3HF', 'b8TAOJub9ER6H0SvVlLm', 22, 4.85, 106.7, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('dWuBw3fYOpoDbpxNKlUz', '2Yvg3ord4gVBdjl6Y3HF', '8jS0N2kiN11YlmsFqRum', 10, 0, 0, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('Dy774azXxPZMbgxmuACy', '2Yvg3ord4gVBdjl6Y3HF', '127pbSKIPeZbNOpqBK8a', 10, 13.87, 138.7, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('DZ3ylxjlKiWLjKKoGloA', '2Yvg3ord4gVBdjl6Y3HF', 'O87Wdvw9xbGeuOZ0ulKz', 1000, 20.29, 20290, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('ep6FY3bF6ejDRHjXSO5y', '2Yvg3ord4gVBdjl6Y3HF', 'Wm8s5klICuRzbtg1MPED', 12, 0, 0, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('eyiSky8lvAGlzAeroxV4', '2Yvg3ord4gVBdjl6Y3HF', '9RmueObxe0SOraHZ9JfU', 10, 16.37, 163.7, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('fxg0bfrj4AG1w3dkfpOc', '2Yvg3ord4gVBdjl6Y3HF', 'bMBsfloYMqFSyeMTBR9z', 34, 14.25, 484.5, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('HILqNEtrt2feQxWE07z0', '2Yvg3ord4gVBdjl6Y3HF', 'LbHiN2fsQEpyJAxyIWrF', 10, 7.81, 78.1, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('IUKrJjQYK0i6HxphWItt', '2Yvg3ord4gVBdjl6Y3HF', 'OL7heXBlwGcS29mLveBJ', 200, 35, 7000, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('K1irYzrzNzDmUugcxCJu', '2Yvg3ord4gVBdjl6Y3HF', 'ZEiDi6K7ylWlx8Ouxgdd', 12, 21.91, 262.92, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('LCKzvbAGeGSnXefiMJwz', '2Yvg3ord4gVBdjl6Y3HF', 'ITfk5njCLvwSUnoefNYQ', 20, 3.18, 63.6, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('oqjzlCiH8krBO9SPNG0B', '2Yvg3ord4gVBdjl6Y3HF', 'rfPdmPJv9wcNgcGjdyzo', 200, 0, 0, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('Pf8unu3cOtfyzOUDZcJ4', '2Yvg3ord4gVBdjl6Y3HF', 'hhItKABGhcS4dDI8Uii5', 23, 0, 0, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('RpTQMxnG60Y0DgtPX8C9', '2Yvg3ord4gVBdjl6Y3HF', '1pRozcpyGcAkZ9PzNwfb', 20, 31.3, 626, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('t8QsFN5TJ7jgnKpwQLT0', '2Yvg3ord4gVBdjl6Y3HF', '7vLKnizPK5RVwPjfxByL', 10, 23.51, 235.1, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('tUcFaToCXdlSedXN8sqP', '2Yvg3ord4gVBdjl6Y3HF', 'RFVuHwxEF1y1ZqJFSSTX', 100, 16.84, 1684, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('uxqxChMfnog4w0GoYDPR', '2Yvg3ord4gVBdjl6Y3HF', 'cUIsGDMcnF9KihGVStgA', 23, 19.96, 459.08, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('xzlPb83UPQ7qzfR9IrGS', '2Yvg3ord4gVBdjl6Y3HF', 'KYb9BvbovZ1gvUpNW7F2', 12, 34.07, 408.84, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26'),
-('zYBSVqgv5f5LccZUiEyv', '2Yvg3ord4gVBdjl6Y3HF', 'YQdCCUVCzzTF4rbc9hdT', 23, 14.23, 327.29, 'Open', NULL, NULL, '2025-05-12 22:13:26', '2025-05-12 22:13:26');
 
 -- --------------------------------------------------------
 
@@ -1774,8 +1740,9 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
 (34, 'App\\Models\\branch_managers', '34WDVdLVEuLAWr5bJ6XY', 'Branch Manager', '23674e6fa018f983f12551f507613275f8a8d27bcd216b4f38526dee7bfb135a', '[\"*\"]', '2025-05-06 03:58:25', NULL, '2025-05-06 03:58:24', '2025-05-06 03:58:25'),
 (49, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'd846575624f6d60027f0998f6c2004ec5842e3aff6b3850aee0ed26cba87471f', '[\"*\"]', '2025-05-10 08:44:31', NULL, '2025-05-10 07:41:26', '2025-05-10 08:44:31'),
-(51, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '65751f3609c377d66f01e7fe73473784a0138db4831775b3175343c8fc55bbc4', '[\"*\"]', '2025-05-12 08:30:00', NULL, '2025-05-12 04:48:38', '2025-05-12 08:30:00'),
-(54, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'a057aacc3e05b01ec6a736a0101ea1f630e376373bae3b512feb6c02fc97f7fd', '[\"*\"]', '2025-05-12 22:42:55', NULL, '2025-05-12 22:26:55', '2025-05-12 22:42:55');
+(51, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '65751f3609c377d66f01e7fe73473784a0138db4831775b3175343c8fc55bbc4', '[\"*\"]', '2025-05-13 23:51:48', NULL, '2025-05-12 04:48:38', '2025-05-13 23:51:48'),
+(54, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'a057aacc3e05b01ec6a736a0101ea1f630e376373bae3b512feb6c02fc97f7fd', '[\"*\"]', '2025-05-12 22:42:55', NULL, '2025-05-12 22:26:55', '2025-05-12 22:42:55'),
+(57, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'dd4076934eab545082b7d8dee0494540e7ff7e0ca01fb363e821009d1a8369a8', '[\"*\"]', '2025-05-15 02:48:37', NULL, '2025-05-14 18:49:54', '2025-05-15 02:48:37');
 
 -- --------------------------------------------------------
 
@@ -2012,7 +1979,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `users`

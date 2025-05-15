@@ -64,8 +64,9 @@ Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::c
 | Menu Dishes
 |----------------------------------------
 */
-Route::post("/create-menu-dish", [MenuDishesController::class, "CreateDishes"]);
+Route::get("/get-all-menu-dishes-where-week/{week}", [MenuDishesController::class, "GetAllMenuDishesWhereWeek"]);
 
+Route::post("/create-menu-dish", [MenuDishesController::class, "CreateDishes"]);
 Route::post("/create-menu-dish-via-excel", [MenuDishesController::class, "CreateDishesViaExcel"]);
 
 
@@ -106,6 +107,7 @@ Route::post("/create-area-manager", [AreaManagersController::class, "CreateAreaM
 Route::get("/get-all-branches", [BranchesController::class, "GetAllBranches"]);
 
 Route::post("/create-branch", [BranchesController::class, "CreateBranch"]);
+Route::post("/update-branch", [BranchesController::class, "UpdateBranch"]);
 
 
 

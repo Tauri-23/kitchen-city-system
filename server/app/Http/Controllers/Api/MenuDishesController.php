@@ -22,6 +22,17 @@ class MenuDishesController extends Controller
         return response()->json(menu_dishes::where("status", $status)->with("category")->get());
     }
 
+    public function GetAllMenuDishesWhereWeek($week)
+    {
+        return response()->json(
+            menu_dishes::whereHas("menu", function ($query) use ($week) {
+                $query->where("menu_week", $week);
+            })
+            ->with(["category", "menu"])
+            ->get()
+        );
+    }
+
 
 
     // POST
@@ -58,8 +69,6 @@ class MenuDishesController extends Controller
             ], 500);
         }
     }
-    
-
 
     public function CreateDishesViaExcel(Request $request)
     {
