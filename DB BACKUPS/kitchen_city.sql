@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2025 at 12:48 PM
+-- Generation Time: May 16, 2025 at 07:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -72,7 +72,7 @@ CREATE TABLE `branches` (
 INSERT INTO `branches` (`id`, `branch_code`, `name`, `address`, `area_manager_id`, `size`, `status`, `created_at`, `updated_at`) VALUES
 ('DKTLQzdjrPHHWDgVJrfr', 'KC-0001', 'John Deli', 'BGC Taguig', '97lu6HECbJyXFjZ8LN4f', 'XL', 'Active', '2025-05-05 21:41:35', '2025-05-15 02:47:13'),
 ('EGj9rFHlwSl5zO7Xl86t', 'KC-0003', 'Al Fredo s', 'Mckinley Taguig', 'nLO4rfS1nlaWWRTnk7bq', 'Large', 'Active', '2025-05-15 01:44:43', '2025-05-15 02:44:20'),
-('YT2Bc7EmqaUHRfB4EOnm', 'KC-0002', 'John Deli', 'SM Moa', '97lu6HECbJyXFjZ8LN4f', 'Medium', 'Active', '2025-05-05 21:46:19', '2025-05-15 08:39:58');
+('YT2Bc7EmqaUHRfB4EOnm', 'KC-0002', 'John Deli', 'SM Moa', '97lu6HECbJyXFjZ8LN4f', 'Medium', 'Active', '2025-05-05 21:46:19', '2025-05-15 06:18:00');
 
 -- --------------------------------------------------------
 
@@ -1213,6 +1213,38 @@ INSERT INTO `menus` (`id`, `menu_name`, `menu_week`, `menu_day`, `meal_type`, `m
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu_categories`
+--
+
+CREATE TABLE `menu_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shift_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `category` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_categories`
+--
+
+INSERT INTO `menu_categories` (`id`, `shift_id`, `category`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Regular', '2025-05-15 15:17:38', '2025-05-15 15:17:38'),
+(2, 1, 'Plant Based', '2025-05-15 15:17:39', '2025-05-15 15:17:39'),
+(3, 1, 'COLD CUTS', '2025-05-15 15:17:40', '2025-05-15 15:17:40'),
+(4, 1, 'CANNED GOODS', '2025-05-15 15:17:41', '2025-05-15 15:17:41'),
+(5, 1, 'EGGS', '2025-05-15 15:17:42', '2025-05-15 15:17:42'),
+(6, 1, 'ON THE SPOT', '2025-05-15 15:17:43', '2025-05-15 15:17:43'),
+(7, 1, 'SALAD', '2025-05-15 15:17:44', '2025-05-15 15:17:44'),
+(8, 1, 'RICE', '2025-05-15 15:17:45', '2025-05-15 15:17:45'),
+(9, 1, 'FREE SOUP', '2025-05-15 15:17:46', '2025-05-15 15:17:46'),
+(10, 1, 'DESSERTS', '2025-05-15 15:17:47', '2025-05-15 15:17:47'),
+(11, 1, 'DELICACIES', '2025-05-15 15:17:48', '2025-05-15 15:17:48'),
+(12, 1, 'BAKESHOP', '2025-05-15 15:17:49', '2025-05-15 15:17:49');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_dishes`
 --
 
@@ -1636,6 +1668,74 @@ INSERT INTO `menu_dishes_categories` (`id`, `category`, `created_at`, `updated_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu_shifts`
+--
+
+CREATE TABLE `menu_shifts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shift` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_shifts`
+--
+
+INSERT INTO `menu_shifts` (`id`, `shift`, `created_at`, `updated_at`) VALUES
+(1, 'Breakfast', '2025-05-15 15:09:22', '2025-05-15 15:09:22'),
+(2, 'Lunch', '2025-05-15 15:09:23', '2025-05-15 16:13:22'),
+(3, 'Snack', '2025-05-15 15:09:24', '2025-05-15 15:09:24'),
+(4, 'Dinner', '2025-05-15 15:09:25', '2025-05-22 15:09:25'),
+(5, 'Midnight Lunch', '2025-05-15 15:09:26', '2025-05-15 15:09:26'),
+(6, 'Midnight Snack', '2025-05-15 15:09:27', '2025-05-15 15:09:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_tags`
+--
+
+CREATE TABLE `menu_tags` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `menu_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `tag` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_tags`
+--
+
+INSERT INTO `menu_tags` (`id`, `menu_category_id`, `tag`, `created_at`, `updated_at`) VALUES
+(2, 1, 'Chicken Regular', '2025-05-16 08:03:08', '2025-05-16 08:54:05'),
+(3, 1, 'Pork Regular', '2025-05-16 08:19:10', '2025-05-16 08:53:19'),
+(4, 1, 'Seafood Regular', '2025-05-16 08:19:20', '2025-05-16 08:19:20'),
+(5, 1, 'Vegetable Regular', '2025-05-16 08:19:28', '2025-05-16 08:19:28'),
+(6, 2, 'Plant Based', '2025-05-16 08:19:39', '2025-05-16 08:19:39'),
+(7, 3, 'Cold Cuts 1', '2025-05-16 08:19:51', '2025-05-16 08:19:51'),
+(8, 3, 'Cold Cuts 2', '2025-05-16 08:19:53', '2025-05-16 08:19:53'),
+(9, 4, 'Canned Goods 1', '2025-05-16 08:20:05', '2025-05-16 08:20:05'),
+(10, 4, 'Canned Goods 2', '2025-05-16 08:20:07', '2025-05-16 08:20:07'),
+(11, 5, 'Egg 1', '2025-05-16 08:21:15', '2025-05-16 08:21:15'),
+(12, 5, 'Egg 2', '2025-05-16 08:21:17', '2025-05-16 08:21:17'),
+(13, 5, 'Egg 3', '2025-05-16 08:21:18', '2025-05-16 08:21:18'),
+(14, 6, 'On The Spot 1', '2025-05-16 08:21:37', '2025-05-16 08:21:37'),
+(15, 7, 'Salad 1', '2025-05-16 08:21:51', '2025-05-16 08:21:51'),
+(16, 8, 'Flavored Rice', '2025-05-16 08:22:10', '2025-05-16 08:22:10'),
+(17, 9, 'Free Soup', '2025-05-16 08:22:19', '2025-05-16 08:22:19'),
+(18, 10, 'Dessert 1', '2025-05-16 08:22:29', '2025-05-16 08:22:29'),
+(19, 10, 'Dessert 2', '2025-05-16 08:22:30', '2025-05-16 08:22:30'),
+(20, 10, 'Dessert 3', '2025-05-16 08:22:31', '2025-05-16 08:22:31'),
+(21, 11, 'Delicacies 1', '2025-05-16 08:22:43', '2025-05-16 08:22:43'),
+(22, 11, 'Delicacies 2', '2025-05-16 08:22:43', '2025-05-16 08:22:43'),
+(24, 12, 'Freshly Baked Breads', '2025-05-16 08:23:12', '2025-05-16 08:23:12'),
+(25, 12, 'Freshly Baked Breads (Mainstay)', '2025-05-16 08:23:37', '2025-05-16 08:23:37');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -1662,7 +1762,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (36, '2025_05_06_040908_create_branches_table', 7),
 (37, '2025_05_06_063459_create_branch_managers_table', 8),
 (40, '2025_05_06_102734_create_orders_table', 9),
-(44, '2025_05_06_110018_create_order_items_table', 10);
+(44, '2025_05_06_110018_create_order_items_table', 10),
+(45, '2025_05_15_145624_create_menu_shifts_table', 11),
+(46, '2025_05_15_145951_create_menu_categories_table', 11),
+(47, '2025_05_16_142013_create_menu_tags_table', 12);
 
 -- --------------------------------------------------------
 
@@ -1742,7 +1845,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (49, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'd846575624f6d60027f0998f6c2004ec5842e3aff6b3850aee0ed26cba87471f', '[\"*\"]', '2025-05-10 08:44:31', NULL, '2025-05-10 07:41:26', '2025-05-10 08:44:31'),
 (51, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '65751f3609c377d66f01e7fe73473784a0138db4831775b3175343c8fc55bbc4', '[\"*\"]', '2025-05-13 23:51:48', NULL, '2025-05-12 04:48:38', '2025-05-13 23:51:48'),
 (54, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'a057aacc3e05b01ec6a736a0101ea1f630e376373bae3b512feb6c02fc97f7fd', '[\"*\"]', '2025-05-12 22:42:55', NULL, '2025-05-12 22:26:55', '2025-05-12 22:42:55'),
-(57, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'dd4076934eab545082b7d8dee0494540e7ff7e0ca01fb363e821009d1a8369a8', '[\"*\"]', '2025-05-15 02:48:37', NULL, '2025-05-14 18:49:54', '2025-05-15 02:48:37');
+(57, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'dd4076934eab545082b7d8dee0494540e7ff7e0ca01fb363e821009d1a8369a8', '[\"*\"]', '2025-05-16 09:03:24', NULL, '2025-05-14 18:49:54', '2025-05-16 09:03:24');
 
 -- --------------------------------------------------------
 
@@ -1877,6 +1980,13 @@ ALTER TABLE `menus`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menu_categories`
+--
+ALTER TABLE `menu_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `menu_categories_shift_id_foreign` (`shift_id`);
+
+--
 -- Indexes for table `menu_dishes`
 --
 ALTER TABLE `menu_dishes`
@@ -1889,6 +1999,19 @@ ALTER TABLE `menu_dishes`
 --
 ALTER TABLE `menu_dishes_categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `menu_shifts`
+--
+ALTER TABLE `menu_shifts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `menu_tags`
+--
+ALTER TABLE `menu_tags`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `menu_tags_menu_category_id_foreign` (`menu_category_id`);
 
 --
 -- Indexes for table `migrations`
@@ -1964,16 +2087,34 @@ ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `menu_categories`
+--
+ALTER TABLE `menu_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `menu_dishes_categories`
 --
 ALTER TABLE `menu_dishes_categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT for table `menu_shifts`
+--
+ALTER TABLE `menu_shifts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `menu_tags`
+--
+ALTER TABLE `menu_tags`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -2004,11 +2145,23 @@ ALTER TABLE `branch_managers`
   ADD CONSTRAINT `branch_managers_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Constraints for table `menu_categories`
+--
+ALTER TABLE `menu_categories`
+  ADD CONSTRAINT `menu_categories_shift_id_foreign` FOREIGN KEY (`shift_id`) REFERENCES `menu_shifts` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `menu_dishes`
 --
 ALTER TABLE `menu_dishes`
   ADD CONSTRAINT `menu_dishes_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `menu_dishes_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `menu_dishes_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `menu_tags`
+--
+ALTER TABLE `menu_tags`
+  ADD CONSTRAINT `menu_tags_menu_category_id_foreign` FOREIGN KEY (`menu_category_id`) REFERENCES `menu_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `orders`
