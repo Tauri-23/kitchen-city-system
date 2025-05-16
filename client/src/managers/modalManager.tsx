@@ -3,12 +3,14 @@ import BranchManagerOrderCheckoutModal from "../components/modals/braManOrderChe
 import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaManagerModal";
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
 import SuperAdminAddBranchModal from "../components/modals/supAdAddBranchModal";
+import SuperAdminAddMenuTagModal from "../components/modals/supAdAddMenuTagModal";
 import SuperAdminAddSuperAdminModal from "../components/modals/supAdAddSuperAdminModal";
 import { useGeneralContext } from "../contexts/GeneralContext"
 import { AreaManagerStructure } from "../types/areaManagerSturcture";
 import { BranchManagerStructure } from "../types/branchManagerSturcture";
 import { BranchStructure } from "../types/branchStructure";
 import { MenuDishStructure } from "../types/menuDishStructure";
+import { MenuShiftStructure } from "../types/menuShiftStructure";
 import { MenuStructure } from "../types/menuStructure";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
 
@@ -20,6 +22,9 @@ const ModalManager = () => {
 
     const renderModal = () => {
         switch(type) {
+            /**
+             * Super Admin
+             */
             case "SupAdAddSuperAdminModal":
                 return <SuperAdminAddSuperAdminModal
                 setSuperAdmins={props.setSuperAdmins as (value: SuperAdminStructure[]) => void}
@@ -43,6 +48,14 @@ const ModalManager = () => {
                 setFilteredBranchManagers={props.setFilteredBranchManagers as (value: BranchManagerStructure[]) => void}
                 branches={props.branches as BranchStructure[]}
                 onClose={hideModal}/>
+
+            case "SuperAdminAddMenuTagModal": 
+                return <SuperAdminAddMenuTagModal
+                menuCategoryId={props.menuCategoryId as number}
+                shiftId={props.shiftId as number}
+                setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
+                onClose={hideModal}
+                />
 
 
 

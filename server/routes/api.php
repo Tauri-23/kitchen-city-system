@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
 use App\Http\Controllers\Api\MenuShiftsController;
+use App\Http\Controllers\Api\MenuTagsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,19 @@ Route::post("/login", [AuthController::class, "Login"]);
 |----------------------------------------
 */
 Route::get("/get-all-menu-shifts-full", [MenuShiftsController::class, "GetAllMenuShiftsFull"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Tags 
+|----------------------------------------
+*/
+Route::post("/create-menu-tag", [MenuTagsController::class, "CreateMenuTag"]);
+Route::post("/update-menu-tag", [MenuTagsController::class, "UpdateMenuTag"]);
+Route::post("/delete-menu-tag", [MenuTagsController::class, "DeleteMenuTag"]);
 
 
 
