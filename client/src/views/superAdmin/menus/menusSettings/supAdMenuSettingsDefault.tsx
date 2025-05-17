@@ -9,6 +9,7 @@ import { useGeneralContext } from "../../../../contexts/GeneralContext";
 import { GiCancel } from "react-icons/gi";
 import axiosClient from "../../../../axios-client";
 import { notify } from "../../../../assets/lib/utils";
+import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure";
 
 interface OutletContextTypes {
     setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
@@ -46,12 +47,39 @@ export default function SuperAdminMenuSettingsDefault() {
 
 
     /**
+     * Transformed Data for Table
+     */
+    const transformedShifts = shifts?.map((shift) => ({
+        key: `shift-${shift.id}`,
+        id: shift.id,
+        name: shift.shift,
+        type: "shift",
+        children: shift.categories.map(category => ({
+            key: `category-${category.id}`,
+            id: category.id,
+            category: category.category,
+            shiftId: shift.id,
+            shift: shift,
+            type: "category",
+            children: category.menu_tags.map(tag => ({
+                key: `tag-${tag.id}`,
+                id: tag.id,
+                name: tag.tag,
+                categoryId: category.id,
+                type: "tag"
+            }))
+        }))
+    })) || [];
+
+
+
+    /**
      * Menu Tag Handlers
      */
-    const handleAddMenuTag = (categoryId: number, shiftId: number) => {
+    const handleAddMenuTag = (category: MenuCategoryStructure, shift: MenuShiftStructure) => {
         showModal("SuperAdminAddMenuTagModal", {
-            menuCategoryId: categoryId,
-            shiftId,
+            category,
+            shift,
             setShifts
         })
     }
@@ -98,129 +126,98 @@ export default function SuperAdminMenuSettingsDefault() {
      */
     const menuSettingsColumns: TableColumnsType<any> = [
         {
+            title: "Name",
             render: (_, row) => {
-                if(row.shift) {
-                    return row.shift;
-                } else if(row.category) {
-                    return row.category;
-                } else {
+                if (row.type === "tag" && parseInt(editMenuTagIn.id) === row.id) {
                     return (
-                        editMenuTagIn.id !== row.id 
-                        ? (
-                            row.tag
-                        )
-                        : (
-                            <Input
+                        <Input
                             size="small"
                             value={editMenuTagIn.tag}
-                            onChange={(e) => setEditMenuTagIn(prev => ({...prev, tag: e.target.value}))}/>
-                        )
-                    )
+                            onChange={(e) => setEditMenuTagIn(prev => ({ ...prev, tag: e.target.value }))}
+                        />
+                    );
                 }
+                return row.type === "category" ? row.category : row.name;
             },
             onCell: (row) => ({
                 style: {
-                    backgroundColor: row.shift ? 'black' : (row.category ? "orange" : undefined),
-                    color: row.shift ? "white" : "black"
+                    backgroundColor: row.type === "shift" ? 'black' : (row.type === "category" ? "orange" : undefined),
+                    color: row.type === "shift" ? "white" : "black"
                 },
             })
         },
         {
             title: "Actions",
             render: (_, row) => {
-                if(row.shift) {
-                    return(
+                if (row.type === "shift") {
+                    return (
                         <Button
-                        color="orange"
                         variant="solid"
-                        size="small">
-                            Add Category
+                        color="primary"
+                        size="small"
+                        onClick={() => {/* handleAddCategory(row.id) */}}>
+                        Add Category
                         </Button>
-                    )
-                } else if(row.category) {
-                    return(
+                    );
+                }
+
+                if (row.type === "category") {
+                    return (
                         <div className="d-flex gap3">
                             <Button
-                            variant="solid"
-                            size="small"
-                            onClick={() => handleAddMenuTag(row.id, row.shift_id)}>
+                                size="small"
+                                onClick={() => handleAddMenuTag(row, row.shift)}>
                                 Add Menu Tag
                             </Button>
+                            {/* Edit & Delete category buttons */}
+                        </div>
+                    );
+                }
 
+                if (row.type === "tag") {
+                    return editMenuTagIn.id !== row.id ? (
+                        <div className="d-flex gap3">
                             <Button
                             size="small"
-                            icon={<LuSquarePen/>}
+                            icon={<LuSquarePen />}
+                            onClick={() => setEditMenuTagIn({ id: row.id, tag: row.name })}
                             color="blue"
-                            variant="solid"/>
-
+                            variant="solid"
+                            />
                             <Popconfirm
-                                title="Delete the category"
-                                description={`Delete this category: ${row.category} ?`}
-                                // onConfirm={() => handleDeleteMenuTag(row.id)}
-                                okText="Yes"
-                                cancelText="No"
+                                title="Delete the tag"
+                                onConfirm={() => handleDeleteMenuTag(row.id)}
                             >
                                 <Button
                                 size="small"
-                                icon={<LuTrash2/>}
+                                icon={<LuTrash2 />}
                                 color="red"
                                 variant="solid"
-                                disabled={row.menu_tags.length > 0}/>
+                                />
                             </Popconfirm>
                         </div>
-                        
-                    )
-                } else {
-                    return(
+                    ) : (
                         <div className="d-flex gap3">
-                            {editMenuTagIn.id !== row.id
-                            ? (
-                                <>
-                                    <Button
-                                    size="small"
-                                    icon={<LuSquarePen/>}
-                                    color="blue"
-                                    variant="solid"
-                                    onClick={() => setEditMenuTagIn({id: row.id, tag: row.tag})}/>
-
-                                    <Popconfirm
-                                        title="Delete the tag"
-                                        description={`Delete this tag: ${row.tag} ?`}
-                                        onConfirm={() => handleDeleteMenuTag(row.id)}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
-                                        <Button
-                                        size="small"
-                                        icon={<LuTrash2/>}
-                                        color="red"
-                                        variant="solid"/>
-                                    </Popconfirm>
-                                </>
-                            )
-                            : (
-                                <>
-                                    <Button
-                                    size="small"
-                                    icon={<LuSquareCheckBig/>}
-                                    color="green"
-                                    variant="solid"
-                                    onClick={handleEditMenuTag}/>
-
-                                    <Button
-                                    size="small"
-                                    icon={<GiCancel/>}
-                                    onClick={() => setEditMenuTagIn({id: "", tag: ""})}/>
-                                </>
-                            )}
-                            
+                            <Button
+                                size="small"
+                                icon={<LuSquareCheckBig />}
+                                color="green"
+                                onClick={handleEditMenuTag}
+                            />
+                            <Button
+                                size="small"
+                                icon={<GiCancel />}
+                                onClick={() => setEditMenuTagIn({ id: "", tag: "" })}
+                            />
                         </div>
-                    )
+                    );
                 }
+
+                return null;
             },
             width: 250
         }
-    ]
+    ];
 
 
 
@@ -237,17 +234,7 @@ export default function SuperAdminMenuSettingsDefault() {
                 <>
                     <Table
                     columns={menuSettingsColumns}
-                    dataSource={
-                        shifts.flatMap((shift: MenuShiftStructure) => {
-                            return [
-                                { shift: shift.shift }, // Shift header
-                                ...shift.categories.flatMap(category => [
-                                    category, // Category header
-                                    ...category.menu_tags.map(tag => tag) // Menu tags under that category
-                                ])
-                            ];
-                        }).map((item, index) => ({...item, key: index}))
-                    }
+                    dataSource={transformedShifts}
                     size="small"
                     bordered
                     pagination={false}

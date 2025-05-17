@@ -9,6 +9,7 @@ import { useGeneralContext } from "../contexts/GeneralContext"
 import { AreaManagerStructure } from "../types/areaManagerSturcture";
 import { BranchManagerStructure } from "../types/branchManagerSturcture";
 import { BranchStructure } from "../types/branchStructure";
+import { MenuCategoryStructure } from "../types/menuCategoryStructure";
 import { MenuDishStructure } from "../types/menuDishStructure";
 import { MenuShiftStructure } from "../types/menuShiftStructure";
 import { MenuStructure } from "../types/menuStructure";
@@ -51,8 +52,8 @@ const ModalManager = () => {
 
             case "SuperAdminAddMenuTagModal": 
                 return <SuperAdminAddMenuTagModal
-                menuCategoryId={props.menuCategoryId as number}
-                shiftId={props.shiftId as number}
+                category={props.category as MenuCategoryStructure}
+                shift={props.shift as MenuShiftStructure}
                 setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
                 onClose={hideModal}
                 />

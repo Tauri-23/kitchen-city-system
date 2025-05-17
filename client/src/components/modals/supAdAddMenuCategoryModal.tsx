@@ -5,14 +5,14 @@ import axiosClient from "../../axios-client";
 import { MenuShiftStructure } from "../../types/menuShiftStructure";
 import { MenuCategoryStructure } from "../../types/menuCategoryStructure";
 
-interface SuperAdminAddMenuTagModalTypes {
+interface SuperAdminAddMenuCategoryTypes {
     category: MenuCategoryStructure;
     shift: MenuShiftStructure;
     setShifts: React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>;
     onClose: () => void
 }
 
-const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({category, shift, setShifts, onClose}) => {
+const SuperAdminAddMenuCategoryModal: React.FC<SuperAdminAddMenuCategoryTypes> = ({category, shift, setShifts, onClose}) => {
     const [isAdding, setIsAdding] = useState<boolean>(false);
 
     const [menuTagIn, setMenuTagIn] = useState({
@@ -150,4 +150,4 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({ca
     )
 }
 
-export default SuperAdminAddMenuTagModal;
+export default SuperAdminAddMenuCategoryModal;
