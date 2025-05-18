@@ -64,4 +64,17 @@ class MenuShiftsController extends Controller
             "updated_menu_shifts" => $getMenuShifts->GetAllMenuShiftsFull()->original
         ]);
     }
+
+    public function DeleteMenuShift(Request $request)
+    {
+        menu_shifts::find($request->id)->delete();
+
+        $getMenuShifts = new MenuShiftsController();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Menu shift successfully deleted",
+            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShiftsFull()->original
+        ]);
+    }
 }

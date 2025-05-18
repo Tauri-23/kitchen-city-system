@@ -108,6 +108,40 @@ export default function SuperAdminMenuSettingsDefault() {
         })
     }
 
+    const handleEditMenuShift = () => {
+        const formData = new FormData();
+        formData.append("editMenuShiftIn", JSON.stringify(editMenuShiftIn));
+
+        axiosClient.post("/update-menu-shift", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+
+            if(data.status === 200) {
+                setShifts(data.updated_menu_shifts);
+                setEditMenuShiftIn({id: "", shift: ""});
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
+
+    const handleDeleteMenuShift = (id: number) => {
+        const formData = new FormData();
+        formData.append("id", String(id));
+
+        axiosClient.post("/delete-menu-shift", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+            setShifts(data.updated_menu_shifts);
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
+
 
 
 
@@ -230,6 +264,16 @@ export default function SuperAdminMenuSettingsDefault() {
                         />
                     );
                 }
+
+                if (row.type === "shift" && parseInt(editMenuShiftIn.id) === row.id) {
+                    return (
+                        <Input
+                            size="small"
+                            value={editMenuShiftIn.shift}
+                            onChange={(e) => setEditMenuShiftIn(prev => ({ ...prev, shift: e.target.value }))}
+                        />
+                    );
+                }
                 return row.type === "category" ? row.category : (row.type === "shift" ? row.shift : row.tag);
             },
             onCell: (row) => ({
@@ -253,8 +297,8 @@ export default function SuperAdminMenuSettingsDefault() {
                                         icon={<LuSquareCheckBig />}
                                         color="green"
                                         variant="solid"
-                                        disabled={isEmptyOrSpaces(editMenuCategoryIn.category) || editMenuCategoryIn.category === row.category}
-                                        onClick={handleEditMenuCategory}
+                                        disabled={isEmptyOrSpaces(editMenuShiftIn.shift) || editMenuShiftIn.shift === row.shift}
+                                        onClick={handleEditMenuShift}
                                     />
                                     <Button
                                         size="small"
@@ -280,6 +324,19 @@ export default function SuperAdminMenuSettingsDefault() {
                                     color="blue"
                                     variant="solid"
                                     />
+
+                                    <Popconfirm
+                                        title="Delete this shift"
+                                        onConfirm={() => handleDeleteMenuShift(row.id)}
+                                    >
+                                        <Button
+                                        size="small"
+                                        icon={<LuTrash2 />}
+                                        color="red"
+                                        variant="solid"
+                                        disabled={row.children.length > 0}
+                                        />
+                                    </Popconfirm>
                                 </>
                             )}
                         </div>

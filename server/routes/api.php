@@ -43,6 +43,8 @@ Route::post("/login", [AuthController::class, "Login"]);
 Route::get("/get-all-menu-shifts-full", [MenuShiftsController::class, "GetAllMenuShiftsFull"]);
 
 Route::post("/create-menu-shift", [MenuShiftsController::class, "CreateMenuShift"]);
+Route::post("/update-menu-shift", [MenuShiftsController::class, "UpdateMenuShift"]);
+Route::post("/delete-menu-shift", [MenuShiftsController::class, "DeleteMenuShift"]);
 
 
 
@@ -66,6 +68,8 @@ Route::post("/delete-menu-category", [MenuCategoriesController::class, "DeleteMe
 | Menu Tags 
 |----------------------------------------
 */
+Route::get("/get-all-menu-tags", [MenuTagsController::class, "GetAllMenuTags"]);
+
 Route::post("/create-menu-tag", [MenuTagsController::class, "CreateMenuTag"]);
 Route::post("/update-menu-tag", [MenuTagsController::class, "UpdateMenuTag"]);
 Route::post("/delete-menu-tag", [MenuTagsController::class, "DeleteMenuTag"]);

@@ -28,7 +28,8 @@ class MenuTagsController extends Controller
 
             $menuTag = menu_tags::Create([
                 "menu_category_id" => $menuTagIn->menu_category_id,
-                "tag" => $menuTagIn->tag
+                "tag" => $menuTagIn->tag,
+                "menu_to_dish_tag" => $menuTagIn->menu_to_dish_tag
             ]);
 
             DB::commit();

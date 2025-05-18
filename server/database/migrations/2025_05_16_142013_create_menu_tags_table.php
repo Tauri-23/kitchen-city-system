@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("menu_category_id")->nullable();
             $table->string("tag");
+            $table->string("menu_to_dish_tag");
             $table->timestamps();
 
             /**
