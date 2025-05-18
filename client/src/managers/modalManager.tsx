@@ -3,6 +3,8 @@ import BranchManagerOrderCheckoutModal from "../components/modals/braManOrderChe
 import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaManagerModal";
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
 import SuperAdminAddBranchModal from "../components/modals/supAdAddBranchModal";
+import SuperAdminAddMenuCategoryModal from "../components/modals/supAdAddMenuCategoryModal";
+import SuperAdminAddMenuShiftModal from "../components/modals/supAdAddMenuShiftModal";
 import SuperAdminAddMenuTagModal from "../components/modals/supAdAddMenuTagModal";
 import SuperAdminAddSuperAdminModal from "../components/modals/supAdAddSuperAdminModal";
 import { useGeneralContext } from "../contexts/GeneralContext"
@@ -54,6 +56,19 @@ const ModalManager = () => {
                 return <SuperAdminAddMenuTagModal
                 category={props.category as MenuCategoryStructure}
                 shift={props.shift as MenuShiftStructure}
+                setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
+                onClose={hideModal}
+                />
+
+            case "SuperAdminAddMenuCategoryModal":
+                return <SuperAdminAddMenuCategoryModal
+                shift={props.shift as MenuShiftStructure}
+                setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
+                onClose={hideModal}
+                />
+            
+            case "SuperAdminAddMenuShiftModal":
+                return <SuperAdminAddMenuShiftModal
                 setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
                 onClose={hideModal}
                 />

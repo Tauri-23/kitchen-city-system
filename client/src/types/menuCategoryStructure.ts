@@ -2,6 +2,7 @@ import { MenuShiftStructure } from "./menuShiftStructure";
 import { MenuTagStructure } from "./menuTagStructure";
 
 export interface MenuCategoryStructure {
+    key: string;
     id: number;
     shift_id: number;
     category: string;

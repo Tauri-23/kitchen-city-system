@@ -8,7 +8,7 @@ import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { useGeneralContext } from "../../../../contexts/GeneralContext";
 import { GiCancel } from "react-icons/gi";
 import axiosClient from "../../../../axios-client";
-import { notify } from "../../../../assets/lib/utils";
+import { isEmptyOrSpaces, notify } from "../../../../assets/lib/utils";
 import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure";
 
 interface OutletContextTypes {
@@ -24,7 +24,17 @@ export default function SuperAdminMenuSettingsDefault() {
     const [editMenuTagIn, setEditMenuTagIn] = useState({
         id: "",
         tag: ""
-    })
+    });
+    
+    const [editMenuCategoryIn, setEditMenuCategoryIn] = useState({
+        id: "",
+        category: ""
+    });
+
+    const [editMenuShiftIn, setEditMenuShiftIn] = useState({
+        id: "",
+        shift: ""
+    });
 
 
 
@@ -52,7 +62,7 @@ export default function SuperAdminMenuSettingsDefault() {
     const transformedShifts = shifts?.map((shift) => ({
         key: `shift-${shift.id}`,
         id: shift.id,
-        name: shift.shift,
+        shift: shift.shift,
         type: "shift",
         children: shift.categories.map(category => ({
             key: `category-${category.id}`,
@@ -64,12 +74,86 @@ export default function SuperAdminMenuSettingsDefault() {
             children: category.menu_tags.map(tag => ({
                 key: `tag-${tag.id}`,
                 id: tag.id,
-                name: tag.tag,
+                tag: tag.tag,
                 categoryId: category.id,
                 type: "tag"
             }))
         }))
     })) || [];
+
+    const getDefaultExpandedKeys = (shifts: MenuShiftStructure[] | any[]) => {
+        const keys: string[] = [];
+
+        shifts.forEach(shift => {
+            // Expand shift row if needed
+            // keys.push(shift.key);
+
+            shift.children?.forEach((category: { key: string; }) => {
+                // Expand all categories
+                keys.push(category.key);
+            });
+        });
+
+        return keys;
+    };
+
+
+
+    /**
+     * Menu Shift Handlers
+     */
+    const handleAddMenuShift = () => {
+        showModal("SuperAdminAddMenuShiftModal", {
+            setShifts
+        })
+    }
+
+
+
+
+    /**
+     * Menu Category Handlers
+     */
+    const handleAddMenuCategory = (shift: MenuShiftStructure) => {
+        showModal("SuperAdminAddMenuCategoryModal", {
+            shift,
+            setShifts
+        })
+    }
+    
+    const handleEditMenuCategory = () => {
+        const formData = new FormData();
+        formData.append("editMenuCategoryIn", JSON.stringify(editMenuCategoryIn));
+
+        axiosClient.post("/update-menu-category", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+
+            if(data.status === 200) {
+                setShifts(data.updated_menu_shifts);
+                setEditMenuCategoryIn({id: "", category: ""});
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
+
+    const handleDeleteMenuCategory = (id: number) => {
+        const formData = new FormData();
+        formData.append("id", String(id));
+
+        axiosClient.post("/delete-menu-category", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+            setShifts(data.updated_menu_shifts);
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
 
 
 
@@ -93,7 +177,6 @@ export default function SuperAdminMenuSettingsDefault() {
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
             if(data.status === 200) {
-                console.log(data.updated_menu_shifts);
                 setShifts(data.updated_menu_shifts);
                 setEditMenuTagIn({id: "", tag: ""});
             }
@@ -137,7 +220,17 @@ export default function SuperAdminMenuSettingsDefault() {
                         />
                     );
                 }
-                return row.type === "category" ? row.category : row.name;
+
+                if (row.type === "category" && parseInt(editMenuCategoryIn.id) === row.id) {
+                    return (
+                        <Input
+                            size="small"
+                            value={editMenuCategoryIn.category}
+                            onChange={(e) => setEditMenuCategoryIn(prev => ({ ...prev, category: e.target.value }))}
+                        />
+                    );
+                }
+                return row.type === "category" ? row.category : (row.type === "shift" ? row.shift : row.tag);
             },
             onCell: (row) => ({
                 style: {
@@ -151,25 +244,101 @@ export default function SuperAdminMenuSettingsDefault() {
             render: (_, row) => {
                 if (row.type === "shift") {
                     return (
-                        <Button
-                        variant="solid"
-                        color="primary"
-                        size="small"
-                        onClick={() => {/* handleAddCategory(row.id) */}}>
-                        Add Category
-                        </Button>
+                        <div className="d-flex gap3">
+                            {editMenuShiftIn.id === row.id
+                            ? (
+                                <>
+                                    <Button
+                                        size="small"
+                                        icon={<LuSquareCheckBig />}
+                                        color="green"
+                                        variant="solid"
+                                        disabled={isEmptyOrSpaces(editMenuCategoryIn.category) || editMenuCategoryIn.category === row.category}
+                                        onClick={handleEditMenuCategory}
+                                    />
+                                    <Button
+                                        size="small"
+                                        icon={<GiCancel />}
+                                        onClick={() => setEditMenuShiftIn({ id: "", shift: "" })}
+                                    />
+                                </>
+                            )
+                            : (
+                                <>
+                                    <Button
+                                    variant="solid"
+                                    color="primary"
+                                    size="small"
+                                    onClick={() => {handleAddMenuCategory(row)}}>
+                                    Add Category
+                                    </Button>
+
+                                    <Button
+                                    size="small"
+                                    icon={<LuSquarePen />}
+                                    onClick={() => setEditMenuShiftIn({ id: row.id, shift: row.shift })}
+                                    color="blue"
+                                    variant="solid"
+                                    />
+                                </>
+                            )}
+                        </div>
+                        
                     );
                 }
 
                 if (row.type === "category") {
                     return (
                         <div className="d-flex gap3">
-                            <Button
-                                size="small"
-                                onClick={() => handleAddMenuTag(row, row.shift)}>
-                                Add Menu Tag
-                            </Button>
-                            {/* Edit & Delete category buttons */}
+                            {editMenuCategoryIn.id === row.id
+                            ? (
+                                <>
+                                    <Button
+                                        size="small"
+                                        icon={<LuSquareCheckBig />}
+                                        color="green"
+                                        variant="solid"
+                                        disabled={isEmptyOrSpaces(editMenuCategoryIn.category) || editMenuCategoryIn.category === row.category}
+                                        onClick={handleEditMenuCategory}
+                                    />
+                                    <Button
+                                        size="small"
+                                        icon={<GiCancel />}
+                                        onClick={() => setEditMenuCategoryIn({ id: "", category: "" })}
+                                    />
+                                </>
+                            )
+                            : (
+                                <>
+                                    <Button
+                                    size="small"
+                                    onClick={() => handleAddMenuTag(row, row.shift)}>
+                                    Add Menu Tag
+                                    </Button>
+                                    
+                                    <Button
+                                    size="small"
+                                    icon={<LuSquarePen />}
+                                    onClick={() => setEditMenuCategoryIn({ id: row.id, category: row.category })}
+                                    color="blue"
+                                    variant="solid"
+                                    />
+
+                                    <Popconfirm
+                                        title="Delete this category"
+                                        onConfirm={() => handleDeleteMenuCategory(row.id)}
+                                    >
+                                        <Button
+                                        size="small"
+                                        icon={<LuTrash2 />}
+                                        color="red"
+                                        variant="solid"
+                                        disabled={row.children.length > 0}
+                                        />
+                                    </Popconfirm>
+                                </>
+                            )}
+                            
                         </div>
                     );
                 }
@@ -180,7 +349,7 @@ export default function SuperAdminMenuSettingsDefault() {
                             <Button
                             size="small"
                             icon={<LuSquarePen />}
-                            onClick={() => setEditMenuTagIn({ id: row.id, tag: row.name })}
+                            onClick={() => setEditMenuTagIn({ id: row.id, tag: row.tag })}
                             color="blue"
                             variant="solid"
                             />
@@ -202,6 +371,8 @@ export default function SuperAdminMenuSettingsDefault() {
                                 size="small"
                                 icon={<LuSquareCheckBig />}
                                 color="green"
+                                variant="solid"
+                                disabled={isEmptyOrSpaces(editMenuTagIn.tag) || editMenuTagIn.tag === row.tag}
                                 onClick={handleEditMenuTag}
                             />
                             <Button
@@ -227,6 +398,15 @@ export default function SuperAdminMenuSettingsDefault() {
     return(
         <>
             <h3 className="fw-bold mar-bottom-1">Menu Settings</h3>
+            
+            <div className="d-flex align-items-center gap3 justify-content-end mar-bottom-1">
+                <Button
+                size="large"
+                type="primary"
+                onClick={handleAddMenuShift}>
+                    Add Shift
+                </Button>
+            </div>
 
             {!shifts
             ? (<Spin size="large"/>)
@@ -238,8 +418,8 @@ export default function SuperAdminMenuSettingsDefault() {
                     size="small"
                     bordered
                     pagination={false}
+                    expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
                     />
-
                 </>
             )}
         </>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AreaManagersController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BranchesController;
 use App\Http\Controllers\Api\BranchManagerController;
+use App\Http\Controllers\Api\MenuCategoriesController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
@@ -40,6 +41,21 @@ Route::post("/login", [AuthController::class, "Login"]);
 |----------------------------------------
 */
 Route::get("/get-all-menu-shifts-full", [MenuShiftsController::class, "GetAllMenuShiftsFull"]);
+
+Route::post("/create-menu-shift", [MenuShiftsController::class, "CreateMenuShift"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Categories 
+|----------------------------------------
+*/
+Route::post("/create-menu-category", [MenuCategoriesController::class, "CreateMenuCategory"]);
+Route::post("/update-menu-category", [MenuCategoriesController::class, "UpdateMenuCategory"]);
+Route::post("/delete-menu-category", [MenuCategoriesController::class, "DeleteMenuCategory"]);
 
 
 
