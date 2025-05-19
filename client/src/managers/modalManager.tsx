@@ -16,6 +16,7 @@ import { MenuCategoryStructure } from "../types/menuCategoryStructure";
 import { MenuDishStructure } from "../types/menuDishStructure";
 import { MenuShiftStructure } from "../types/menuShiftStructure";
 import { MenuStructure } from "../types/menuStructure";
+import { MenuSubCategoryStructure } from "../types/menuSubCategoryStucture";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
 
 const ModalManager = () => {
@@ -76,6 +77,7 @@ const ModalManager = () => {
 
             case "SuperAdminAddMenuDishModal":
                 return <SuperAdminAddMenuDishModal
+                menuSubCategories={props.menuSubCategories as MenuSubCategoryStructure[] | null}
                 menuToDishtag={props.menuToDishtag as string}
                 setMenuDishes={props.setMenuDishes as React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>}
                 onClose={hideModal}

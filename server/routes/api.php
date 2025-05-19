@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
 use App\Http\Controllers\Api\MenuShiftsController;
+use App\Http\Controllers\Api\MenuSubCategoryController;
 use App\Http\Controllers\Api\MenuTagsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
@@ -100,6 +101,17 @@ Route::post('/create-menus-via-excel', [MenuController::class, "CreateMenuViaExc
 |----------------------------------------
 */
 Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::class, "GetAllCategories"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Dishes Categories
+|----------------------------------------
+*/
+Route::get('/get-all-menu-sub-categories', [MenuSubCategoryController::class, "GetAllMenuSubCategories"]);
 
 
 

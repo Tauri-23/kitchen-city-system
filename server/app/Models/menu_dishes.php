@@ -15,7 +15,7 @@ class menu_dishes extends Model
         "menu_to_dish_tag",
         "dish_code",
         "name",
-        "sub_category",
+        "sub_category_id",
         "unit_cost",
         "production",
         "status"

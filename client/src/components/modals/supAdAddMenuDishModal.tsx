@@ -3,14 +3,16 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import axiosClient from "../../axios-client";
 import { MenuDishStructure } from "../../types/menuDishStructure";
+import { MenuSubCategoryStructure } from "../../types/menuSubCategoryStucture";
 
 interface SuperAdminAddMenuDishModalTypes {
+    menuSubCategories: MenuSubCategoryStructure[] | null;
     menuToDishtag: string;
     setMenuDishes: React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>
     onClose: () => void;
 }
 
-const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({menuToDishtag, setMenuDishes, onClose}) => {
+const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({menuSubCategories, menuToDishtag, setMenuDishes, onClose}) => {
     const [isAdding, setIsAdding] = useState<boolean>(false);
 
     const productionTypes = ["Commis", "Commis Cooked", "On Site"];
@@ -29,7 +31,8 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
     /**
      * Checkers
      */
-    const isSubmitBtnDisabled = isEmptyOrSpaces(menuDishIn.name) || menuDishIn.production === "";
+    const isSubmitBtnDisabled = isEmptyOrSpaces(menuDishIn.name) || menuDishIn.production === "" ||
+    menuDishIn.sub_category === "" || isEmptyOrSpaces(menuDishIn.dish_code);
 
 
 
@@ -92,46 +95,78 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
         >
             <form onSubmit={handleSubmit} className="mar-top-1">
 
+                <h3 className="mar-bottom-1">For: {menuToDishtag}</h3>
+
                 {/* Fields */}
                 <div className="mar-bottom-1">
-                    <label htmlFor="dish_code">Dish Code</label>
-                    <Input
-                    className="mar-bottom-3"
-                    size="large"
-                    id="dish_code"
-                    name="dish_code"
-                    value={menuDishIn.dish_code}
-                    onChange={handleInputChange}/>
+                    {/* Dish Code */}
+                    <>
+                        <label htmlFor="dish_code">Dish Code</label>
+                        <Input
+                        className="mar-bottom-3"
+                        size="large"
+                        id="dish_code"
+                        name="dish_code"
+                        value={menuDishIn.dish_code}
+                        onChange={handleInputChange}/>
+                    </>
+                    
 
-                    <label htmlFor="name">Dish Name (Odoo Name / Description)</label>
-                    <Input
-                    className="mar-bottom-3"
-                    size="large"
-                    id="name"
-                    name="name"
-                    value={menuDishIn.name}
-                    onChange={handleInputChange}/>
+                    {/* Dish Name */}
+                    <>
+                        <label htmlFor="name">Dish Name (Odoo Name / Description)</label>
+                        <Input
+                        className="mar-bottom-3"
+                        size="large"
+                        id="name"
+                        name="name"
+                        value={menuDishIn.name}
+                        onChange={handleInputChange}/>
+                    </>
+                    
 
-                    <label htmlFor="unit_cost">Unit Cost</label>
-                    <InputNumber
-                    className="mar-bottom-3 w-100"
-                    size="large"
-                    id="unit_cost"
-                    name="unit_cost"
-                    value={menuDishIn.unit_cost}
-                    onChange={(val) => handleInputChange({ target: { name: "unit_cost", value: val } } as unknown as ChangeEvent<HTMLInputElement>)}/>
+                    {/* Unit Cost */}
+                    <>
+                        <label htmlFor="unit_cost">Unit Cost</label>
+                        <InputNumber
+                        className="mar-bottom-3 w-100"
+                        size="large"
+                        id="unit_cost"
+                        name="unit_cost"
+                        value={menuDishIn.unit_cost}
+                        onChange={(val) => handleInputChange({ target: { name: "unit_cost", value: val } } as unknown as ChangeEvent<HTMLInputElement>)}/>
+                    </>
+                    
 
-                    <label htmlFor="production">Production</label>
-                    <Select
-                    className="mar-bottom-3 w-100"
-                    size="large"
-                    id="production"
-                    options={[
-                        {label: "Select Production Type", value: ""},
-                        ...productionTypes.map(prod => ({label: prod, value: prod}))
-                    ]}
-                    value={menuDishIn.production}
-                    onChange={(val) => handleInputChange({ target: { name: "production", value: val } } as unknown as ChangeEvent<HTMLInputElement>)}/>                    
+                    {/* Sub Category */}
+                    <>
+                        <label htmlFor="sub_category">Sub Category</label>
+                        <Select
+                        className="mar-bottom-3 w-100"
+                        size="large"
+                        id="sub_category"
+                        options={[
+                            {label: "Select Sub Category", value: ""},
+                            ...menuSubCategories?.map(subCat => ({label: subCat.sub_category, value: subCat.id})) || []
+                        ]}
+                        value={menuDishIn.sub_category}
+                        onChange={(val) => handleInputChange({ target: { name: "sub_category", value: val } } as ChangeEvent<HTMLInputElement>)}/>
+                    </>
+
+                    {/* Production */}
+                    <>
+                        <label htmlFor="production">Production</label>
+                        <Select
+                        className="mar-bottom-3 w-100"
+                        size="large"
+                        id="production"
+                        options={[
+                            {label: "Select Production Type", value: ""},
+                            ...productionTypes.map(prod => ({label: prod, value: prod}))
+                        ]}
+                        value={menuDishIn.production}
+                        onChange={(val) => handleInputChange({ target: { name: "production", value: val } } as ChangeEvent<HTMLInputElement>)}/>   
+                    </>                 
                 </div>
 
                 {/* Buttons */}
