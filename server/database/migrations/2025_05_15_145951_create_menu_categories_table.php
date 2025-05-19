@@ -13,18 +13,8 @@ return new class extends Migration
     {
         Schema::create('menu_categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("shift_id")->nullable();
             $table->string("category");
             $table->timestamps();
-
-            /**
-             * Foreign Key
-             */
-            $table->foreign("shift_id")
-            ->references("id")
-            ->on("menu_shifts")
-            ->nullOnDelete()
-            ->cascadeOnDelete();
         });
     }
 

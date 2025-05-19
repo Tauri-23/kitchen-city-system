@@ -8,7 +8,7 @@ class menu_tags extends Model
 {
     protected $fillable = [
         "menu_category_id",
+        "menu_sub_category_id",
         "tag",
-        "menu_to_dish_tag"
     ];
 }

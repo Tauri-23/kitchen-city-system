@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2025 at 06:58 PM
+-- Generation Time: May 19, 2025 at 06:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1218,7 +1218,6 @@ INSERT INTO `menus` (`id`, `menu_name`, `menu_week`, `menu_day`, `meal_type`, `m
 
 CREATE TABLE `menu_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `shift_id` bigint(20) UNSIGNED DEFAULT NULL,
   `category` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -1228,59 +1227,27 @@ CREATE TABLE `menu_categories` (
 -- Dumping data for table `menu_categories`
 --
 
-INSERT INTO `menu_categories` (`id`, `shift_id`, `category`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Regular', '2025-05-15 15:17:38', '2025-05-15 15:17:38'),
-(2, 1, 'Plant Based', '2025-05-15 15:17:39', '2025-05-15 15:17:39'),
-(3, 1, 'Cold Cuts', '2025-05-15 15:17:40', '2025-05-17 16:37:05'),
-(4, 1, 'Canned Goods', '2025-05-15 15:17:41', '2025-05-17 16:37:13'),
-(5, 1, 'Eggs', '2025-05-15 15:17:42', '2025-05-17 16:37:19'),
-(6, 1, 'On the Spot', '2025-05-15 15:17:43', '2025-05-17 23:11:54'),
-(7, 1, 'Salad', '2025-05-15 15:17:44', '2025-05-17 16:37:29'),
-(8, 1, 'Rice', '2025-05-15 15:17:45', '2025-05-17 16:37:33'),
-(9, 1, 'Free Soup', '2025-05-15 15:17:46', '2025-05-17 23:11:45'),
-(10, 1, 'Desserts', '2025-05-15 15:17:47', '2025-05-17 16:37:42'),
-(11, 1, 'Delicacies', '2025-05-15 15:17:48', '2025-05-17 16:37:47'),
-(12, 1, 'Bakeshop', '2025-05-15 15:17:49', '2025-05-17 16:37:59'),
-(13, 2, 'Regular', '2025-05-17 22:45:25', '2025-05-17 23:10:21'),
-(14, 2, 'Special', '2025-05-17 22:45:40', '2025-05-17 23:10:28'),
-(15, 2, 'Executive', '2025-05-17 23:10:36', '2025-05-17 23:10:36'),
-(16, 2, 'Plant Based', '2025-05-17 23:10:45', '2025-05-17 23:10:45'),
-(17, 2, 'On The Spot', '2025-05-17 23:10:52', '2025-05-17 23:10:52'),
-(18, 2, 'Salad', '2025-05-17 23:10:57', '2025-05-17 23:10:57'),
-(19, 2, 'Rice', '2025-05-17 23:11:00', '2025-05-17 23:11:00'),
-(20, 2, 'Free Soup', '2025-05-17 23:11:06', '2025-05-17 23:11:06'),
-(21, 2, 'Desserts', '2025-05-17 23:11:15', '2025-05-17 23:11:15'),
-(22, 2, 'Delicacies', '2025-05-17 23:11:20', '2025-05-17 23:11:20'),
-(23, 2, 'Pinoy Favorite Mainstay', '2025-05-17 23:11:30', '2025-05-17 23:11:30'),
-(29, 3, 'Pasta', '2025-05-18 08:31:42', '2025-05-18 08:31:42'),
-(30, 3, 'Noodles', '2025-05-18 08:31:45', '2025-05-18 08:31:55'),
-(31, 3, 'Porridge', '2025-05-18 08:32:05', '2025-05-18 08:32:05'),
-(32, 3, 'Pinoy Favorites Mainstay', '2025-05-18 08:32:18', '2025-05-18 08:32:18'),
-(33, 3, 'Pinoy Favorites', '2025-05-18 08:32:20', '2025-05-18 08:32:20'),
-(34, 3, 'Kalye Uno', '2025-05-18 08:32:27', '2025-05-18 08:32:27'),
-(35, 3, 'Bakeshop', '2025-05-18 08:32:31', '2025-05-18 08:32:31'),
-(36, 4, 'Regular', '2025-05-18 08:38:09', '2025-05-18 08:38:09'),
-(37, 4, 'Special', '2025-05-18 08:38:13', '2025-05-18 08:38:13'),
-(38, 4, 'Plant Based', '2025-05-18 08:38:17', '2025-05-18 08:38:17'),
-(39, 4, 'Salad', '2025-05-18 08:38:20', '2025-05-18 08:38:20'),
-(40, 4, 'Rice', '2025-05-18 08:38:23', '2025-05-18 08:38:23'),
-(41, 4, 'Free Soup', '2025-05-18 08:38:29', '2025-05-18 08:38:29'),
-(42, 4, 'Desserts', '2025-05-18 08:38:33', '2025-05-18 08:38:33'),
-(43, 4, 'Delicacies', '2025-05-18 08:38:38', '2025-05-18 08:38:38'),
-(44, 5, 'Regular', '2025-05-18 08:42:57', '2025-05-18 08:42:57'),
-(45, 5, 'Special', '2025-05-18 08:43:02', '2025-05-18 08:43:02'),
-(46, 5, 'Executive', '2025-05-18 08:43:07', '2025-05-18 08:43:07'),
-(47, 5, 'Plant Based', '2025-05-18 08:43:12', '2025-05-18 08:43:12'),
-(48, 5, 'Salad', '2025-05-18 08:43:15', '2025-05-18 08:43:15'),
-(49, 5, 'Rice', '2025-05-18 08:43:17', '2025-05-18 08:43:17'),
-(50, 5, 'Free Soup', '2025-05-18 08:43:22', '2025-05-18 08:43:22'),
-(51, 5, 'Desserts', '2025-05-18 08:43:25', '2025-05-18 08:43:25'),
-(52, 5, 'Delicacies', '2025-05-18 08:43:29', '2025-05-18 08:43:29'),
-(53, 5, 'Pinoy Favorite Mainstay', '2025-05-18 08:43:45', '2025-05-18 08:43:45'),
-(54, 6, 'Pasta', '2025-05-18 08:49:34', '2025-05-18 08:49:34'),
-(55, 6, 'Noodles', '2025-05-18 08:49:37', '2025-05-18 08:49:37'),
-(56, 6, 'Pinoy Favorites Mainstay', '2025-05-18 08:49:46', '2025-05-18 08:49:46'),
-(57, 6, 'Pinoy Favorites', '2025-05-18 08:49:49', '2025-05-18 08:49:49');
+INSERT INTO `menu_categories` (`id`, `category`, `created_at`, `updated_at`) VALUES
+(1, 'Regular', '2025-05-19 07:44:16', '2025-05-19 08:24:39'),
+(2, 'Plant Based', '2025-05-19 07:46:02', '2025-05-19 07:46:02'),
+(5, 'Cold Cuts', '2025-05-19 07:53:49', '2025-05-19 07:53:49'),
+(6, 'Canned Goods', '2025-05-19 07:53:55', '2025-05-19 07:53:55'),
+(7, 'Eggs', '2025-05-19 07:53:59', '2025-05-19 07:53:59'),
+(8, 'On The Spot', '2025-05-19 07:54:04', '2025-05-19 07:54:04'),
+(9, 'Salad', '2025-05-19 07:54:09', '2025-05-19 07:54:09'),
+(10, 'Rice', '2025-05-19 07:54:13', '2025-05-19 07:54:13'),
+(11, 'Free Soup', '2025-05-19 07:54:18', '2025-05-19 07:54:18'),
+(12, 'Desserts', '2025-05-19 07:54:23', '2025-05-19 07:54:23'),
+(13, 'Delicacies', '2025-05-19 07:54:27', '2025-05-19 07:54:27'),
+(14, 'Bakeshop', '2025-05-19 07:54:35', '2025-05-19 07:54:35'),
+(15, 'Special', '2025-05-19 07:54:43', '2025-05-19 07:54:43'),
+(16, 'Executive', '2025-05-19 07:54:48', '2025-05-19 07:54:48'),
+(17, 'Pinoy Favorite Mainstay', '2025-05-19 07:57:05', '2025-05-19 15:59:29'),
+(18, 'Pasta', '2025-05-19 07:57:29', '2025-05-19 07:57:29'),
+(19, 'Noodles', '2025-05-19 07:57:32', '2025-05-19 07:57:32'),
+(20, 'Porridge', '2025-05-19 07:57:36', '2025-05-19 07:57:36'),
+(21, 'Pinoy Favorites', '2025-05-19 07:58:15', '2025-05-19 07:58:15'),
+(22, 'Kalye Uno', '2025-05-19 07:58:58', '2025-05-19 07:58:58');
 
 -- --------------------------------------------------------
 
@@ -1290,10 +1257,10 @@ INSERT INTO `menu_categories` (`id`, `shift_id`, `category`, `created_at`, `upda
 
 CREATE TABLE `menu_dishes` (
   `id` varchar(20) NOT NULL,
-  `menu_id` varchar(20) DEFAULT NULL,
+  `menu_to_dish_tag` varchar(255) NOT NULL,
+  `dish_code` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `odoo_name` varchar(255) NOT NULL,
-  `category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
   `unit_cost` double NOT NULL DEFAULT 0,
   `production` enum('Commis','Commis Cooked','On Site') NOT NULL,
   `status` enum('Active','Discontinued') NOT NULL DEFAULT 'Active',
@@ -1305,368 +1272,10 @@ CREATE TABLE `menu_dishes` (
 -- Dumping data for table `menu_dishes`
 --
 
-INSERT INTO `menu_dishes` (`id`, `menu_id`, `name`, `odoo_name`, `category_id`, `unit_cost`, `production`, `status`, `created_at`, `updated_at`) VALUES
-('01pmDEhZIHgkkUBIDoyA', 'JoVYhGkhMEJ1D6ecdqg8', 'Salad', 'CMC 3 Vegetables Regular : Ensaladang Labanos', 5, 12.98, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('0j6vlwN7aSC2dGLwDKqz', 'fi1KFSbrXq4tXIGToLyM', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Patola', 2, 10.63, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('0kHpPojlSFZpUNn1eU0g', 'dgvm2369GPnC3GFveBvz', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('0X8dC1xhhO8NTqaJWStb', 'eGJmJMai30b8eIXrKwTv', 'Dessert', 'Almond Jelly', 14, 16.3, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('127pbSKIPeZbNOpqBK8a', 'JOodb2wozWR6nZblQ2Dv', 'Salad', 'CMC 3 Vegetables Regular : Ensaladang Camote Tops', 5, 13.87, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('1DaO5zbedFmyWHYSlz67', '7ssOzWtm2AnIrKQXxrWd', 'Freshly Baked Breads', ' CMC BS : Pandesal ', 14, 2.49, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('1lZsuqRntmvRRMhKLELM', 'gFRfKNjtTFTrgBocJOqu', 'Pork Special', 'CMC 3 Pork Special : Pork Bicol Express', 3, 31, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('1mtTO5SFl8TlKbLQ3kQe', 'JoVYhGkhMEJ1D6ecdqg8', 'Cold Cuts', 'Fried Sweet Ham (2 Pcs)', 1, 13.01, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('1pRozcpyGcAkZ9PzNwfb', 'JOodb2wozWR6nZblQ2Dv', 'Canned Goods', 'Fried Spam', 1, 31.3, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('24YV33r6guY393EFxSIH', 'JoVYhGkhMEJ1D6ecdqg8', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('2casXHrhLASwfj56neT8', 'iYqp30ARkjoaTxtX4tsV', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Kalabasa At Sitaw', 2, 12.31, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('2lfUG8fWkbP0eP6ovJ6O', 'dgvm2369GPnC3GFveBvz', 'Pork Regular', 'CMC 3 Pork Regular : Pork Menudillo', 2, 26.27, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('2Qk9XjohMJNzYGGdYmuz', 'BUuDvkbONCbBbl0TksXB', 'Egg', 'Scrambled Egg W/ Ham', 1, 16.71, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('2wxPVA17knZicReHJ93R', 'tVZtRnn2KxjOPLc15aBZ', 'Seafood Special', 'CMC 3 Seafoods Special : Fish Fillet w/ Tofu & Black Beans Sauce', 1, 32.83, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('3LHyE9IfGSJqtHq13mMK', 'fD1vs3TASulIcnoduH95', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('3N6HbhS0xlrsFpQq0d98', 'gFRfKNjtTFTrgBocJOqu', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('3pezWatCCznTbKBY9mZu', 'fD1vs3TASulIcnoduH95', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('3qgTUD5VI6GehhGMDJLm', 'dgvm2369GPnC3GFveBvz', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('3rp7GQNXadklLljQF8D6', 'tVZtRnn2KxjOPLc15aBZ', 'Delicacies', 'Nilupak', 14, 5.55, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('3SGE6oxVnFINS76n9Eas', 'fD1vs3TASulIcnoduH95', 'Pork Regular', 'CMC 3 Pork Regular : Pork Meatballs w/ Sweet & Sour Sauce', 3, 27.36, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('3wB6KyiULLZaLeuk7p4r', 'BUuDvkbONCbBbl0TksXB', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('3Y6wRq7d2PBsnZGz2Gw7', 'R3zTKW8DNmK4oeqpm3is', 'Free Soup', 'Miswa Soup', 7, 1.64, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('3YZMdUGcGeeN8wQRC1lM', 'JoVYhGkhMEJ1D6ecdqg8', 'Plant Based', 'CMC 3 Plant Based : Corned Beef', 2, 35, 'Commis Cooked', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('429a89QToPlGSBAqqVqG', 'fD1vs3TASulIcnoduH95', 'Egg', 'Scrambled Egg W/ Potato', 1, 9.19, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('4AjdLsLHzvZXeqPwNSbS', 'tVZtRnn2KxjOPLc15aBZ', 'Flavored Rice', 'Yang Chow Fried Rice', 14, 8.51, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('4BVCUyMhY88SnxtE4abi', 'tVZtRnn2KxjOPLc15aBZ', 'Plant Based', 'CMC 3 Plant Based : Meatballs Teriyaki', 2, 35, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('4faZWStCyy1kniE7Lw3v', 'dgvm2369GPnC3GFveBvz', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('4HZMCVUou4BIZhXORgAq', 'tVZtRnn2KxjOPLc15aBZ', 'Beef Executive', 'CMC 3 Beef Executive : Beef Caldereta w/ Black Olives', 3, 48.5, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('4iRZc55aGXKie8Cz1tNB', 'tVZtRnn2KxjOPLc15aBZ', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('4jvhOvtOkDIDGiWdoCQm', 'fi1KFSbrXq4tXIGToLyM', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('4WGRqrqhHmpVzLZFisCC', 'fi1KFSbrXq4tXIGToLyM', 'Seafood Regular', 'CMC 3 Seafoods Regular : Kinamatisang Hiwas', 2, 19.57, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('57wu0Jxh5oppW0m9rfge', 'R3zTKW8DNmK4oeqpm3is', 'Delicacies', 'CMC BS : Biko', 14, 12.31, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('5dY6fZw8Dd30dx6MB2bJ', 'iYqp30ARkjoaTxtX4tsV', 'Dessert', 'CMC BS : Fruit Salad', 14, 0, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('61f7FdAS9IYunPlTyFLN', 'eGJmJMai30b8eIXrKwTv', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Monggo w/ Ampalaya Leaves', 7, 10.13, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('6a1KmkJ7mMDf01OuegPQ', 'iYqp30ARkjoaTxtX4tsV', 'Pork Regular', 'CMC 3 Pork Regular : Pork Kilawin', 2, 16.15, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('6hOornWohwClCG106kmv', 'fwy0nczdnbPHTRK28OcS', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('6IfycpZW9nLAbGqp0waZ', 'eGJmJMai30b8eIXrKwTv', 'Delicacies', 'Camote Butchi', 14, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('6QuIe3fM6NBOwyAaygI0', 'blF0vfec3Ztu4AHEaoLa', 'Delicacies', 'CMC BS : Biko', 14, 12.31, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('6t9ur77CN4kBFVRvNHYm', 'eGJmJMai30b8eIXrKwTv', 'Chicken Regular', 'CMC 3 Chicken Regular : Sinampalukang Manok', 7, 24.48, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('6WPf9SoZIWvYtHR6VpLX', 'BUuDvkbONCbBbl0TksXB', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('79Alt8tK54yCoYzR0uCl', 'dgvm2369GPnC3GFveBvz', 'Delicacies', 'CMC BS : Maja Ube', 14, 13.42, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('7Ncii549wZA7vgRK6aMr', 'dgvm2369GPnC3GFveBvz', 'Delicacies', 'Bibingka Bigas', 14, 0, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('7P4VtFtyvBMbmuziQWH8', 'iYqp30ARkjoaTxtX4tsV', 'Pork Special', 'CMC 3 Pork Special : Pork Nilaingan', 3, 33.17, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('7rAziybqSZXpFLFu9fpW', 'tVZtRnn2KxjOPLc15aBZ', 'Dessert', ' CMC BS : Leche Flan ', 14, 11.67, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('7UsCl8mhFulzvacRDKNY', '7ssOzWtm2AnIrKQXxrWd', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Sardines w/ Papaya', 2, 10.4, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('7vLKnizPK5RVwPjfxByL', 'JOodb2wozWR6nZblQ2Dv', 'Pork Regular', 'CMC 3 Pork Regular : Tokwat Baboy', 2, 23.51, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('7VNb078TKOEFQ4wVrl5Q', 'eGJmJMai30b8eIXrKwTv', 'Chicken Executive', 'CMC 3 Chicken Executive : Chicken Breast w/ Caper Cream Sauce', 17, 38.06, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('8hBMmGDse0ARcnIIVWE9', 'gFRfKNjtTFTrgBocJOqu', 'Vegetable Executive', 'CMC 3 Vegetables Special : Chopsuey w/ Quail Egg', 2, 17.45, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('8jS0N2kiN11YlmsFqRum', 'JOodb2wozWR6nZblQ2Dv', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('8jY6fkG3VWCpMViZztdP', 'BUuDvkbONCbBbl0TksXB', 'Cold Cuts', 'Frank Further', 1, 50.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('8K3UYR1U26RPlI8LFHbk', 'dgvm2369GPnC3GFveBvz', 'Free Soup', 'Sinigang Soup', 7, 79.92, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('8oaSKkHmg4D8x4slMK9L', 'JoVYhGkhMEJ1D6ecdqg8', 'Egg', 'Scrambled Egg W/ Hotdog', 1, 13.09, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('8SmUyECm7JSsQztGlzie', 'fi1KFSbrXq4tXIGToLyM', 'On The Spot', 'Pork', 14, 26.98, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('8vBjeOGzgwSqCVTKkLkM', 'R3zTKW8DNmK4oeqpm3is', 'Seafood Regular', 'CMC 3 Seafoods Regular : Escabecheng Hasa-Hasa', 3, 24.83, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('975qr4uFu34MadssGsQU', 'tVZtRnn2KxjOPLc15aBZ', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Kalabasa At Sayote', 2, 8.47, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('98okhN0stkWqnSF5jANV', 'fD1vs3TASulIcnoduH95', 'Delicacies', 'Bibingka Bigas', 14, 0, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('99JA1NgF5tkeJQL3lXZR', 'tVZtRnn2KxjOPLc15aBZ', 'Chicken Special', 'CMC 3 Chicken Special : Chicken Marengo', 11, 25.29, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('9CCgyC8T6rFEnWqAJT5T', 'fD1vs3TASulIcnoduH95', 'Canned Goods', 'CMC 3 Coldcuts : Luncheon Meat', 1, 16.15, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('9nck5DS0V44Tq7SH859w', 'eGJmJMai30b8eIXrKwTv', 'Vegetable Special', 'CMC 3 Vegetables Regular : Ginataang Kalabasa At Malunggay', 16, 13.81, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('9P11Nx7Mgq00KGahHoFd', 'fD1vs3TASulIcnoduH95', 'Freshly Baked Breads', 'CMC BS: Malunggay Pandesal', 13, 3.18, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('9QL1mzVVtrX6yHYk7clo', 'JoVYhGkhMEJ1D6ecdqg8', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('9RmueObxe0SOraHZ9JfU', 'JOodb2wozWR6nZblQ2Dv', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Torta', 1, 16.37, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('9Z9FZuIpFijb3D2RhnG5', 'tVZtRnn2KxjOPLc15aBZ', 'Delicacies', ' CMC BS : Pichi Pichi ', 14, 10.5, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('AgJw90QS6TWdKWlkMpwD', 'dgvm2369GPnC3GFveBvz', 'Freshly Baked Breads', 'CMC BS: Malunggay Pandesal', 14, 3.18, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('akDT76NRKbFHjjE4Dy0a', 'JOodb2wozWR6nZblQ2Dv', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('AkJvEXNfWDzRtLPtUwBt', 'gFRfKNjtTFTrgBocJOqu', 'Dessert', 'CMC BS : Fruit Tart', 14, 7.04, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('aP072Db5VyBZYZl3E22J', 'R3zTKW8DNmK4oeqpm3is', 'Chicken Regular', 'CMC 3 Chicken Regular : Giniling Na Manok w/ Potato', 2, 14.82, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ARpnSvfphmueqhs5pSkE', 'gFRfKNjtTFTrgBocJOqu', 'Vegetable Special', 'CMC 3 Vegetables Regular : Ginataang Kalabasa At Sitaw', 2, 13.89, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('AUm7TOkOflHxWeioRvG7', 'tVZtRnn2KxjOPLc15aBZ', 'Plant Based', 'CMC 3 Plant Based : Meatballs W/ Sweet & Sour Sauce', 2, 35, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('AZceeAxn7DYKGjawzs98', 'eGJmJMai30b8eIXrKwTv', 'Beef Special', 'CMC 3 Beef Executive : Beef Kare-Kare', 3, 42.32, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('B0ZWwPYNVtd9LmtzjgwT', 'blF0vfec3Ztu4AHEaoLa', 'Vegetable Executive', 'CMC 3 Vegetables Special : Herbed Roasted Vegetabless', 11, 16.26, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('b47ByPR10hGM49bfictj', 'fwy0nczdnbPHTRK28OcS', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Papaya', 2, 7.24, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('b8TAOJub9ER6H0SvVlLm', 'JOodb2wozWR6nZblQ2Dv', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('bckO6pITtNbMExZ6tN0g', 'BUuDvkbONCbBbl0TksXB', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('bDCbVPBCKsANUh7iBfZW', 'R3zTKW8DNmK4oeqpm3is', 'Chicken Special', 'CMC 3 Chicken Special : Baked Chicken w/ Marinara Sauce', 13, 27.36, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('bgmEZMUxNljrIXlsZ6pr', 'fwy0nczdnbPHTRK28OcS', 'Chicken Regular', 'CMC 3 Coldcuts : Fried Chicken Nuggets', 1, 8.6, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('BHNn193kLM3H9NfDDVaA', 'blF0vfec3Ztu4AHEaoLa', 'Salad', 'Tossed Mixed Greens w/ Roasted Sesame Dressing', 5, 33.5, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('BjS1DsVIkACYI2G6qjKp', 'iYqp30ARkjoaTxtX4tsV', 'On The Spot', 'Beef', 14, 35.31, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('BKIcwHoPMtu7MbXkJevC', 'gFRfKNjtTFTrgBocJOqu', 'Delicacies', 'Bibingka Bigas', 14, 0, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('bMBsfloYMqFSyeMTBR9z', 'JOodb2wozWR6nZblQ2Dv', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Ampalaya', 2, 14.25, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('bmRWkL55y9yU6RLgDEq8', 'tVZtRnn2KxjOPLc15aBZ', 'On The Spot', 'Monggolian Rice', 9, 0, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('bNDM23yTLQleTGxXf1JF', 'blF0vfec3Ztu4AHEaoLa', 'Dessert', 'CMC 3 Vegetables Special : Potato Salad', 14, 17.74, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('bo4VKgE9hpuMWWMPAMKI', 'JoVYhGkhMEJ1D6ecdqg8', 'On The Spot', 'Vegetable Omelette', 1, 12.9, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('brCf8ObME28PnUBisnO0', 'JoVYhGkhMEJ1D6ecdqg8', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('brCywAAK8Fh0WPMcIh0k', 'R3zTKW8DNmK4oeqpm3is', 'On The Spot', 'Pork', 14, 16.05, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('bzMg01gncKkgoogXnq3l', '7ssOzWtm2AnIrKQXxrWd', 'Cold Cuts', 'Fried Ham', 1, 13.01, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('c0QMc4KIjhd55JLutFQR', 'fi1KFSbrXq4tXIGToLyM', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Humba', 3, 22.78, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('C8wx7T6Oii0uwaTmZ8Aj', 'BUuDvkbONCbBbl0TksXB', 'Delicacies', ' CMC BS : Pichi Pichi ', 14, 10.5, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('CCpch4DMt7Lbvb79iAIz', 'tVZtRnn2KxjOPLc15aBZ', 'Delicacies', ' CMC BS : Kutsinta ', 14, 3.04, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('CFx0ya82FBjKZgbWFkeY', '7ssOzWtm2AnIrKQXxrWd', 'Cold Cuts', 'Hotdog Sautee', 2, 11.23, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('CJm8C9tNm6oGDoXbL9Pj', 'gFRfKNjtTFTrgBocJOqu', 'Dessert', 'Almond Jelly', 14, 16.3, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('cKf1hI9OHdFDo3GYiZtq', 'iYqp30ARkjoaTxtX4tsV', 'Vegetable Executive', 'CMC 3 Vegetables Special : Sauteed Broccoli & Carrots', 2, 21.25, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ClPmhiNvu2MwDzQe5b5S', 'iYqp30ARkjoaTxtX4tsV', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('cmFKdQeV7MvdcAIkbXBB', 'gFRfKNjtTFTrgBocJOqu', 'Dessert', 'CMC BS : Mango Pannacotta', 14, 19.95, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('CmMW7eMaNoZIjzbGcTyC', 'JoVYhGkhMEJ1D6ecdqg8', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('CR9SigHHar28EwV687rI', 'JOodb2wozWR6nZblQ2Dv', 'Delicacies', ' CMC BS : Kutsinta ', 14, 3.04, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('CtXt5pK9KyykUJcSni7N', '7ssOzWtm2AnIrKQXxrWd', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Tapa', 2, 23.32, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('cUIsGDMcnF9KihGVStgA', 'JOodb2wozWR6nZblQ2Dv', 'Cold Cuts', 'CMC 3 Coldcuts : Fried Cheesedog', 1, 19.96, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('CVbhhZCMtp6TUGjFGLd8', 'tVZtRnn2KxjOPLc15aBZ', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('d2jofOKVcMst1P3Du9y5', 'eGJmJMai30b8eIXrKwTv', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('d4ilI5FlbA1sUz2BFBEX', 'fD1vs3TASulIcnoduH95', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('dDNaWW63Zdhr1xQJlaM2', 'blF0vfec3Ztu4AHEaoLa', 'Seafood Regular', 'CMC 3 Seafoods Regular : Fried Galunggong', 1, 20.37, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('DEhbpHeQWMYhYW3mLpR3', 'JoVYhGkhMEJ1D6ecdqg8', 'Free Soup', 'Vegetable Soup', 7, 4.19, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('deP1ddrzBSArC6ZOQPka', '7ssOzWtm2AnIrKQXxrWd', 'Delicacies', 'CMC BS : Biko', 14, 12.31, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('Df31usKiXbG3s0BhD8yt', '7ssOzWtm2AnIrKQXxrWd', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('Df9qqzJJyCZcUSHVz75Y', 'gFRfKNjtTFTrgBocJOqu', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('DisKSTJVVRNOIEQbrkOy', 'BUuDvkbONCbBbl0TksXB', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('dJOzTbAwTrMvAnslKbnZ', '7ssOzWtm2AnIrKQXxrWd', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('dM1I6i9ppksJZUj2cN3l', 'fD1vs3TASulIcnoduH95', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('DMKzjTt1AbQtx6ttu1TV', 'JoVYhGkhMEJ1D6ecdqg8', 'Canned Goods', 'CMC 3 Coldcuts : Fried Vienna Sausage', 15, 16.45, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('dmWCWl9fak4s3YAnmD1g', 'BUuDvkbONCbBbl0TksXB', 'Canned Goods', 'Fried Spam', 1, 31.3, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('DOFPUAA4dBOEjB5QfFhH', 'JoVYhGkhMEJ1D6ecdqg8', 'Cold Cuts', 'Fried Cocktail Hotdog', 1, 19.39, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('DpDtoQ0YmCEUe3YGSE32', 'iYqp30ARkjoaTxtX4tsV', 'Seafood Regular', 'CMC 3 Seafoods Regular : Paksiw Na Hasa-Hasa', 7, 21.22, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('DQJTGxQOWgm1rFTdJyVG', 'fwy0nczdnbPHTRK28OcS', 'Freshly Baked Breads', ' CMC BS : Ube Pandesal ', 14, 10.67, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('DriQD9Pmq3agcUMcgP1s', '7ssOzWtm2AnIrKQXxrWd', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('DtWkTAENpdVDsrRpY47z', 'fi1KFSbrXq4tXIGToLyM', 'On The Spot', 'Chicken', 14, 24.71, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('dukPN6pnW7fjSpBCZf50', 'eGJmJMai30b8eIXrKwTv', 'Pork Executive', 'CMC 3 Pork Executive : Caribbean Pork Stew', 3, 32.34, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('DVIPHv0Tuhj4devsV61v', 'blF0vfec3Ztu4AHEaoLa', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('dWoF6u5DxZPEXBkAvHpI', 'iYqp30ARkjoaTxtX4tsV', 'Plant Based', 'CMC 3 Plant Based : Salisburry Steak', 14, 35, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('DY36om9mdcHKPiEbAGqB', 'BUuDvkbONCbBbl0TksXB', 'Seafood Regular', 'CMC 3 Seafoods Regular : Sarciadong Hasa-Hasa', 3, 25.01, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('DzZVV2RUbE0EP8LuYaEM', 'iYqp30ARkjoaTxtX4tsV', 'Plant Based', 'CMC 3 Plant Based : Meat Afritada', 14, 35, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('E5BEfCotowmQrxeU87vi', 'fwy0nczdnbPHTRK28OcS', 'Seafood Regular', 'CMC 3 Seafoods Regular : Fried Hiwas', 1, 18.28, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('E6ZA22N15erkQgpkwSL8', 'gFRfKNjtTFTrgBocJOqu', 'Free Soup', 'Sinigang Soup', 7, 79.92, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('e9GPMz2OyEzZLkK43NYz', 'iYqp30ARkjoaTxtX4tsV', 'On The Spot', 'Monggolian Rice', 9, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('eAZGIrpiFpOev9WrRYXF', 'eGJmJMai30b8eIXrKwTv', 'Seafood Regular', 'CMC 3 Seafoods Regular : Fried Hasa-hasa', 1, 21.08, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('EEA12VMXrrmGwtxcqmWA', 'gFRfKNjtTFTrgBocJOqu', 'Pork Executive', 'CMC 3 Pork Executive : Orange Spiced Pork Loin', 3, 43.5, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('EF4GsIKvVf4qKyBIJnbd', 'blF0vfec3Ztu4AHEaoLa', 'Vegetable Special', 'CMC 3 Vegetables Special : Diningding', 2, 16.04, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Eiq9TV7hmnngiIEpjmFi', 'fwy0nczdnbPHTRK28OcS', 'Delicacies', 'Palitaw w/ Latik', 15, 10.35, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('eIVckb1QDNE60DKVAj47', 'eGJmJMai30b8eIXrKwTv', 'Seafood Special', 'CMC 3 Seafoods Special : Binusog Na Tilapia', 3, 32.59, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('eqlXPnAVjl6lZmEAfAZC', 'gFRfKNjtTFTrgBocJOqu', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('EsfgUR42kbYBrp4gPFdh', 'fi1KFSbrXq4tXIGToLyM', 'On The Spot', 'Beef', 14, 35.31, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ETwmvFCTFdefTBK9aOVY', '7ssOzWtm2AnIrKQXxrWd', 'Pork Regular', 'CMC 3 Pork Regular : Pork Lumpiang Shanghai w/ sweer & sour sauce', 1, 22.89, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('EU9YFfzJ6WCslvGV7O9Z', 'iYqp30ARkjoaTxtX4tsV', 'Free Soup', 'Nilaga Soup', 7, 26.56, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('eURACYKhrSJ7Xob3MKnB', 'fi1KFSbrXq4tXIGToLyM', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('eUsz05Q7gGUf1rSLXDQa', 'tVZtRnn2KxjOPLc15aBZ', 'Chicken Executive', 'CMC 3 Chicken Executive : Chicken Stroganoff', 3, 32.82, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('eyeQQYgUZm09L2DYlu7x', 'fD1vs3TASulIcnoduH95', 'Seafood Regular', 'CMC 3 Seafoods Regular : Kinamatisang Mackerel', 2, 19.57, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('eyj5CMiIwWqHIVJRVrQS', 'R3zTKW8DNmK4oeqpm3is', 'Dessert', 'CMC BS : Buko Pandan', 14, 18.39, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('EYneuQNDIqBtl8YVzP7F', 'BUuDvkbONCbBbl0TksXB', 'Cold Cuts', 'Fried Jumbo Hotdog', 1, 14.19, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('f0KIsurVIvigQ6gxZnEm', 'dgvm2369GPnC3GFveBvz', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('F5esSxFUqSK7sG3OYNFy', 'fwy0nczdnbPHTRK28OcS', 'Free Soup', 'Tinola Soup', 7, 40.49, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('F6ERrvRX8kzPGIzMkq0B', 'blF0vfec3Ztu4AHEaoLa', 'Chicken Special', 'CMC 3 Chicken Special : Chicken Mechado', 3, 25.31, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('fbN6BVDM6RIfTNOIZIvU', 'eGJmJMai30b8eIXrKwTv', 'On The Spot', 'Sisig On The Spot', 9, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('fcG2neec6YVpZvzXVpWf', 'eGJmJMai30b8eIXrKwTv', 'Seafoods Executive', 'CMC 3 Seafoods Executive : Grilled Tuna w/ Mango Salsa', 18, 56, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('fiJttKLW4Jnj2hXJWtLH', 'dgvm2369GPnC3GFveBvz', 'Plant Based', 'CMC 3 Plant Based : Corned Beef', 2, 35, 'Commis Cooked', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('FsouQT62EH8VDvw4y3oz', 'tVZtRnn2KxjOPLc15aBZ', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Tinola', 7, 22.41, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('fUvzicXULktWZOuKlg3o', 'gFRfKNjtTFTrgBocJOqu', 'On The Spot', 'Pork', 14, 16.05, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('fVFFJFg0aEVD6YLrFDfY', 'iYqp30ARkjoaTxtX4tsV', 'On The Spot', 'Chicken', 14, 24.71, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('Fw8BofMc8CuYUT6m1QMx', 'gFRfKNjtTFTrgBocJOqu', 'Chicken Special', 'CMC 3 Chicken Special : Chicken Caldereta', 3, 24.21, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('FWlA04RLazqPlhDGkpAJ', 'BUuDvkbONCbBbl0TksXB', 'Pork Regular', 'CMC 3 Pork Regular : Pork Embutido', 8, 24.78, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('FXqdfbVxNqrb40vMpHK1', 'BUuDvkbONCbBbl0TksXB', 'Plant Based', 'CMC 3 Plant Based : Tapa', 2, 35, 'Commis Cooked', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('g0vUxPpS0yF4Ir7f54hZ', 'eGJmJMai30b8eIXrKwTv', 'Delicacies', 'Bibingka Bigas', 14, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('G6NmvMfHpfE0kugLZkn3', 'blF0vfec3Ztu4AHEaoLa', 'Delicacies', ' CMC BS : Sapin Sapin ', 14, 16.47, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('gBngKHOiZ59asJXNd5vy', 'fwy0nczdnbPHTRK28OcS', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('GGnZl6Rrw1YUbXJulTs3', 'gFRfKNjtTFTrgBocJOqu', 'On The Spot', 'Sisig On The Spot', 9, 0, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('GHgQrLsVGJLTJdsv6PLm', 'iYqp30ARkjoaTxtX4tsV', 'Flavored Rice', 'Adobo Rice', 14, 8.08, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('gJa2jFiSymRyGZoFCljy', 'dgvm2369GPnC3GFveBvz', 'On The Spot', 'Ham & Cheese Omelette', 1, 18.1, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('gjRXycg5MqiYPwRwhnrc', 'fwy0nczdnbPHTRK28OcS', 'Canned Goods', 'CMC 3 Beef Special : Corned Beef w/ Cabbage', 2, 25.89, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('gjTNWvfN0o6NUXmBnh51', 'gFRfKNjtTFTrgBocJOqu', 'Beef Executive', 'CMC 3 Beef Executive : Beef w/ Brocolli', 3, 39.74, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('goQXeKd9mmjL9cJgayYp', 'eGJmJMai30b8eIXrKwTv', 'On The Spot', 'Pork', 14, 16.05, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('GpnXmoAJoAF9X2Vhkf4f', 'fD1vs3TASulIcnoduH95', 'Chicken Regular', 'CMC 3 Chicken Regular : Fried Chicken w/ Gravy', 1, 21.76, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('grCGYQh9M5nntG4yXJjV', 'tVZtRnn2KxjOPLc15aBZ', 'On The Spot', 'Beef', 14, 35.31, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('grn1wBIRbLMgXkKApmS1', 'BUuDvkbONCbBbl0TksXB', 'Delicacies', ' CMC BS : Puto Ube ', 14, 0, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('gVutDYLJC22MyKSu6Iu5', 'fD1vs3TASulIcnoduH95', 'Cold Cuts', 'CMC 3 Coldcuts : Fried Hungarian Sausage', 1, 36.35, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('gWyrdymDDcenbqNu7eZg', 'R3zTKW8DNmK4oeqpm3is', 'Pork Regular', 'CMC 3 Pork Regular : Pork Bopiz', 2, 26.56, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('H3fsdoj5TmGv1LUMUFN8', 'iYqp30ARkjoaTxtX4tsV', 'Delicacies', ' CMC BS : Puto Ube ', 14, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('h7Bu76K0RYVLVDyGLwHU', 'gFRfKNjtTFTrgBocJOqu', 'Delicacies', 'CMC BS : Maja Ube', 14, 13.42, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('h9wbC4ZFMCeTWguEWHS7', 'blF0vfec3Ztu4AHEaoLa', 'Beef Special', 'CMC 3 Beef Special : Korean Beef Stew', 3, 35.36, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('hhItKABGhcS4dDI8Uii5', 'JOodb2wozWR6nZblQ2Dv', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('hLgMgjcpUp7ZlYuxqlDY', 'BUuDvkbONCbBbl0TksXB', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('hlZ5Ep267fTij9nUxAxY', 'gFRfKNjtTFTrgBocJOqu', 'Delicacies', 'Camote Butchi', 14, 0, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('hrwWHQXoaYVus3HyIGMR', 'blF0vfec3Ztu4AHEaoLa', 'Dessert', 'CMC BS :Buko Lychee', 14, 19.95, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('hWPfCb0tZOhaRy9OV4mP', 'tVZtRnn2KxjOPLc15aBZ', 'Salad', 'Caesar Salad', 5, 0, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('hxzrH3eAvyI2TplCOwVQ', 'fi1KFSbrXq4tXIGToLyM', 'Chicken Special', 'CMC 3 Chicken Special : Korean Chicken Stew', 3, 24, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('HYY69O6DAiiae0Jh9rvG', 'fi1KFSbrXq4tXIGToLyM', 'Dessert', 'CMC BS : Ube Macapuno Jelly', 14, 0, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('i8Bu9Teect844HvshDdY', 'JOodb2wozWR6nZblQ2Dv', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('I90rFQ4NU9tTxJ2rLFF3', 'blF0vfec3Ztu4AHEaoLa', 'On The Spot', 'Sisig On The Spot', 9, 0, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('IcRhFgCy4a41p8IgbxTH', 'dgvm2369GPnC3GFveBvz', 'Egg', 'Scrambled Egg W/ Potato', 1, 9.19, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('iCZlBrmB5bRkBMbTreuo', 'iYqp30ARkjoaTxtX4tsV', 'Dessert', 'Corn Jelly', 14, 13.95, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('iELm3CloThGmBFQmDDpy', 'JoVYhGkhMEJ1D6ecdqg8', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Meatloaf', 1, 18.51, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('iizB8z7db7gEnzrPIZRF', 'tVZtRnn2KxjOPLc15aBZ', 'Pork Executive', 'CMC 3 Pork Executive : Roast Pork Loin w/ Apple Sauce', 11, 37.08, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('imzJANk7Dte9OfJSMxSb', 'iYqp30ARkjoaTxtX4tsV', 'Beef Special', 'CMC 3 Beef Special : Beef Arroz Ala Cubana', 12, 33.7, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('iRsvlwYZHpgYleq6dmVR', 'gFRfKNjtTFTrgBocJOqu', 'Seafoods Executive', 'CMC 3 Seafoods Executive : Mixed Seafoods Marinara', 3, 33.12, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('ITfk5njCLvwSUnoefNYQ', 'JOodb2wozWR6nZblQ2Dv', 'Freshly Baked Breads', 'CMC BS: Malunggay Pandesal', 14, 3.18, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('iyAgrvgLetm2P9JEJLwh', 'gFRfKNjtTFTrgBocJOqu', 'Plant Based', 'CMC 3 Plant Based : Adobo Flakes ', 2, 35, 'Commis Cooked', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('IyDV6LTulyKo3kvLbZM7', 'R3zTKW8DNmK4oeqpm3is', 'Pork Executive', 'CMC 3 Pork Executive : Pork Ala Kieve', 13, 39.97, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('J53pYVq1YPgCIVzW7RHv', 'blF0vfec3Ztu4AHEaoLa', 'On The Spot', 'Chicken', 14, 19.99, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Jdo5of9pPw5dyHG3MVHz', 'dgvm2369GPnC3GFveBvz', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Carrots at Sayote', 2, 11.52, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('JeZPnWPXlasbXLRLqrWW', '7ssOzWtm2AnIrKQXxrWd', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('JML9y1dOJctDtBvp20kO', 'eGJmJMai30b8eIXrKwTv', 'Vegetable Executive', 'CMC 3 Vegetables Special : Roasted Zucchini & Carrots', 11, 15.37, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('jPmb9yVlUMxKNsTlosUK', 'gFRfKNjtTFTrgBocJOqu', 'Beef Special', 'CMC 3 Beef Special : Beef Curry', 3, 35.78, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Js4K2LtDHvqo9gFInLZm', 'fwy0nczdnbPHTRK28OcS', 'Cold Cuts', 'Chicken Hotdog', 1, 36.35, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('JsmHRARAmBMYLViT3BWk', 'dgvm2369GPnC3GFveBvz', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('K2k66v2WLc0bICuKDzuL', 'tVZtRnn2KxjOPLc15aBZ', 'Pork Special', 'CMC 3 Pork Special : Pork Kare-Kare', 3, 33.45, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('k4PlB9vb5LEX37AXN4hj', 'tVZtRnn2KxjOPLc15aBZ', 'Dessert', 'CMC BS : Buko Pandan', 14, 18.39, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('k62hIp1SO20BjH9JeJUs', 'JoVYhGkhMEJ1D6ecdqg8', 'Freshly Baked Breads', ' CMC BS : Ube Pandesal ', 14, 10.67, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('KcfKb1w6kGg9NZebyH0r', 'iYqp30ARkjoaTxtX4tsV', 'On The Spot', 'Pork', 14, 26.98, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('kd2jConmTtvQQmbHrIkj', 'iYqp30ARkjoaTxtX4tsV', 'Seafood Special', 'CMC 3 Seafoods Special : Sinanglay Na Tilapia', 3, 32.65, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('KEoYnfZHjoHAE0TIVjvo', 'fwy0nczdnbPHTRK28OcS', 'Pork Regular', 'CMC 3 Pork Regular : Pork Almondigas', 7, 25.12, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('KMd3WHj9aCYNY2qnueAu', 'R3zTKW8DNmK4oeqpm3is', 'Seafoods Executive', 'CMC 3 Seafoods Executive : Almond Crusted Fish Fillet', 13, 35.2, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('KXoGy5FCCRRBDsBM2Dyb', 'R3zTKW8DNmK4oeqpm3is', 'Chicken Executive', 'CMC 3 Chicken Executive : Chicken Flambe', 3, 38.21, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('KYb9BvbovZ1gvUpNW7F2', 'JOodb2wozWR6nZblQ2Dv', 'Canned Goods', 'CMC 3 Vegetables Regular : Gisadong Tuna w/ Cabbage', 3, 34.07, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('l0H1VbORGkrI4N766lX9', 'blF0vfec3Ztu4AHEaoLa', 'Pork Regular', 'CMC 3 Pork Regular : Pork Menudillo', 3, 26.27, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('L6tUQgLJ0YbvG3TSgMGO', 'BUuDvkbONCbBbl0TksXB', 'Freshly Baked Breads', ' CMC BS : Pandesal ', 13, 2.49, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('L7b7ZIil50PQWgPKMwXN', 'gFRfKNjtTFTrgBocJOqu', 'Flavored Rice', 'Vegetable Rice', 14, 3.08, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('L7g8M9ltMcM40XMy5af2', 'fD1vs3TASulIcnoduH95', 'Canned Goods', 'Gisadong Sardines W/ Miswa', 2, 16.86, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('l8C33vVDGVqIMDw6N5iS', 'R3zTKW8DNmK4oeqpm3is', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('LbHiN2fsQEpyJAxyIWrF', 'JOodb2wozWR6nZblQ2Dv', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('lckzrnzuZtQApF2WAUFA', 'R3zTKW8DNmK4oeqpm3is', 'Salad', 'Vegetable Salad', 14, 0, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('LdJ2EUEmrbpI2TqctisH', 'iYqp30ARkjoaTxtX4tsV', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('LJaaXpJCzT80wNZ2okHK', 'dgvm2369GPnC3GFveBvz', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('LJaqT84YRcnDZ2TFN08K', 'blF0vfec3Ztu4AHEaoLa', 'On The Spot', 'Bangus', 14, 21.67, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('LkIBVnGcGXxwW7bHjHxZ', 'tVZtRnn2KxjOPLc15aBZ', 'Pork Regular', 'CMC 3 Pork Regular : Pork Liver Steak', 3, 15.9, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('LP1bi0cPqvBwhhPMQaly', 'iYqp30ARkjoaTxtX4tsV', 'Dessert', 'CMC BS : Window Cathedral', 14, 11.18, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('lqZbHeJh2NX1fA3wz3mt', 'fwy0nczdnbPHTRK28OcS', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('lu7JWpvJPCzXoETJ5SyB', 'fD1vs3TASulIcnoduH95', 'Cold Cuts', 'CMC 3 Coldcuts : Fried German Franks', 1, 26.62, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('lYNqEMAK0GAo9z8qeJnv', 'BUuDvkbONCbBbl0TksXB', 'Egg', 'CMC 3 Egg : Poached Egg', 4, 7, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('mAVbSio60x5jFmIduGtd', 'tVZtRnn2KxjOPLc15aBZ', 'Free Soup', 'Tinola Soup', 7, 0, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('MbxKdAaRdTdHuU5Z92hl', 'R3zTKW8DNmK4oeqpm3is', 'On The Spot', 'Chicken', 14, 19.99, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('mcXnyEm7jetKWBLjtJz3', 'eGJmJMai30b8eIXrKwTv', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('mhpn1uU0zyj8dE0liKMY', 'gFRfKNjtTFTrgBocJOqu', 'On The Spot', 'Chicken', 14, 19.99, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('MIGgW2c02oLDHin7Ppjs', '7ssOzWtm2AnIrKQXxrWd', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('miz0S9H8ZohFBsgOk3IK', 'iYqp30ARkjoaTxtX4tsV', 'Seafoods Executive', 'CMC 3 Seafoods Executive : Tanigue Salpicao', 3, 54.09, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('MkADGnYtQBfqIZfSYRO1', 'blF0vfec3Ztu4AHEaoLa', 'On The Spot', 'Pork', 14, 16.05, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('mSQ2E8i8H6x0BDjNv2GC', 'eGJmJMai30b8eIXrKwTv', 'Delicacies', 'CMC BS : Maja Ube', 14, 13.42, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('mVn9SjswwFnr2EEEYhfo', 'eGJmJMai30b8eIXrKwTv', 'Pork Special', 'CMC 3 Pork Special : Roast Pork Hamonado', 11, 32.57, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('n3T9nxmIAUhv6VbM3mRg', 'BUuDvkbONCbBbl0TksXB', 'On The Spot', 'Mushroom Omelette', 1, 10.16, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('n6sHc7uFFbgI4pGUV3Im', 'gFRfKNjtTFTrgBocJOqu', 'Pork Regular', 'Place Holder', 7, 26.1, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('n7JB7zdroakSAQDNBhD2', 'fi1KFSbrXq4tXIGToLyM', 'Salad', 'Vegetable Salad', 14, 0, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('nH17vbU52diys7U2fPk4', 'iYqp30ARkjoaTxtX4tsV', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Embutido', 8, 18.97, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('Nw1IKDM8PZUytxVqwh9A', 'tVZtRnn2KxjOPLc15aBZ', 'Vegetable Special', 'CMC 3 Vegetables Special : Chopsuey', 9, 11.52, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('NxaEcdxzTjIjd6ylxyKH', 'fi1KFSbrXq4tXIGToLyM', 'Delicacies', ' CMC BS : Cassava Cake ', 14, 21.14, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('NXyJMTP0Qf8HJWoNoD9B', 'blF0vfec3Ztu4AHEaoLa', 'Chicken Executive', 'CMC 3 Chicken Executive : Iberian Roast Chicken', 3, 42.4, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('O1IgSqf2Puy02eKVo4xz', 'fD1vs3TASulIcnoduH95', 'Flavored Rice', 'Garlic Rice', 1, 4.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('O87Wdvw9xbGeuOZ0ulKz', 'JOodb2wozWR6nZblQ2Dv', 'Seafood Regular', 'CMC 3 Seafoods Regular : Pinangat Na Alumahan', 8, 20.29, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('OhqYmYQ8ewFRnXrmLs3P', 'iYqp30ARkjoaTxtX4tsV', 'Pork Executive', 'CMC 3 Pork Executive : Pork Roulade w/ Spinach & Bell Pepper', 11, 36.7, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('OijWuL5rLYr7uDwpQ7O1', 'fwy0nczdnbPHTRK28OcS', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('OiSABc7Wrt02MfdBQoHP', 'eGJmJMai30b8eIXrKwTv', 'Plant Based', 'CMC 3 Plant Based : Meatballs Caldereta', 14, 35, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('OJyty4UReUWzvFC90eC4', 'fD1vs3TASulIcnoduH95', 'Free Soup', 'Sinigang Soup', 7, 79.92, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('OL7heXBlwGcS29mLveBJ', 'JOodb2wozWR6nZblQ2Dv', 'Plant Based', 'CMC 3 Plant Based : Tapa', 2, 35, 'Commis Cooked', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('omv32gYq4W7vLdPOin8V', 'fi1KFSbrXq4tXIGToLyM', 'Free Soup', 'Tinola Soup', 7, 40.49, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('OScYTjZ90nwYQx666hCq', 'R3zTKW8DNmK4oeqpm3is', 'Dessert', ' CMC BS : Leche Flan ', 14, 11.67, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('OvxTTLtXMTEAGf0uO5xf', 'blF0vfec3Ztu4AHEaoLa', 'Beef Executive', 'CMC 3 Beef Executive : Beef Stroganoff', 3, 42.75, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('OzJ31fQBtGyHo9O2ljLn', 'tVZtRnn2KxjOPLc15aBZ', 'Dessert', 'CMC BS : Macaroni Salad', 5, 9.49, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('P0vkyfp8UTZIZIByzEyV', 'iYqp30ARkjoaTxtX4tsV', 'Chicken Special', 'CMC 3 Chicken Special : Chicken Pastel', 3, 24.44, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('p3TpxSBiprfX5q0Rfqsb', '7ssOzWtm2AnIrKQXxrWd', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('pMDAkWPzbGSvB2c77L3V', 'dgvm2369GPnC3GFveBvz', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('pnanZubk0jcYwFPlaEdz', 'blF0vfec3Ztu4AHEaoLa', 'Pork Special', 'Cmc 3 Pork Regular: Pork Afritada', 3, 32.98, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('pnj6ZdJtnPjGKuCHXEhl', 'iYqp30ARkjoaTxtX4tsV', 'Beef Executive', 'CMC 3 Beef Executive : Beef Rendang', 3, 40.77, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('qhiMCUVI6dQnnj3ni4Qb', 'JoVYhGkhMEJ1D6ecdqg8', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('QHy2D8A0WtWFhSeUq48Q', 'gFRfKNjtTFTrgBocJOqu', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Cabbage At Carrots', 2, 12.83, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('QNl2lcUuJwKJkFqH2q7b', 'tVZtRnn2KxjOPLc15aBZ', 'Beef Special', 'CMC 3 Beef Special : Beef Meatballs w/ Hungarian Sauce', 3, 32.89, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('QnNxzA1djvBbHPEaG789', 'blF0vfec3Ztu4AHEaoLa', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Papaya', 2, 7.24, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('QOJRrO6NAZljsebCDgvq', 'gFRfKNjtTFTrgBocJOqu', 'Seafood Special', 'CMC 3 Seafoods Special : Fish Fillet w/ Tofu & Black Beans Sauce', 8, 29.83, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('qqT36Czj2Qk25CDBe5QW', '7ssOzWtm2AnIrKQXxrWd', 'Egg', 'Scrambled Egg Malunggay', 1, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('QVMvER2HTuHkfDpmVOiE', 'fwy0nczdnbPHTRK28OcS', 'Delicacies', ' CMC BS : Cassava Cake ', 13, 21.14, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('QXC2ofatYIzflcYFsn5S', 'fD1vs3TASulIcnoduH95', 'Plant Based', 'CMC 3 Plant Based : Corned Beef', 2, 35, 'Commis Cooked', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('rA8sKWijOECWN7LF8yqt', 'tVZtRnn2KxjOPLc15aBZ', 'Seafood Regular', 'CMC 3 Seafoods Regular : Kinamatisang Alumahan', 3, 23.32, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Rbka5fnsrTQu4BC5Jsbj', 'eGJmJMai30b8eIXrKwTv', 'Dessert', 'CMC BS : Mango Pannacotta', 14, 19.95, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('Rej6hbAZVKjR1UMl6zOk', 'BUuDvkbONCbBbl0TksXB', 'Canned Goods', 'CMC 3 Pork Special : Fried Argentina Meatloaf', 1, 23, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('rfPdmPJv9wcNgcGjdyzo', 'JOodb2wozWR6nZblQ2Dv', 'Free Soup', 'Tinola Soup', 7, 0, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('RFVuHwxEF1y1ZqJFSSTX', 'JOodb2wozWR6nZblQ2Dv', 'Breakfast Mainstay', 'Breakfast Cereals (Kokokrunch, Corn Flakes, Fruit Loops)', 14, 16.84, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('rkmoeMhDqBGx8ZU0AUzw', 'fi1KFSbrXq4tXIGToLyM', 'Seafood Special', 'CMC 3 Seafoods Special : Garlic Hot Mixed Seafood', 9, 37.97, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('RmNhfi1iKiceDZSIHVtp', 'eGJmJMai30b8eIXrKwTv', 'Salad', 'CMC 3 Vegetables Special : Garden Salad w/ Balsamic Vinaigrette', 14, 29.58, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('rvKUG8rbdq8i1dKkPqgB', 'JoVYhGkhMEJ1D6ecdqg8', 'Pork Regular', 'CMC 3 Pork Regular : Pork Tapa', 2, 29.49, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('rXbjUQYEdmHoADwj7dqC', 'fi1KFSbrXq4tXIGToLyM', 'On The Spot', 'Monggolian Rice', 9, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('sFacnVTR7PoE04ZVXCea', 'fD1vs3TASulIcnoduH95', 'Salad', 'CMC 3 Vegetables Regular : Ensaladang Pinoy', 5, 11.11, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('sGgm11RutgKS4NHvyorG', 'tVZtRnn2KxjOPLc15aBZ', 'Seafoods Executive', 'CMC 3 Seafoods Special : Baked Fish Fillet w/ Lemon Butter Sauce', 1, 39.53, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('sGT2OVbfmzLG3MXljy42', 'blF0vfec3Ztu4AHEaoLa', 'Seafood Special', 'CMC 3 Seafoods Special : Escabecheng Local Salmon', 2, 30.81, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('si8mBVtEyaAekqdnPCm5', 'iYqp30ARkjoaTxtX4tsV', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('StuzrsokVl3vKYsVUkbu', '7ssOzWtm2AnIrKQXxrWd', 'Delicacies', 'CMC BS : Puto Pao', 14, 0, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('sy13ImVRNQOIR05hvSAl', 'blF0vfec3Ztu4AHEaoLa', 'Pinoy Favorite Mainstay', 'Fruit Cups', 14, 10.99, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('sYUoK9Io3ZN2cNdatxek', 'eGJmJMai30b8eIXrKwTv', 'On The Spot', 'Bangus', 14, 21.67, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('T3eBgoPd1vTV42Czab9V', '7ssOzWtm2AnIrKQXxrWd', 'Seafood Regular', 'CMC 3 Seafoods Regular : Paksiw Na Matambaka', 7, 24.74, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('T8qtZCL6v5QlVH4OVgUR', 'eGJmJMai30b8eIXrKwTv', 'Chicken Special', 'CMC 3 Chicken Special : Kung Pao Chicken', 3, 27.45, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('tA9KZ8EGwNnjU34RK02j', 'eGJmJMai30b8eIXrKwTv', 'Plant Based', 'CMC 3 Plant Based : Meatballs W/ Sweet & Sour Sauce', 14, 35, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('tapEB0aD9giY6uUyJMQD', 'dgvm2369GPnC3GFveBvz', 'Canned Goods', 'Gisadong Sardines W/ Miswa', 2, 16.86, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('TdyplkemlV0G5yLoQAwz', 'fi1KFSbrXq4tXIGToLyM', 'Dessert', 'CMC BS : Fruit Jello', 14, 12.92, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('TE7hXnnsMPcU1xoAAHZE', 'R3zTKW8DNmK4oeqpm3is', 'On The Spot', 'Sisig On The Spot', 9, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('tetAnW26WsbCxQPjNGsS', 'BUuDvkbONCbBbl0TksXB', 'Salad', 'CMC 3 Vegetables Special : Ensaladang Ampalaya', 5, 16.69, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('tj6ikA8wtflufwii2u0H', 'gFRfKNjtTFTrgBocJOqu', 'Salad', 'Vegetable Salad', 5, 0, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('tJYaQKmhKsl1ILYZGwG6', 'R3zTKW8DNmK4oeqpm3is', 'Seafood Special', 'CMC 3 Seafoods Special : Sinigang Na Bangus', 7, 23.94, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('TL70H3ebHdXyRpj5U3cE', 'blF0vfec3Ztu4AHEaoLa', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Asado', 3, 27.23, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('TPNjPZSPeAxt8DgYui6K', 'JoVYhGkhMEJ1D6ecdqg8', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Adobong Sitaw', 3, 11.35, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('tRMWy2Ref4LP9op1PHCV', 'dgvm2369GPnC3GFveBvz', 'Cold Cuts', 'CMC 3 Coldcuts : Fried German Franks', 1, 26.62, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('TTiZ8zlvXXznTLjpgDJG', 'R3zTKW8DNmK4oeqpm3is', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('TV3onEO2oQuM5tBisJkD', 'BUuDvkbONCbBbl0TksXB', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Upo', 2, 12.08, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('tZcS3MEMYimAgH2AZ4AZ', 'fwy0nczdnbPHTRK28OcS', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('U059QN2ZC6YuPJ6OkPSE', 'JoVYhGkhMEJ1D6ecdqg8', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('U1DTLRYV9b0JvMx9lHF0', 'R3zTKW8DNmK4oeqpm3is', 'On The Spot', 'Bangus', 14, 21.67, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('U4TN96r3La2LnXOER9tB', 'blF0vfec3Ztu4AHEaoLa', 'Free Soup', 'Vegetable Soup', 7, 4.19, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24');
-INSERT INTO `menu_dishes` (`id`, `menu_id`, `name`, `odoo_name`, `category_id`, `unit_cost`, `production`, `status`, `created_at`, `updated_at`) VALUES
-('U5GwSZORKSFMsBuKNNa9', 'gFRfKNjtTFTrgBocJOqu', 'Chicken Executive', 'CMC 3 Chicken Executive : Roast Chicken w/ Demi Glaze Sauce', 11, 29.16, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('U5XudFlRWpSc0PGOEd2Z', 'BUuDvkbONCbBbl0TksXB', 'Dessert', 'Banana', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('u7h6EXDnwZ1UD5hxHcWZ', 'fD1vs3TASulIcnoduH95', 'Egg', 'CMC 3 Egg : Fried Egg', 1, 7.81, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('uE1GbKM3Ax0NgdcSRAh0', 'iYqp30ARkjoaTxtX4tsV', 'Chicken Executive', 'CMC 3 Chicken Executive : Roast Chicken w/ Chimichurri Sauce', 11, 39.74, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('UGdZn1NeFUjk1Ig87h1I', 'fD1vs3TASulIcnoduH95', 'On The Spot', 'Ham & Cheese Omelette', 1, 18.1, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('ugjoXa9r6tQsPvtU22Fp', 'gFRfKNjtTFTrgBocJOqu', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Adobo', 3, 22.22, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('UjCaGme4eJNTMFxEByKw', 'R3zTKW8DNmK4oeqpm3is', 'Vegetable Special', 'CMC 3 Vegetables Special : Ginataang Sitaw', 2, 16.25, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('UkQlQnvIHJBN1cESCjrT', 'fD1vs3TASulIcnoduH95', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Sayote Picadillo', 2, 8.15, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('UnA1BYxS3TswyS2WRwKe', 'blF0vfec3Ztu4AHEaoLa', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('UqA9G4TVq8mSLkBmHCV9', 'fD1vs3TASulIcnoduH95', 'Delicacies', 'CMC BS : Maja Ube', 14, 13.42, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('URla3P8fOZCr8VRDQLXq', 'JoVYhGkhMEJ1D6ecdqg8', 'Canned Goods', 'CMC 3 Seafoods Regular : Sauteed Spanish Sardines', 2, 24.05, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('vAhIenSXHqBFHzj2hFTi', 'iYqp30ARkjoaTxtX4tsV', 'Delicacies', ' CMC BS : Pichi Pichi ', 14, 10.5, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('VaVyeONTOL4TMngJHb6v', 'dgvm2369GPnC3GFveBvz', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Tocino', 2, 23.69, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('VbnYLpT974XsKSfOccdp', 'gFRfKNjtTFTrgBocJOqu', 'Plant Based', 'CMC 3 Plant Based : Meat Ala King ', 2, 35, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('VGtiWienlc5zEC6njidf', 'tVZtRnn2KxjOPLc15aBZ', 'On The Spot', 'Chicken', 14, 24.71, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('VKPQs3RaGryA03EPHiK4', 'blF0vfec3Ztu4AHEaoLa', 'Plant Based', 'CMC 3 Plant Based : Bistek Tagalog', 14, 35, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Vqk6RL3V4t4HJV5a56eK', 'dgvm2369GPnC3GFveBvz', 'Cold Cuts', 'CMC 3 Coldcuts : Fried Hungarian Sausage', 1, 36.35, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('vsN2xOQv8jFicoh4Mw6O', 'iYqp30ARkjoaTxtX4tsV', 'Salad', 'Kani Mango Salad W/ Mango Dressing', 14, 26.95, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('VVn0ysUouUukUd0I5IZF', '7ssOzWtm2AnIrKQXxrWd', 'Free Soup', 'Miswa Soup', 7, 1.64, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('vYJiqNmScxGK1uCku44w', 'gFRfKNjtTFTrgBocJOqu', 'On The Spot', 'Bangus', 14, 21.67, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Vz1iBZkUKRFuX4xz0N3r', 'fwy0nczdnbPHTRK28OcS', 'Egg', 'Scrambled Egg W/ Tomato & Onion', 1, 13.39, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('vZResHtQh5qB1Fbyi7Bv', 'eGJmJMai30b8eIXrKwTv', 'Flavored Rice', 'Vegetable Rice', 14, 3.08, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('wc6baWjJAJYLSHiklCfm', '7ssOzWtm2AnIrKQXxrWd', 'On The Spot', 'Tuna & Bellpepper Omelette', 1, 22.85, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('wcw66AyHyZxIW1zImCcR', 'R3zTKW8DNmK4oeqpm3is', 'Delicacies', 'CMC BS : Puto Pao', 14, 0, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('WGcj0HNYyPQRMTC18GbP', 'JoVYhGkhMEJ1D6ecdqg8', 'Seafood Regular', 'CMC 3 Seafoods Regular : Fried Daing Na Galunggong', 1, 19.34, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('WIs8F08FAFNMUQzd3D7y', 'BUuDvkbONCbBbl0TksXB', 'Free Soup', 'Nilaga Soup', 7, 26.56, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('WJyweYrCvlNEdUcbhNRn', 'JoVYhGkhMEJ1D6ecdqg8', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('Wm8s5klICuRzbtg1MPED', 'JOodb2wozWR6nZblQ2Dv', 'Egg', 'Scrambled Egg w/ Cabbage', 1, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('wVhr9IK8dbwoOoeQTemN', 'eGJmJMai30b8eIXrKwTv', 'Beef Executive', 'CMC 3 Beef Executive : Beef Goulash', 3, 44.7, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('wYRzT9vM9RzYVClVVBAm', 'blF0vfec3Ztu4AHEaoLa', 'Plant Based', 'CMC 3 Plant Based : Meat Pastel', 14, 35, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('x0bnfDZfCa9hvmttvmxe', 'R3zTKW8DNmK4oeqpm3is', 'Flavored Rice', 'Egg Fried Rice', 14, 1.59, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('x6dIbrPhezUkLBFrKtf8', 'gFRfKNjtTFTrgBocJOqu', 'Seafood Regular', 'CMC 3 Seafoods Regular : Escabecheng Matambaka', 3, 24.39, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('x6sbSdjEtvDYl0xgoSdR', 'fD1vs3TASulIcnoduH95', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('XcBXa3TmUjTVSVwY4o1L', 'blF0vfec3Ztu4AHEaoLa', 'Seafoods Executive', 'CMC 3 Seafoods Executive : Buttered Shrimp', 9, 62.51, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('XHejzbGOhfErl6NDklvD', 'fwy0nczdnbPHTRK28OcS', 'Dessert', 'Apple', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('Xl7pqG1YS6wdvbic6ahd', 'fi1KFSbrXq4tXIGToLyM', 'Flavored Rice', 'Chao Fan Rice', 9, 2.96, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('XlkNagzrq6Gu3z7oD137', 'eGJmJMai30b8eIXrKwTv', 'Free Soup', 'Sinigang Soup', 7, 79.92, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('xRIrL3l6B8FWOrwkfs0F', 'blF0vfec3Ztu4AHEaoLa', 'Pork Executive', 'CMC 3 Pork Executive : Cajun Pork Chop', 3, 38.41, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('XsvzpsUxYQp7C5ys8UKr', 'JOodb2wozWR6nZblQ2Dv', 'Delicacies', 'Nilupak', 14, 5.55, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('XsY0RWdIloI9wwgLDZ6L', 'fwy0nczdnbPHTRK28OcS', 'On The Spot', 'Corned Beef Omelette', 1, 22.01, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('XXCsfESC8YpJG6tbxEVf', 'fi1KFSbrXq4tXIGToLyM', 'Delicacies', 'Palitaw w/ Latik', 14, 10.35, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('XYHPCr27pktuysY40Ryv', 'eGJmJMai30b8eIXrKwTv', 'On The Spot', 'Chicken', 14, 19.99, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('xyVsvR2afhir91G28y7H', 'dgvm2369GPnC3GFveBvz', 'Canned Goods', 'CMC 3 Coldcuts : Luncheon Meat', 1, 16.15, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('Y0wlaXRkjh1KlSTOdglX', 'eGJmJMai30b8eIXrKwTv', 'Dessert', 'CMC BS : Fruit Tart', 14, 7.04, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('Y0WzGU0tIZw66T7c7EHa', 'R3zTKW8DNmK4oeqpm3is', 'Vegetable Regular', 'CMC 3 Vegetables Regular : Gisadong Sitaw', 2, 11.15, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('YCVMkAx8mhq4keUtO6So', 'JoVYhGkhMEJ1D6ecdqg8', 'Delicacies', ' CMC BS : Sapin Sapin ', 14, 16.47, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('YDjeLvPGYIXALlpV34AJ', 'tVZtRnn2KxjOPLc15aBZ', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('YLhio7ECOTioMAf9qUrR', 'JoVYhGkhMEJ1D6ecdqg8', 'Delicacies', 'Camote Balls', 14, 19.38, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('YnCUFfuMkRXYPXpMXkCa', 'eGJmJMai30b8eIXrKwTv', 'Pinoy Favorite Mainstay', 'Saba Con Yelo w/ Sago', 14, 22.29, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('YNMGstGHSYAzKc82X944', 'blF0vfec3Ztu4AHEaoLa', 'Flavored Rice', 'Shawarma Rice', 14, 0, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('YQdCCUVCzzTF4rbc9hdT', 'JOodb2wozWR6nZblQ2Dv', 'On The Spot', 'Spanish Omelette', 1, 14.23, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('YSbrPnmlCuYCa9VNFA2r', 'dgvm2369GPnC3GFveBvz', 'Seafood Regular', 'CMC 3 Seafoods Regular : Adobong Galunggong', 3, 18.31, 'Commis', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('yzDG3zeQfFONolCqTV1f', 'BUuDvkbONCbBbl0TksXB', 'Chicken Regular', 'CMC 3 Chicken Regular : Chicken Shanghai w/ sweet chili sauce', 1, 17.73, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('YzrBf4Tw01hpL63n1I3M', 'blF0vfec3Ztu4AHEaoLa', 'Dessert', 'Mango Graham', 14, 24.56, 'On Site', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('z36tIFt8pBL5MymorTh3', 'R3zTKW8DNmK4oeqpm3is', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('z3o4qqikJGaZI9lwNAxJ', 'iYqp30ARkjoaTxtX4tsV', 'Vegetable Special', 'CMC 3 Vegetables Special : Ginataang Langka', 16, 16, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('zctN9nRr0JxYRry3JCUB', 'blF0vfec3Ztu4AHEaoLa', 'Delicacies', 'Camote Balls', 14, 19.38, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('ZEiDi6K7ylWlx8Ouxgdd', 'JOodb2wozWR6nZblQ2Dv', 'Cold Cuts', 'CMC 3 Coldcuts : Fried Bologna', 1, 21.91, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('zFalKMwJ8JZ2XjkJunkP', 'tVZtRnn2KxjOPLc15aBZ', 'On The Spot', 'Pork', 14, 26.98, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('Zfxhfi7NWdoVuJRP5yma', 'R3zTKW8DNmK4oeqpm3is', 'Pork Special', 'CMC 3 Pork Special : Pork Lechon Paksiw', 7, 33.96, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ZGWWOu2aIBEbFMiSE6tw', 'fi1KFSbrXq4tXIGToLyM', 'Pork Special', 'CMC 3 Pork Special : Pork Mechado', 3, 30.26, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ZhWbe7Cb1YsrKDurtKRg', '7ssOzWtm2AnIrKQXxrWd', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('ZKhbcpbNAy9g9WBQmNbY', 'iYqp30ARkjoaTxtX4tsV', 'Delicacies', ' CMC BS : Cassava Cake ', 14, 21.14, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ZKHsnOEepzZwHdx7rLA1', 'tVZtRnn2KxjOPLc15aBZ', 'Vegetable Executive', 'CMC 3 Vegetables Special : Garden Fresh Vegetables', 2, 20.79, 'Commis', 'Active', '2025-05-12 22:10:24', '2025-05-12 22:10:24'),
-('ZnovaSsklPYmkvEKDAXf', 'fi1KFSbrXq4tXIGToLyM', 'Pork Regular', 'CMC 3 Pork Regular : Pork Igado', 2, 28.44, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('zrP6J2htGCz30ZkAXlBc', 'eGJmJMai30b8eIXrKwTv', 'Pork Regular', 'CMC 3 Pork Regular : Pork Sinangag', 2, 21.93, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('Zs8G9SLzFUKrPsddpPzN', 'fi1KFSbrXq4tXIGToLyM', 'Pinoy Favorite Mainstay', 'Halo-Halo', 14, 19.12, 'On Site', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25'),
-('ZVw2yMgg1F6o8V2JPl4J', 'fwy0nczdnbPHTRK28OcS', 'Dessert', 'Orange', 6, 0, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('zXx4jGz5AlL6Uu9vDs9Y', 'dgvm2369GPnC3GFveBvz', 'Salad', 'CMC 3 Vegetables Regular : Ensaladang Pinoy', 5, 11.11, 'On Site', 'Active', '2025-05-10 08:58:58', '2025-05-10 08:58:58'),
-('ZySz18N9Kmvkx3V2GX6U', 'fi1KFSbrXq4tXIGToLyM', 'Vegetable Special', 'CMC 3 Vegetables Regular : Ginataang Papaya at Malunggay', 16, 13.56, 'Commis', 'Active', '2025-05-12 22:10:25', '2025-05-12 22:10:25');
+INSERT INTO `menu_dishes` (`id`, `menu_to_dish_tag`, `dish_code`, `name`, `sub_category_id`, `unit_cost`, `production`, `status`, `created_at`, `updated_at`) VALUES
+('alsabRnl6BFgoYGMGvod', 'Chicken Regular', 'CHR-0001', 'CMC 3 Chicken Regular : Fried Chicken w/ Gravy', 5, 21.76, 'On Site', 'Active', '2025-05-18 15:30:25', '2025-05-19 09:26:56'),
+('azDeIApvxylfrvPjXMiY', 'Chicken Regular', 'CHR-0002', 'CMC 3 Chicken Regular : Sinampalukang Manok', 5, 24.48, 'Commis', 'Active', '2025-05-18 15:47:39', '2025-05-19 09:27:00'),
+('EW8jFVv3AUNbjhFROSvy', 'Chicken Regular', 'CHR-0003', 'CMC 3 Chicken Regular : Chicken Asado', 5, 23.29, 'Commis', 'Active', '2025-05-19 04:32:37', '2025-05-19 04:32:37');
 
 -- --------------------------------------------------------
 
@@ -1733,146 +1342,54 @@ INSERT INTO `menu_shifts` (`id`, `shift`, `created_at`, `updated_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu_sub_categories`
+--
+
+CREATE TABLE `menu_sub_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `sub_category` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_sub_categories`
+--
+
+INSERT INTO `menu_sub_categories` (`id`, `sub_category`, `created_at`, `updated_at`) VALUES
+(1, 'Bakeshop', '2025-05-12 09:23:20', '2025-05-19 09:23:20'),
+(2, 'Beef', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(3, 'Breakfast', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(4, 'Canned Goods', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(5, 'Chicken', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(6, 'Coldcuts', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(7, 'Delicacies', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(8, 'Dessert', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(9, 'Egg', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(10, 'Pasta & Noodles', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(11, 'Plant Based', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(12, 'Pork', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(13, 'Porridge', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(14, 'Rice', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(15, 'Salad', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(16, 'Seafood', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(17, 'Soup', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(18, 'Vegetable', '2025-05-19 09:23:20', '2025-05-19 09:23:20');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_tags`
 --
 
 CREATE TABLE `menu_tags` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `menu_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `menu_sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
   `tag` varchar(255) NOT NULL,
-  `menu_to_dish_tag` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `menu_tags`
---
-
-INSERT INTO `menu_tags` (`id`, `menu_category_id`, `tag`, `menu_to_dish_tag`, `created_at`, `updated_at`) VALUES
-(2, 1, 'Chicken Regular', 'Chicken Regular', '2025-05-18 08:09:14', '2025-05-18 08:09:14'),
-(3, 1, 'Pork Regular', 'Pork Regular', '2025-05-18 08:09:52', '2025-05-18 08:09:52'),
-(4, 1, 'Seafood Regular', 'Seafood Regular', '2025-05-18 08:10:21', '2025-05-18 08:10:21'),
-(5, 1, 'Vegetable Regular', 'Vegetable Regular', '2025-05-18 08:10:32', '2025-05-18 08:10:32'),
-(6, 2, 'Plant Based', 'Plant Based', '2025-05-18 08:11:42', '2025-05-18 08:11:42'),
-(7, 3, 'Cold Cuts 1', 'Cold Cuts', '2025-05-18 08:15:17', '2025-05-18 08:15:17'),
-(8, 3, 'Cold Cuts 2', 'Cold Cuts', '2025-05-18 08:15:26', '2025-05-18 08:15:26'),
-(9, 4, 'Canned Goods 1', 'Canned Goods', '2025-05-18 08:16:01', '2025-05-18 08:16:01'),
-(10, 4, 'Canned Goods 2', 'Canned Goods', '2025-05-18 08:16:04', '2025-05-18 08:16:04'),
-(14, 5, 'Egg 1', 'Egg', '2025-05-18 08:16:41', '2025-05-18 08:16:41'),
-(15, 5, 'Egg 2', 'Egg', '2025-05-18 08:16:43', '2025-05-18 08:16:43'),
-(16, 5, 'Egg 3', 'Egg', '2025-05-18 08:16:45', '2025-05-18 08:16:45'),
-(20, 6, 'On The Spot 1', 'On The Spot', '2025-05-18 08:17:46', '2025-05-18 08:17:46'),
-(21, 7, 'Salad 1', 'Salad', '2025-05-18 08:17:55', '2025-05-18 08:17:55'),
-(22, 8, 'Flavored Rice', 'Flavored Rice', '2025-05-18 08:18:44', '2025-05-18 08:18:44'),
-(23, 9, 'Free Soup', 'Free Soup', '2025-05-18 08:18:57', '2025-05-18 08:18:57'),
-(24, 10, 'Dessert 1', 'Dessert', '2025-05-18 08:19:08', '2025-05-18 08:19:08'),
-(25, 10, 'Dessert 2', 'Dessert', '2025-05-18 08:19:10', '2025-05-18 08:19:10'),
-(26, 10, 'Dessert 3', 'Dessert', '2025-05-18 08:19:12', '2025-05-18 08:19:12'),
-(27, 11, 'Delicacies 1', 'Delicacies', '2025-05-18 08:19:29', '2025-05-18 08:19:29'),
-(28, 11, 'Delicacies 2', 'Delicacies', '2025-05-18 08:19:31', '2025-05-18 08:19:31'),
-(29, 12, 'Freshly Baked Breads', 'Freshly Baked Breads', '2025-05-18 08:20:15', '2025-05-18 08:20:15'),
-(30, 12, 'Freshly Baked Breads (Mainstay)', 'Freshly Baked Breads', '2025-05-18 08:20:23', '2025-05-18 08:20:23'),
-(31, 13, 'Chicken Regular', 'Chicken Regular', '2025-05-18 08:21:20', '2025-05-18 08:21:20'),
-(32, 13, 'Pork Regular', 'Pork Regular', '2025-05-18 08:21:31', '2025-05-18 08:21:31'),
-(33, 13, 'Seafood Regular', 'Seafood Regular', '2025-05-18 08:21:43', '2025-05-18 08:21:43'),
-(34, 13, 'Vegetable Regular', 'Vegetable Regular', '2025-05-18 08:21:57', '2025-05-18 08:21:57'),
-(35, 14, 'Beef Special', 'Beef Special', '2025-05-18 08:22:19', '2025-05-18 08:22:19'),
-(36, 14, 'Chicken Special', 'Chicken Special', '2025-05-18 08:22:45', '2025-05-18 08:22:45'),
-(37, 14, 'Pork Special', 'Pork Special', '2025-05-18 08:22:53', '2025-05-18 08:22:53'),
-(38, 14, 'Seafood Special', 'Seafood Special', '2025-05-18 08:23:04', '2025-05-18 08:23:04'),
-(39, 14, 'Vegetable Special', 'Vegetable Special', '2025-05-18 08:23:14', '2025-05-18 08:23:14'),
-(40, 15, 'Beef Executive', 'Beef Executive', '2025-05-18 08:23:45', '2025-05-18 08:23:45'),
-(41, 15, 'Chicken Executive', 'Chicken Executive', '2025-05-18 08:24:00', '2025-05-18 08:24:00'),
-(42, 15, 'Pork Executive', 'Pork Executive', '2025-05-18 08:24:09', '2025-05-18 08:24:09'),
-(43, 15, 'Seafoods Executive', 'Seafoods Executive', '2025-05-18 08:24:42', '2025-05-18 08:24:42'),
-(44, 15, 'Vegetable Executive', 'Vegetable Executive', '2025-05-18 08:25:09', '2025-05-18 08:25:09'),
-(45, 16, 'Plant Based 1', 'Plant Based', '2025-05-18 08:25:28', '2025-05-18 08:25:28'),
-(46, 16, 'Plant Based 2', 'Plant Based', '2025-05-18 08:25:30', '2025-05-18 08:25:30'),
-(47, 17, 'On The Spot 1', 'On The Spot', '2025-05-18 08:25:43', '2025-05-18 08:25:43'),
-(48, 17, 'On The Spot 2', 'On The Spot', '2025-05-18 08:25:45', '2025-05-18 08:25:45'),
-(49, 17, 'On The Spot 3', 'On The Spot', '2025-05-18 08:25:47', '2025-05-18 08:25:47'),
-(50, 17, 'On The Spot 4', 'On The Spot', '2025-05-18 08:25:48', '2025-05-18 08:25:48'),
-(51, 18, 'Salad', 'Salad', '2025-05-18 08:26:05', '2025-05-18 08:26:05'),
-(52, 19, 'Flavored Rice', 'Flavored Rice', '2025-05-18 08:26:19', '2025-05-18 08:26:19'),
-(53, 20, 'Free Soup', 'Free Soup', '2025-05-18 08:26:33', '2025-05-18 08:26:33'),
-(54, 21, 'Dessert 1', 'Dessert', '2025-05-18 08:26:50', '2025-05-18 08:26:50'),
-(55, 21, 'Dessert 2', 'Dessert', '2025-05-18 08:26:52', '2025-05-18 08:26:52'),
-(56, 21, 'Dessert 3', 'Dessert', '2025-05-18 08:26:54', '2025-05-18 08:26:54'),
-(57, 22, 'Delicacies 1', 'Delicacies', '2025-05-18 08:27:11', '2025-05-18 08:27:11'),
-(58, 22, 'Delicacies 2', 'Delicacies', '2025-05-18 08:27:12', '2025-05-18 08:27:12'),
-(59, 22, 'Delicacies 3', 'Delicacies', '2025-05-18 08:27:14', '2025-05-18 08:27:14'),
-(60, 23, 'Pinoy Favorite Mainstay 1', 'Pinoy Favorites', '2025-05-18 08:27:40', '2025-05-18 16:35:47'),
-(61, 23, 'Pinoy Favorite Mainstay 2', 'Pinoy Favorites', '2025-05-18 08:27:42', '2025-05-18 16:35:51'),
-(62, 23, 'Pinoy Favorite Mainstay 3', 'Pinoy Favorites', '2025-05-18 08:27:44', '2025-05-18 16:35:53'),
-(63, 29, 'Pasta 1', 'Pasta', '2025-05-18 08:33:01', '2025-05-18 08:33:01'),
-(64, 29, 'Pasta 2', 'Pasta', '2025-05-18 08:33:02', '2025-05-18 08:33:02'),
-(65, 30, 'Noodles 1', 'Noodles', '2025-05-18 08:33:37', '2025-05-18 08:33:37'),
-(66, 30, 'Noodles 2', 'Noodles', '2025-05-18 08:33:39', '2025-05-18 08:33:39'),
-(67, 31, 'Porridge', 'Porridge', '2025-05-18 08:34:10', '2025-05-18 08:34:10'),
-(68, 32, 'Pinoy Favorite (Mainstay) 1', 'Pinoy Favorites', '2025-05-18 08:34:32', '2025-05-18 16:35:55'),
-(69, 32, 'Pinoy Favorite (Mainstay) 2', 'Pinoy Favorites', '2025-05-18 08:34:35', '2025-05-18 16:35:57'),
-(70, 33, 'Pinoy Favorites 1', 'Pinoy Favorites', '2025-05-18 08:36:22', '2025-05-18 08:36:22'),
-(71, 33, 'Pinoy Favorites 2', 'Pinoy Favorites', '2025-05-18 08:36:24', '2025-05-18 08:36:24'),
-(72, 34, 'Kalye Uno 1', 'Kalye Uno', '2025-05-18 08:36:46', '2025-05-18 08:36:46'),
-(73, 34, 'Kalye Uno 2', 'Kalye Uno', '2025-05-18 08:36:47', '2025-05-18 08:36:47'),
-(74, 34, 'Kalye Uno 3', 'Kalye Uno', '2025-05-18 08:36:49', '2025-05-18 08:36:49'),
-(75, 34, 'Kalye Uno 4', 'Kalye Uno', '2025-05-18 08:36:52', '2025-05-18 08:36:52'),
-(76, 34, 'Kalye Uno 5', 'Kalye Uno', '2025-05-18 08:36:54', '2025-05-18 08:36:54'),
-(77, 35, 'Freshly Baked Breads (Mainstay)', 'Freshly Baked Breads', '2025-05-18 08:37:30', '2025-05-18 08:37:30'),
-(78, 36, 'Chicken Regular', 'Chicken Regular', '2025-05-18 08:38:51', '2025-05-18 08:38:51'),
-(79, 36, 'Pork Regular', 'Pork Regular', '2025-05-18 08:39:00', '2025-05-18 08:39:00'),
-(80, 36, 'Seafood Regular', 'Seafood Regular', '2025-05-18 08:39:16', '2025-05-18 08:39:16'),
-(81, 36, 'Vegetable Regular', 'Vegetable Regular', '2025-05-18 08:39:27', '2025-05-18 08:39:27'),
-(82, 37, 'Beef Special', 'Beef Special', '2025-05-18 08:39:51', '2025-05-18 08:39:51'),
-(83, 37, 'Chicken Special', 'Chicken Special', '2025-05-18 08:40:03', '2025-05-18 08:40:03'),
-(84, 37, 'Pork Special', 'Pork Special', '2025-05-18 08:40:13', '2025-05-18 08:40:13'),
-(85, 37, 'Seafood Special', 'Seafood Special', '2025-05-18 08:40:25', '2025-05-18 08:40:25'),
-(86, 37, 'Vegetable Special', 'Vegetable Special', '2025-05-18 08:40:43', '2025-05-18 08:40:43'),
-(87, 38, 'Plant Based', 'Plant Based', '2025-05-18 08:41:00', '2025-05-18 08:41:00'),
-(88, 39, 'Salad', 'Salad', '2025-05-18 08:41:13', '2025-05-18 08:41:13'),
-(89, 40, 'Flavored Rice', 'Flavored Rice', '2025-05-18 08:41:37', '2025-05-18 08:41:37'),
-(90, 41, 'Free Soup', 'Free Soup', '2025-05-18 08:41:49', '2025-05-18 08:41:49'),
-(91, 42, 'Dessert 1', 'Dessert', '2025-05-18 08:42:04', '2025-05-18 08:42:04'),
-(92, 42, 'Dessert 2', 'Dessert', '2025-05-18 08:42:06', '2025-05-18 08:42:06'),
-(93, 43, 'Delicacies 1', 'Delicacies', '2025-05-18 08:42:16', '2025-05-18 08:42:16'),
-(94, 43, 'Delicacies 2', 'Delicacies', '2025-05-18 08:42:17', '2025-05-18 08:42:17'),
-(95, 44, 'Chicken Regular', 'Chicken Regular', '2025-05-18 08:44:00', '2025-05-18 08:44:00'),
-(96, 44, 'Pork Regular', 'Pork Regular', '2025-05-18 08:44:08', '2025-05-18 08:44:08'),
-(97, 44, 'Seafood Regular', 'Seafood Regular', '2025-05-18 08:44:22', '2025-05-18 08:44:22'),
-(98, 44, 'Vegetable Regular', 'Vegetable Regular', '2025-05-18 08:44:34', '2025-05-18 08:44:34'),
-(99, 45, 'Beef Special', 'Beef Special', '2025-05-18 08:45:33', '2025-05-18 08:45:33'),
-(100, 45, 'Chicken Special', 'Chicken Special', '2025-05-18 08:45:41', '2025-05-18 08:45:41'),
-(101, 45, 'Pork Special', 'Pork Special', '2025-05-18 08:45:48', '2025-05-18 08:45:48'),
-(102, 45, 'Seafood Special', 'Seafood Special', '2025-05-18 08:45:59', '2025-05-18 08:45:59'),
-(103, 45, 'Vegetable Special', 'Vegetable Special', '2025-05-18 08:46:15', '2025-05-18 08:46:15'),
-(104, 46, 'Beef Executive', 'Beef Executive', '2025-05-18 08:46:31', '2025-05-18 08:46:31'),
-(105, 46, 'Chicken Executive', 'Chicken Executive', '2025-05-18 08:46:40', '2025-05-18 08:46:40'),
-(106, 46, 'Pork Executive', 'Pork Executive', '2025-05-18 08:46:48', '2025-05-18 08:46:48'),
-(107, 46, 'Seafoods Executive', 'Seafoods Executive', '2025-05-18 08:47:08', '2025-05-18 08:47:08'),
-(108, 46, 'Vegetable Executive', 'Vegetable Executive', '2025-05-18 08:47:19', '2025-05-18 08:47:19'),
-(109, 47, 'Plant Based 1', 'Plant Based', '2025-05-18 08:47:38', '2025-05-18 08:47:38'),
-(110, 47, 'Plant Based 2', 'Plant Based', '2025-05-18 08:47:39', '2025-05-18 08:47:39'),
-(111, 48, 'Salad', 'Salad', '2025-05-18 08:47:57', '2025-05-18 08:47:57'),
-(112, 49, 'Flavored Rice', 'Flavored Rice', '2025-05-18 08:48:06', '2025-05-18 08:48:06'),
-(113, 50, 'Free Soup', 'Free Soup', '2025-05-18 08:48:17', '2025-05-18 08:48:17'),
-(114, 51, 'Dessert 1', 'Dessert', '2025-05-18 08:48:34', '2025-05-18 08:48:34'),
-(115, 51, 'Dessert 2', 'Dessert', '2025-05-18 08:48:35', '2025-05-18 08:48:35'),
-(116, 51, 'Dessert 3', 'Dessert', '2025-05-18 08:48:37', '2025-05-18 08:48:37'),
-(117, 52, 'Delicacies 1', 'Delicacies', '2025-05-18 08:48:49', '2025-05-18 08:48:49'),
-(118, 52, 'Delicacies 2', 'Delicacies', '2025-05-18 08:48:50', '2025-05-18 08:48:50'),
-(119, 52, 'Delicacies 3', 'Delicacies', '2025-05-18 08:48:51', '2025-05-18 08:48:51'),
-(120, 53, 'Pinoy Favorite Mainstay 1', 'Pinoy Favorites', '2025-05-18 08:49:08', '2025-05-18 08:49:08'),
-(121, 53, 'Pinoy Favorite Mainstay 2', 'Pinoy Favorites', '2025-05-18 08:49:11', '2025-05-18 08:49:11'),
-(122, 53, 'Pinoy Favorite Mainstay 3', 'Pinoy Favorites', '2025-05-18 08:49:14', '2025-05-18 08:49:14'),
-(123, 54, 'Pasta 1', 'Pasta', '2025-05-18 08:49:58', '2025-05-18 08:49:58'),
-(124, 54, 'Pasta 2', 'Pasta', '2025-05-18 08:50:01', '2025-05-18 08:50:01'),
-(125, 55, 'Noodles 1', 'Noodles', '2025-05-18 08:50:17', '2025-05-18 08:50:17'),
-(126, 55, 'Noodles 2', 'Noodles', '2025-05-18 08:50:19', '2025-05-18 08:50:19'),
-(127, 56, 'Pinoy Favorite (Mainstay) 1', 'Pinoy Favorites', '2025-05-18 08:50:33', '2025-05-18 08:50:33'),
-(128, 56, 'Pinoy Favorite (Mainstay) 2', 'Pinoy Favorites', '2025-05-18 08:50:34', '2025-05-18 08:50:34'),
-(129, 57, 'Pinoy Favorites 1', 'Pinoy Favorites', '2025-05-18 08:50:49', '2025-05-18 08:50:49'),
-(130, 57, 'Pinoy Favorites 2', 'Pinoy Favorites', '2025-05-18 08:50:51', '2025-05-18 08:50:51');
 
 -- --------------------------------------------------------
 
@@ -1898,15 +1415,16 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2025_05_05_015138_create_personal_access_tokens_table', 2),
 (27, '2025_05_05_075641_create_menus_table', 3),
 (28, '2025_05_05_115102_create_menu_dishes_categories_table', 4),
-(31, '2025_05_05_120656_create_menu_dishes_table', 5),
 (33, '2025_05_06_032016_create_area_managers_table', 6),
 (36, '2025_05_06_040908_create_branches_table', 7),
 (37, '2025_05_06_063459_create_branch_managers_table', 8),
 (40, '2025_05_06_102734_create_orders_table', 9),
 (44, '2025_05_06_110018_create_order_items_table', 10),
 (45, '2025_05_15_145624_create_menu_shifts_table', 11),
-(46, '2025_05_15_145951_create_menu_categories_table', 11),
-(48, '2025_05_16_142013_create_menu_tags_table', 12);
+(50, '2025_05_19_091424_create_menu_sub_categories_table', 14),
+(51, '2025_05_05_120656_create_menu_dishes_table', 15),
+(52, '2025_05_15_145951_create_menu_categories_table', 16),
+(53, '2025_05_16_142013_create_menu_tags_table', 17);
 
 -- --------------------------------------------------------
 
@@ -1986,7 +1504,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (49, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'd846575624f6d60027f0998f6c2004ec5842e3aff6b3850aee0ed26cba87471f', '[\"*\"]', '2025-05-10 08:44:31', NULL, '2025-05-10 07:41:26', '2025-05-10 08:44:31'),
 (51, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '65751f3609c377d66f01e7fe73473784a0138db4831775b3175343c8fc55bbc4', '[\"*\"]', '2025-05-13 23:51:48', NULL, '2025-05-12 04:48:38', '2025-05-13 23:51:48'),
 (54, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'a057aacc3e05b01ec6a736a0101ea1f630e376373bae3b512feb6c02fc97f7fd', '[\"*\"]', '2025-05-12 22:42:55', NULL, '2025-05-12 22:26:55', '2025-05-12 22:42:55'),
-(59, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '4a09430f0d3b409788efd6a0676ebe12251a2c6a1b3861341a6ac53b29d9dbaf', '[\"*\"]', '2025-05-18 08:57:37', NULL, '2025-05-18 06:47:14', '2025-05-18 08:57:37');
+(59, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '4a09430f0d3b409788efd6a0676ebe12251a2c6a1b3861341a6ac53b29d9dbaf', '[\"*\"]', '2025-05-19 08:45:48', NULL, '2025-05-18 06:47:14', '2025-05-19 08:45:48');
 
 -- --------------------------------------------------------
 
@@ -2124,16 +1642,15 @@ ALTER TABLE `menus`
 -- Indexes for table `menu_categories`
 --
 ALTER TABLE `menu_categories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_categories_shift_id_foreign` (`shift_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `menu_dishes`
 --
 ALTER TABLE `menu_dishes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_dishes_menu_id_foreign` (`menu_id`),
-  ADD KEY `menu_dishes_category_id_foreign` (`category_id`);
+  ADD UNIQUE KEY `menu_dishes_dish_code_unique` (`dish_code`),
+  ADD KEY `menu_dishes_sub_category_id_foreign` (`sub_category_id`);
 
 --
 -- Indexes for table `menu_dishes_categories`
@@ -2148,11 +1665,18 @@ ALTER TABLE `menu_shifts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menu_sub_categories`
+--
+ALTER TABLE `menu_sub_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `menu_tags`
 --
 ALTER TABLE `menu_tags`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_tags_menu_category_id_foreign` (`menu_category_id`);
+  ADD KEY `menu_tags_menu_category_id_foreign` (`menu_category_id`),
+  ADD KEY `menu_tags_menu_sub_category_id_foreign` (`menu_sub_category_id`);
 
 --
 -- Indexes for table `migrations`
@@ -2231,7 +1755,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `menu_categories`
 --
 ALTER TABLE `menu_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `menu_dishes_categories`
@@ -2246,16 +1770,22 @@ ALTER TABLE `menu_shifts`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `menu_sub_categories`
+--
+ALTER TABLE `menu_sub_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT for table `menu_tags`
 --
 ALTER TABLE `menu_tags`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -2286,23 +1816,17 @@ ALTER TABLE `branch_managers`
   ADD CONSTRAINT `branch_managers_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Constraints for table `menu_categories`
---
-ALTER TABLE `menu_categories`
-  ADD CONSTRAINT `menu_categories_shift_id_foreign` FOREIGN KEY (`shift_id`) REFERENCES `menu_shifts` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `menu_dishes`
 --
 ALTER TABLE `menu_dishes`
-  ADD CONSTRAINT `menu_dishes_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `menu_dishes_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `menu_dishes_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `menu_dishes_sub_category_id_foreign` FOREIGN KEY (`sub_category_id`) REFERENCES `menu_sub_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `menu_tags`
 --
 ALTER TABLE `menu_tags`
-  ADD CONSTRAINT `menu_tags_menu_category_id_foreign` FOREIGN KEY (`menu_category_id`) REFERENCES `menu_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `menu_tags_menu_category_id_foreign` FOREIGN KEY (`menu_category_id`) REFERENCES `menu_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `menu_tags_menu_sub_category_id_foreign` FOREIGN KEY (`menu_sub_category_id`) REFERENCES `menu_sub_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `orders`

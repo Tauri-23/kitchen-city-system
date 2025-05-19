@@ -64,8 +64,7 @@ const ModalManager = () => {
 
             case "SuperAdminAddMenuCategoryModal":
                 return <SuperAdminAddMenuCategoryModal
-                shift={props.shift as MenuShiftStructure}
-                setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
+                setMenuCategories={props.setMenuCategories as React.Dispatch<React.SetStateAction<MenuCategoryStructure[] | null>>}
                 onClose={hideModal}
                 />
             

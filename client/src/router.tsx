@@ -22,6 +22,8 @@ import BranchManagerOrdersIndex from "./views/branchManager/orders/braManOrdersI
 import BranchManagerViewOrder from "./views/branchManager/orders/braManViewOrder";
 import SuperAdminMenuSettingsIndex from "./views/superAdmin/menus/menusSettings/supAdMenuSettings";
 import SuperAdminMenuDishesIndex from "./views/superAdmin/menus/menuDishes/supAdMenuDishesIndex";
+import SuperAdminMenuCategoriesAndSubCategoriesIndex from "./views/superAdmin/menus/menuCategories/supAdMenuCategoriesAndSubCategoriesIndex";
+import SuperAdminMenuTagsIndex from "./views/superAdmin/menus/menuTags/supAdMenuTagsIndex";
 
 const router = createBrowserRouter([
     /**
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <SuperAdminMenusIndex/>
+                    },
+                    {
+                        path: "MenuCategoriesAndSubCategories",
+                        element: <SuperAdminMenuCategoriesAndSubCategoriesIndex/>
+                    },
+                    {
+                        path: "MenuTags",
+                        element: <SuperAdminMenuTagsIndex/>
                     },
                     {
                         path: "MenuSettings",

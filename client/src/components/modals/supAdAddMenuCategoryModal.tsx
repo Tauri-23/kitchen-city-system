@@ -2,19 +2,17 @@ import { Modal, Input, Button } from "antd";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import axiosClient from "../../axios-client";
-import { MenuShiftStructure } from "../../types/menuShiftStructure";
+import { MenuCategoryStructure } from "../../types/menuCategoryStructure";
 
 interface SuperAdminAddMenuCategoryTypes {
-    shift: MenuShiftStructure;
-    setShifts: React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>;
+    setMenuCategories: React.Dispatch<React.SetStateAction<MenuCategoryStructure[] | null>>;
     onClose: () => void
 }
 
-const SuperAdminAddMenuCategoryModal: React.FC<SuperAdminAddMenuCategoryTypes> = ({shift, setShifts, onClose}) => {
+const SuperAdminAddMenuCategoryModal: React.FC<SuperAdminAddMenuCategoryTypes> = ({setMenuCategories, onClose}) => {
     const [isAdding, setIsAdding] = useState<boolean>(false);
 
     const [menuCategoryIn, setMenuCategoryIn] = useState({
-        menu_shift_id: shift.id,
         category: ""
     });
 
@@ -43,20 +41,7 @@ const SuperAdminAddMenuCategoryModal: React.FC<SuperAdminAddMenuCategoryTypes> =
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
             if(data.status === 200) {
-                setShifts((prev) => {
-                    if (!prev) return prev; // handle null
-
-                    const updated = prev.map(shiftPrev => {
-                        if (shiftPrev.id !== shift.id) return shiftPrev;
-
-                        return {
-                            ...shiftPrev,
-                            categories: [...shiftPrev.categories, data.newCategory]
-                        };
-                    });
-
-                    return updated;
-                });
+                setMenuCategories(prev => [...(prev || []), data.newCategory]);
             }
         })
         .catch(error => {
@@ -74,7 +59,6 @@ const SuperAdminAddMenuCategoryModal: React.FC<SuperAdminAddMenuCategoryTypes> =
 
     const clearFields = () => {
         setMenuCategoryIn({
-            menu_shift_id: shift.id,
             category: ""
         })
     }
@@ -95,11 +79,9 @@ const SuperAdminAddMenuCategoryModal: React.FC<SuperAdminAddMenuCategoryTypes> =
         >
             <form onSubmit={handleSubmit} className="mar-top-1">
 
-                <h4 className="fw-bold mar-bottom-2">For {shift.shift}</h4>
-
                 {/* Tag */}
                 <div className="mar-bottom-1">
-                    <label htmlFor="category">Shift Category</label>
+                    <label htmlFor="category">Category</label>
                     <Input
                     size="large"
                     id="category"

@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 class MenuCategoriesController extends Controller
 {
     // GET
-    public function GetAllCategories()
+    public function GetAllMenuCategories()
     {
-        return response()->json(menu_categories::all());
+        return response()->json(menu_categories::with("menu_tags")->get());
     }
 
 
@@ -21,32 +21,25 @@ class MenuCategoriesController extends Controller
     public function CreateMenuCategory(Request $request)
     {
         $menuCategoryIn = json_decode($request->input("menuCategoryIn"));
+        $categoryExist = menu_categories::where("category", $menuCategoryIn->category)->exists();
 
-        try
+        if($categoryExist)
         {
-            DB::beginTransaction();
-
-            $newCategory = menu_categories::Create([
-                "shift_id" => $menuCategoryIn->menu_shift_id,
-                "category" => $menuCategoryIn->category
-            ]);
-
-            DB::commit();
-
             return response()->json([
-                "status" => 200,
-                "message" => "Category successfully added",
-                "newCategory" => $newCategory->load("menu_tags")
+                "status" => 422,
+                "message" => "Category $menuCategoryIn->category already exist."
             ]);
         }
-        catch(\Exception $e)
-        {
-            DB::rollBack();
-            return response()->json([
-                "status" => 500,
-                "message" => $e->getMessage()
-            ], 500);
-        }
+
+        $newCategory = menu_categories::Create([
+            "category" => $menuCategoryIn->category
+        ]);
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Category successfully added",
+            "newCategory" => $newCategory
+        ]);
     }
 
     public function UpdateMenuCategory(Request $request)
@@ -57,12 +50,10 @@ class MenuCategoriesController extends Controller
             "category" => $editMenuCategoryIn->category
         ]);
 
-        $getMenuShifts = new MenuShiftsController();
-
         return response()->json([
             "status" => 200,
             "message" => "Menu category updated successfully",
-            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShiftsFull()->original
+            "menu_categories" => menu_categories::all()
         ]);
     }
 
@@ -70,12 +61,9 @@ class MenuCategoriesController extends Controller
     {
         menu_categories::find($request->id)->delete();
 
-        $getMenuShifts = new MenuShiftsController();
-
         return response()->json([
             "status" => 200,
             "message" => "Menu category successfully deleted",
-            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShiftsFull()->original
         ]);
     }
 }

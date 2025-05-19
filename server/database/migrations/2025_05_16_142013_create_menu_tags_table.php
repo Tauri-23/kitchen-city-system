@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('menu_tags', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("menu_category_id")->nullable();
+            $table->unsignedBigInteger("menu_sub_category_id")->nullable();
             $table->string("tag");
-            $table->string("menu_to_dish_tag");
             $table->timestamps();
 
             /**
@@ -24,6 +24,12 @@ return new class extends Migration
             $table->foreign("menu_category_id")
             ->references("id")
             ->on("menu_categories")
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
+
+            $table->foreign("menu_sub_category_id")
+            ->references("id")
+            ->on("menu_sub_categories")
             ->cascadeOnUpdate()
             ->nullOnDelete();
         });

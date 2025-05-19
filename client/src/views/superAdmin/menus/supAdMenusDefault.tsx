@@ -3,7 +3,7 @@ import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
-export type SuperAdminMenuActivePageTypes = "Menu" | "Dishes" | "Menu Settings";
+export type SuperAdminMenuActivePageTypes = "Menu" | "Dishes" | "Categories & Sub-Categories" | "Menu Tags" | "Menu Settings";
 
 export default function SuperAdminMenusDefault() {
     const { setActiveSideNavLink } = useSuperAdminContext();
@@ -44,9 +44,23 @@ export default function SuperAdminMenusDefault() {
 
                 <Button
                 color="primary"
+                variant={supAdMenuActivePage === "Categories & Sub-Categories" ? "solid" : "outlined"}
+                onClick={() => navigate("MenuCategoriesAndSubCategories")}>
+                    Categories & Sub-Categories
+                </Button>
+                
+                <Button
+                color="primary"
+                variant={supAdMenuActivePage === "Menu Tags" ? "solid" : "outlined"}
+                onClick={() => navigate("MenuTags")}>
+                    Menu Tags
+                </Button>
+
+                <Button
+                color="primary"
                 variant={supAdMenuActivePage === "Menu Settings" ? "solid" : "outlined"}
                 onClick={() => navigate("MenuSettings")}>
-                    Menu Settings
+                    Menu Form Settings
                 </Button>
             </div>
             <Outlet

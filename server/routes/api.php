@@ -56,6 +56,8 @@ Route::post("/delete-menu-shift", [MenuShiftsController::class, "DeleteMenuShift
 | Menu Categories 
 |----------------------------------------
 */
+Route::get("/get-all-menu-categories", [MenuCategoriesController::class, "GetAllMenuCategories"]);
+
 Route::post("/create-menu-category", [MenuCategoriesController::class, "CreateMenuCategory"]);
 Route::post("/update-menu-category", [MenuCategoriesController::class, "UpdateMenuCategory"]);
 Route::post("/delete-menu-category", [MenuCategoriesController::class, "DeleteMenuCategory"]);

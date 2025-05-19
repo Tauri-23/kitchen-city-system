@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class menu_categories extends Model
 {
     protected $fillable = [
-        "shift_id",
         "category"
     ];
 
