@@ -15,7 +15,7 @@ interface OutletContextTypes {
     setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
 }
 
-export default function SuperAdminMenuSettingsDefault() {
+export default function SuperAdminMenuSettingsIndex() {
     const { showModal } = useGeneralContext();
     const {setSupAdMenuActivePage} = useOutletContext<OutletContextTypes>();
 

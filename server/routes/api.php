@@ -110,10 +110,9 @@ Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::c
 | Menu Dishes
 |----------------------------------------
 */
-Route::get("/get-all-menu-dishes-where-week/{week}", [MenuDishesController::class, "GetAllMenuDishesWhereWeek"]);
+Route::get("/get-all-menu-dishes", [MenuDishesController::class, "GetAllMenuDishes"]);
 
-Route::post("/create-menu-dish", [MenuDishesController::class, "CreateDishes"]);
-Route::post("/create-menu-dish-via-excel", [MenuDishesController::class, "CreateDishesViaExcel"]);
+Route::post("/create-menu-dish", [MenuDishesController::class, "CreateMenuDish"]);
 
 
 

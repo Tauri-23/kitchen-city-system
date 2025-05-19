@@ -4,6 +4,7 @@ import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaMana
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
 import SuperAdminAddBranchModal from "../components/modals/supAdAddBranchModal";
 import SuperAdminAddMenuCategoryModal from "../components/modals/supAdAddMenuCategoryModal";
+import SuperAdminAddMenuDishModal from "../components/modals/supAdAddMenuDishModal";
 import SuperAdminAddMenuShiftModal from "../components/modals/supAdAddMenuShiftModal";
 import SuperAdminAddMenuTagModal from "../components/modals/supAdAddMenuTagModal";
 import SuperAdminAddSuperAdminModal from "../components/modals/supAdAddSuperAdminModal";
@@ -70,6 +71,13 @@ const ModalManager = () => {
             case "SuperAdminAddMenuShiftModal":
                 return <SuperAdminAddMenuShiftModal
                 setShifts={props.setShifts as React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>}
+                onClose={hideModal}
+                />
+
+            case "SuperAdminAddMenuDishModal":
+                return <SuperAdminAddMenuDishModal
+                menuToDishtag={props.menuToDishtag as string}
+                setMenuDishes={props.setMenuDishes as React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>}
                 onClose={hideModal}
                 />
 

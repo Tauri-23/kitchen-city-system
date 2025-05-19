@@ -1,8 +1,8 @@
 import axiosClient from "../axios-client"
 
-export const fetchAllMenuDishesWhereWeek = async(week: string) => {
+export const fetchAllMenuDishes= async() => {
     try {
-        const response = await axiosClient.get(`/get-all-menu-dishes-where-week/${week}`);
+        const response = await axiosClient.get(`/get-all-menu-dishes`);
         return response.data;
     } catch(error) {
         console.error(error);

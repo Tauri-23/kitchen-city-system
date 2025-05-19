@@ -12,13 +12,13 @@ class menu_dishes extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        "menu_id",
+        "menu_to_dish_tag",
+        "dish_code",
         "name",
-        "odoo_name",
-        "category_id",
+        "sub_category",
         "unit_cost",
         "production",
-        "status",
+        "status"
     ];
 
     public static function boot()
@@ -35,15 +35,10 @@ class menu_dishes extends Model
 
 
     /**
-     * Forieng Joins
+     * Foreign Joins
      */
-    public function category()
+    public function sub_category()
     {
-        return $this->belongsTo(menu_dishes_categories::class, "category_id", "id");
-    }
-
-    public function menu()
-    {
-        return $this->belongsTo(menu::class, "menu_id", "id");
+        return $this->belongsTo(menu_sub_categories::class, "sub_category_id", "id");
     }
 }

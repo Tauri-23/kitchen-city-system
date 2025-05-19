@@ -5,7 +5,7 @@ import { Breadcrumb, Button, Select, Spin, Table, TableColumnsType } from "antd"
 import "../../../assets/css/viewMenu.css";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { formatToPhilPeso } from "../../../assets/lib/utils";
-import { fetchAllMenuDishesWhereWeek } from "../../../services/menuDishesServices";
+// import { fetchAllMenuDishesWhereWeek } from "../../../services/menuDishesServices";
 
 interface menuDishNamesByMealTypeStructure {
     mealType: string;
@@ -33,108 +33,108 @@ export default function SuperAdminViewMenu() {
     /**
      * Onmount
      */
-    useEffect(() => {
-        setActiveSideNavLink("Menus");
+    // useEffect(() => {
+    //     setActiveSideNavLink("Menus");
 
-        const getAll = async() => {
-            const dishesData = await fetchAllMenuDishesWhereWeek(String(params.id));
-            setDishes(dishesData);
-        }
+    //     const getAll = async() => {
+    //         const dishesData = await fetchAllMenuDishesWhereWeek(String(params.id));
+    //         setDishes(dishesData);
+    //     }
 
-        getAll();
-    }, []);
+    //     getAll();
+    // }, []);
 
-    useEffect(() => {
-        if(dishes) {
-            const extractedMenuDishNames = mealTypes.map(mealType => {
-                const basedDish = dishes.filter((x: MenuDishStructure) => 
-                    x.menu?.meal_type === mealType && 
-                    x.menu.menu_day === days[0] && x.menu.menu_size === selectedSize
-                );
-                return {
-                    mealType,
-                    dishNames: basedDish.flatMap((x: MenuDishStructure) => x.name)
-                }
-            });
+    // useEffect(() => {
+    //     if(dishes) {
+    //         const extractedMenuDishNames = mealTypes.map(mealType => {
+    //             const basedDish = dishes.filter((x: MenuDishStructure) => 
+    //                 x.menu?.meal_type === mealType && 
+    //                 x.menu.menu_day === days[0] && x.menu.menu_size === selectedSize
+    //             );
+    //             return {
+    //                 mealType,
+    //                 dishNames: basedDish.flatMap((x: MenuDishStructure) => x.name)
+    //             }
+    //         });
 
-            setMenuDishNamesByMealType(extractedMenuDishNames);
-        }
-    }, [selectedSize, dishes])
+    //         setMenuDishNamesByMealType(extractedMenuDishNames);
+    //     }
+    // }, [selectedSize, dishes])
 
 
 
     /**
      * Setup Columns
      */
-    const dishesColumns: TableColumnsType<any> = [
-        {
-            title: "Dish Name",
-            fixed: "left",
-            dataIndex: "dishName",
-            width: 250
-        },
-        ...days.map(day => ({
-            title: day,
-            children: [
-            {
-                title: "Description",
-                render: (_: never, row: any) => {
-                    const dish = dishes?.find(dish => 
-                        dish.menu?.meal_type === row.mealType && 
-                        dish.menu?.menu_size === selectedSize &&
-                        dish.name === row.dishName && 
-                        dish.menu?.menu_day === day
-                    )
+    // const dishesColumns: TableColumnsType<any> = [
+    //     {
+    //         title: "Dish Name",
+    //         fixed: "left",
+    //         dataIndex: "dishName",
+    //         width: 250
+    //     },
+    //     ...days.map(day => ({
+    //         title: day,
+    //         children: [
+    //         {
+    //             title: "Description",
+    //             render: (_: never, row: any) => {
+    //                 const dish = dishes?.find(dish => 
+    //                     dish.menu?.meal_type === row.mealType && 
+    //                     dish.menu?.menu_size === selectedSize &&
+    //                     dish.name === row.dishName && 
+    //                     dish.menu?.menu_day === day
+    //                 )
 
-                    return dish ? dish.odoo_name : "-"
-                },
-                width: 400,
-            },
-            {
-                title: "Category",
-                render: (_: never, row: any) => {
-                    const dish = dishes?.find(dish => 
-                        dish.menu?.meal_type === row.mealType && 
-                        dish.menu?.menu_size === selectedSize &&
-                        dish.name === row.dishName && 
-                        dish.menu?.menu_day === day
-                    )
+    //                 return dish ? dish.odoo_name : "-"
+    //             },
+    //             width: 400,
+    //         },
+    //         {
+    //             title: "Category",
+    //             render: (_: never, row: any) => {
+    //                 const dish = dishes?.find(dish => 
+    //                     dish.menu?.meal_type === row.mealType && 
+    //                     dish.menu?.menu_size === selectedSize &&
+    //                     dish.name === row.dishName && 
+    //                     dish.menu?.menu_day === day
+    //                 )
 
-                    return dish ? dish.category?.category : "-" 
-                },
-                width: 150,
-            },
-            {
-                title: "Unit Cost",
-                render: (_: never, row: any) => {
-                    const dish = dishes?.find(dish => 
-                        dish.menu?.meal_type === row.mealType && 
-                        dish.menu?.menu_size === selectedSize &&
-                        dish.name === row.dishName && 
-                        dish.menu?.menu_day === day
-                    )
+    //                 return dish ? dish.category?.category : "-" 
+    //             },
+    //             width: 150,
+    //         },
+    //         {
+    //             title: "Unit Cost",
+    //             render: (_: never, row: any) => {
+    //                 const dish = dishes?.find(dish => 
+    //                     dish.menu?.meal_type === row.mealType && 
+    //                     dish.menu?.menu_size === selectedSize &&
+    //                     dish.name === row.dishName && 
+    //                     dish.menu?.menu_day === day
+    //                 )
 
-                    return dish ? formatToPhilPeso(dish.unit_cost) : "-"
-                },
-                width: 100,
-            },
-            {
-                title: "Production",
-                render: (_: never, row: any) => {
-                    const dish = dishes?.find(dish => 
-                        dish.menu?.meal_type === row.mealType && 
-                        dish.menu?.menu_size === selectedSize &&
-                        dish.name === row.dishName && 
-                        dish.menu?.menu_day === day
-                    )
+    //                 return dish ? formatToPhilPeso(dish.unit_cost) : "-"
+    //             },
+    //             width: 100,
+    //         },
+    //         {
+    //             title: "Production",
+    //             render: (_: never, row: any) => {
+    //                 const dish = dishes?.find(dish => 
+    //                     dish.menu?.meal_type === row.mealType && 
+    //                     dish.menu?.menu_size === selectedSize &&
+    //                     dish.name === row.dishName && 
+    //                     dish.menu?.menu_day === day
+    //                 )
 
-                    return dish ? dish.production : "-"
-                },
-                width: 150,
-            }
-            ]
-        }))
-    ];
+    //                 return dish ? dish.production : "-"
+    //             },
+    //             width: 150,
+    //         }
+    //         ]
+    //     }))
+    // ];
 
 
 
@@ -224,7 +224,7 @@ export default function SuperAdminViewMenu() {
                         <div key={index} className="mar-bottom-2">
                             <h3>{mealType}</h3>
 
-                            <Table
+                            {/* <Table
                             size="small"
                             dataSource={
                                 // dishes?.filter(dish => dish.menu?.meal_type === mealType && dish.menu.menu_size === selectedSize).map((item, index) => ({...item, key: index})) || []
@@ -237,7 +237,7 @@ export default function SuperAdminViewMenu() {
                             columns={dishesColumns}
                             scroll={{ x: 'max-content', y: "600px" }}
                             pagination={false}
-                            bordered/>
+                            bordered/> */}
                         </div>
                     ))}
                     

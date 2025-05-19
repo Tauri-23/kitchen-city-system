@@ -1,20 +1,21 @@
-import { MenuDishesCategoryStructure } from "./menuDishesCategoryStucture";
-import { MenuStructure } from "./menuStructure";
+import { MenuSubCategoryStructure } from "./menuSubCategoryStucture";
 
 export interface MenuDishStructure {
     id: string;
-    menu_id: MenuStructure | string | null;
-    menu: MenuStructure | null;
+    menu_to_dish_tag: string;
+    dish_code: string | null;
     name: string;
-    odoo_name: string;
-    category_id: number | null;
-    category: MenuDishesCategoryStructure | null;
+    sub_category_id: number;
     unit_cost: number;
     production: "Commis" | "Commis Cooked" | "On Site";
     status: "Active" | "Discontinued";
     created_type: string | Date;
     updated_at: string | Date;
 
+
+    
+    // Foreign Joins
+    sub_category: MenuSubCategoryStructure;
 
 
 
