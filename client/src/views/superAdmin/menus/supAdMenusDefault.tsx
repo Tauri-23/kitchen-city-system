@@ -3,7 +3,7 @@ import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
-export type SuperAdminMenuActivePageTypes = "Menu" | "Dishes" | "Categories & Sub-Categories" | "Menu Tags" | "Menu Settings";
+export type SuperAdminMenuActivePageTypes = "Menu" | "Dishes" | "Categories, Sub-Categories And Classes" | "Menu Tags" | "Menu Form Builder";
 
 export default function SuperAdminMenusDefault() {
     const { setActiveSideNavLink } = useSuperAdminContext();
@@ -27,7 +27,7 @@ export default function SuperAdminMenusDefault() {
      */
     return(
         <div className="content1 compressed">
-            <div className="d-flex align-items-center gap3 mar-bottom-1">
+            <div className="d-flex flex-wrap align-items-center gap3 mar-bottom-1">
                 <Button
                 color="primary"
                 variant={supAdMenuActivePage === "Menu" ? "solid" : "outlined"}
@@ -44,9 +44,9 @@ export default function SuperAdminMenusDefault() {
 
                 <Button
                 color="primary"
-                variant={supAdMenuActivePage === "Categories & Sub-Categories" ? "solid" : "outlined"}
-                onClick={() => navigate("MenuCategoriesAndSubCategories")}>
-                    Categories & Sub-Categories
+                variant={supAdMenuActivePage === "Categories, Sub-Categories And Classes" ? "solid" : "outlined"}
+                onClick={() => navigate("MenuCategoriesSubAndClasses")}>
+                    Categories, Sub-Categories & Classes
                 </Button>
                 
                 <Button
@@ -58,9 +58,9 @@ export default function SuperAdminMenusDefault() {
 
                 <Button
                 color="primary"
-                variant={supAdMenuActivePage === "Menu Settings" ? "solid" : "outlined"}
-                onClick={() => navigate("MenuSettings")}>
-                    Menu Form Settings
+                variant={supAdMenuActivePage === "Menu Form Builder" ? "solid" : "outlined"}
+                onClick={() => navigate("MenuFormBuilder")}>
+                    Menu Form Builder
                 </Button>
             </div>
             <Outlet

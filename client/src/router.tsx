@@ -20,10 +20,10 @@ import BranchManagerIndex from "./views/branchManager/braManIndex";
 import BranchManagerAddOrder from "./views/branchManager/orders/braManAddOrder";
 import BranchManagerOrdersIndex from "./views/branchManager/orders/braManOrdersIndex";
 import BranchManagerViewOrder from "./views/branchManager/orders/braManViewOrder";
-import SuperAdminMenuSettingsIndex from "./views/superAdmin/menus/menusSettings/supAdMenuSettings";
 import SuperAdminMenuDishesIndex from "./views/superAdmin/menus/menuDishes/supAdMenuDishesIndex";
-import SuperAdminMenuCategoriesAndSubCategoriesIndex from "./views/superAdmin/menus/menuCategories/supAdMenuCategoriesAndSubCategoriesIndex";
 import SuperAdminMenuTagsIndex from "./views/superAdmin/menus/menuTags/supAdMenuTagsIndex";
+import SuperAdminMenuCategoriesSubAndClassesIndex from "./views/superAdmin/menus/menuCategoriesSubAndClasses/supAdMenuCategoriesSubAndClassesIndex";
+import SuperAdminMenuFormBuilderIndex from "./views/superAdmin/menus/menuFormBuilder/supAdMenuFormBuilderIndex";
 
 const router = createBrowserRouter([
     /**
@@ -70,16 +70,16 @@ const router = createBrowserRouter([
                         element: <SuperAdminMenusIndex/>
                     },
                     {
-                        path: "MenuCategoriesAndSubCategories",
-                        element: <SuperAdminMenuCategoriesAndSubCategoriesIndex/>
+                        path: "MenuCategoriesSubAndClasses",
+                        element: <SuperAdminMenuCategoriesSubAndClassesIndex/>
                     },
                     {
                         path: "MenuTags",
                         element: <SuperAdminMenuTagsIndex/>
                     },
                     {
-                        path: "MenuSettings",
-                        element: <SuperAdminMenuSettingsIndex/>
+                        path: "MenuFormBuilder",
+                        element: <SuperAdminMenuFormBuilderIndex/>
                     },
                     {
                         path: "MenuDishes",

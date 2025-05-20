@@ -12,7 +12,7 @@ class MenuCategoriesController extends Controller
     // GET
     public function GetAllMenuCategories()
     {
-        return response()->json(menu_categories::with("menu_tags")->get());
+        return response()->json(menu_categories::all());
     }
 
 

@@ -1,8 +1,8 @@
 import axiosClient from "../axios-client"
 
-export const fetchAllMenuShifts = async() => {
+export const fetchAllMenuFormElements = async() => {
     try {
-        const response = await axiosClient.get(`/get-all-menu-shifts`);
+        const response = await axiosClient.get(`/get-all-menu-form-elements`);
         return response.data;
     } catch(error) {
         console.error(error);

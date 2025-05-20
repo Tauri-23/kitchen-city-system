@@ -1,48 +1,32 @@
-import { Modal, Input, Button, AutoComplete } from "antd";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { Modal, Input, Button, Select } from "antd";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import axiosClient from "../../axios-client";
-import { MenuShiftStructure } from "../../types/menuShiftStructure";
-import { MenuCategoryStructure } from "../../types/menuCategoryStructure";
-import { fetchAllUniqueMenuToDishTags } from "../../services/menuTagsServices";
+import { MenuSubCategoryStructure } from "../../types/menuSubCategoryStucture";
+import { MenuClassStructure } from "../../types/menuClassStructure";
 
 interface SuperAdminAddMenuTagModalTypes {
-    category: MenuCategoryStructure;
-    shift: MenuShiftStructure;
-    setShifts: React.Dispatch<React.SetStateAction<MenuShiftStructure[] | null>>;
+    menuSubCategories: MenuSubCategoryStructure[];
+    menuClass: MenuClassStructure;
+    setMenuClasses: React.Dispatch<React.SetStateAction<MenuClassStructure[] | null>>;
     onClose: () => void
 }
 
-const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({category, shift, setShifts, onClose}) => {
+const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({menuSubCategories, menuClass, setMenuClasses, onClose}) => {
     const [isAdding, setIsAdding] = useState<boolean>(false);
-    const [menuToDishTagOptions, setMenuToDishTagOptions] = useState<{value: string | any}[] | null>(null);
 
     const [menuTagIn, setMenuTagIn] = useState({
-        menu_category_id: category.id,
-        tag: "",
-        menu_to_dish_tag: ""
+        menu_class_id: menuClass.id,
+        menu_sub_category_id: "",
+        tag: ""
     });
-
-
-    /**
-     * Onmount
-     */
-    useEffect(() => {
-        const getAll = async() => {
-            const uniqueMenuDishTagData = await fetchAllUniqueMenuToDishTags();
-            console.log(uniqueMenuDishTagData);
-            setMenuToDishTagOptions(uniqueMenuDishTagData);
-        }
-
-        getAll();
-    }, []);
 
 
 
     /**
      * Checkers
      */
-    const isSubmitBtnDisabled = isEmptyOrSpaces(menuTagIn.tag) || isEmptyOrSpaces(menuTagIn.menu_to_dish_tag);
+    const isSubmitBtnDisabled = isEmptyOrSpaces(menuTagIn.tag) || menuTagIn.menu_sub_category_id === "";
 
 
 
@@ -62,24 +46,15 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({ca
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
             if(data.status === 200) {
-                const newUniqueMenuDishTags = await fetchAllUniqueMenuToDishTags();
-                setMenuToDishTagOptions(newUniqueMenuDishTags);
-                setShifts((prev) => {
+                setMenuClasses((prev) => {
                     if (!prev) return prev; // handle null
 
-                    const updated = prev.map(shiftPrev => {
-                        if (shiftPrev.id !== shift.id) return shiftPrev;
+                    const updated = prev.map(menuClassPrev => {
+                        if (menuClassPrev.id !== menuClass.id) return menuClassPrev;
 
                         return {
-                            ...shiftPrev,
-                            categories: shiftPrev.categories.map(categoryPrev => {
-                                if (categoryPrev.id !== category.id) return categoryPrev;
-
-                                return {
-                                    ...categoryPrev,
-                                    menu_tags: [...categoryPrev.menu_tags, data.menu_tag]
-                                };
-                            })
+                            ...menuClassPrev,
+                            menu_tags: [...menuClassPrev.menu_tags, data.menu_tag]
                         };
                     });
 
@@ -102,9 +77,9 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({ca
 
     const clearFields = () => {
         setMenuTagIn({
-            menu_category_id: category.id,
-            tag: "",
-            menu_to_dish_tag: ""
+            menu_class_id: menuClass.id,
+            menu_sub_category_id: "",
+            tag: ""
         })
     }
 
@@ -121,11 +96,10 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({ca
         onCancel={onClose}
         footer={null}
         width={650}
-        loading={!menuToDishTagOptions}
         >
             <form onSubmit={handleSubmit} className="mar-top-1">
 
-                <h4 className="fw-bold mar-bottom-2">For {category.category} {shift.shift}</h4>
+                <h4 className="fw-bold mar-bottom-2">For {menuClass.class}</h4>
 
                 {/* Tag */}
                 <div className="mar-bottom-1">
@@ -139,16 +113,24 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({ca
                     value={menuTagIn.tag}
                     onChange={handleInputChange}/>
 
-                    <label htmlFor="menu_to_dish_tag">Menu - Dish Tag</label>
-                    <AutoComplete
+                    <label htmlFor="menu_sub_category_id">Sub Category</label>
+                    <Select
                     size="large"
                     className="w-100"
-                    options={menuToDishTagOptions || []}
-                    placeholder="Input menu to dish tag e.g. Egg"
-                    filterOption={(inputValue, option) =>
-                        option!.value.toLowerCase().includes(inputValue.toLowerCase())
+                    id="menu_sub_category_id"
+                    showSearch
+                    value={menuTagIn.menu_sub_category_id}
+                    options={[
+                        {label: "Select menu class", value: ""},
+                        ...menuSubCategories.map(item => ({label: item.sub_category, value: item.id}))
+                    ]}
+                    onChange={(value) => handleInputChange({target: {name:"menu_sub_category_id", value: value}} as ChangeEvent<HTMLInputElement>)}
+                    filterOption={(input, option) =>
+                        (option?.label ?? "")
+                            .toString()
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
                     }
-                    onChange={(value) => handleInputChange({target: {name:"menu_to_dish_tag", value: value}} as ChangeEvent<HTMLInputElement>)}
                     />
                 </div>
 

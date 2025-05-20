@@ -5,9 +5,11 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BranchesController;
 use App\Http\Controllers\Api\BranchManagerController;
 use App\Http\Controllers\Api\MenuCategoriesController;
+use App\Http\Controllers\Api\MenuClassesController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
+use App\Http\Controllers\Api\MenuFormElementsController;
 use App\Http\Controllers\Api\MenuShiftsController;
 use App\Http\Controllers\Api\MenuSubCategoryController;
 use App\Http\Controllers\Api\MenuTagsController;
@@ -41,7 +43,7 @@ Route::post("/login", [AuthController::class, "Login"]);
 | Shifts 
 |----------------------------------------
 */
-Route::get("/get-all-menu-shifts-full", [MenuShiftsController::class, "GetAllMenuShiftsFull"]);
+Route::get("/get-all-menu-shifts", [MenuShiftsController::class, "GetAllMenuShifts"]);
 
 Route::post("/create-menu-shift", [MenuShiftsController::class, "CreateMenuShift"]);
 Route::post("/update-menu-shift", [MenuShiftsController::class, "UpdateMenuShift"]);
@@ -68,6 +70,21 @@ Route::post("/delete-menu-category", [MenuCategoriesController::class, "DeleteMe
 
 /*
 |----------------------------------------
+| Menu Categories 
+|----------------------------------------
+*/
+Route::get("/get-all-menu-classes", [MenuClassesController::class, "GetAllMenuClasses"]);
+
+Route::post("/create-menu-class", [MenuClassesController::class, "CreateMenuClass"]);
+Route::post("/update-menu-class", [MenuClassesController::class, "UpdateMenuClass"]);
+Route::post("/delete-menu-class", [MenuClassesController::class, "DeleteMenuClass"]);
+
+
+
+
+
+/*
+|----------------------------------------
 | Menu Tags 
 |----------------------------------------
 */
@@ -76,6 +93,19 @@ Route::get("/get-all-menu-tags", [MenuTagsController::class, "GetAllMenuTags"]);
 Route::post("/create-menu-tag", [MenuTagsController::class, "CreateMenuTag"]);
 Route::post("/update-menu-tag", [MenuTagsController::class, "UpdateMenuTag"]);
 Route::post("/delete-menu-tag", [MenuTagsController::class, "DeleteMenuTag"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Form Elements 
+|----------------------------------------
+*/
+Route::get("/get-all-menu-form-elements", [MenuFormElementsController::class, "GetAllMenuFormElements"]);
+
+Route::post("/create-menu-form-element", [MenuFormElementsController::class, "CreateMenuFormElement"]);
 
 
 

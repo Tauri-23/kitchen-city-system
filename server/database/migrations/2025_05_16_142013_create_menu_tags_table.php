@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('menu_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("menu_category_id")->nullable();
+            $table->unsignedBigInteger("menu_class_id")->nullable();
             $table->unsignedBigInteger("menu_sub_category_id")->nullable();
             $table->string("tag");
             $table->timestamps();
@@ -21,9 +21,9 @@ return new class extends Migration
             /**
              * Foreign Keys
              */
-            $table->foreign("menu_category_id")
+            $table->foreign("menu_class_id")
             ->references("id")
-            ->on("menu_categories")
+            ->on("menu_classes")
             ->cascadeOnUpdate()
             ->nullOnDelete();
 

@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 class MenuShiftsController extends Controller
 {
     // GET
-    public function GetAllMenuShiftsFull()
+    public function GetAllMenuShifts()
     {
-        return response()->json(menu_shifts::with("categories")->get());
+        return response()->json(menu_shifts::all());
     }
 
 
@@ -35,7 +35,7 @@ class MenuShiftsController extends Controller
             return response()->json([
                 "status" => 200,
                 "message" => "Shift successfully added",
-                "newShift" => $newShift->load("categories")
+                "newShift" => $newShift
             ]);
         }
         catch(\Exception $e)
@@ -61,7 +61,7 @@ class MenuShiftsController extends Controller
         return response()->json([
             "status" => 200,
             "message" => "Menu shift updated successfully",
-            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShiftsFull()->original
+            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShifts()->original
         ]);
     }
 
@@ -74,7 +74,7 @@ class MenuShiftsController extends Controller
         return response()->json([
             "status" => 200,
             "message" => "Menu shift successfully deleted",
-            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShiftsFull()->original
+            "updated_menu_shifts" => $getMenuShifts->GetAllMenuShifts()->original
         ]);
     }
 }
