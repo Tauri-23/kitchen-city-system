@@ -99,7 +99,14 @@ const SuperAdminAddMenuFormElementModal: React.FC<SuperAdminAddMenuFormElementMo
                         ...menuClasses.map(item => ({label: item.class, value: item.id}))
                     ]}
                     value={menuFormElementIn.menu_class_id}
-                    onChange={(val) => handleInputChange({target: {name: "menu_class_id", value: val}} as ChangeEvent<HTMLInputElement>)}/>
+                    onChange={(val) => handleInputChange({target: {name: "menu_class_id", value: val}} as ChangeEvent<HTMLInputElement>)}
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.label ?? "")
+                            .toString()
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                    }/>
                 </div>
 
                 {/* Buttons */}
