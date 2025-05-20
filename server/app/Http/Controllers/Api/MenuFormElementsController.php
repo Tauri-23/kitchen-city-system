@@ -34,4 +34,14 @@ class MenuFormElementsController extends Controller
             "menuFormElements" => $menuFormElements->GetAllMenuFormElements()->original
         ]);
     }
+
+    public function DeleteMenuFormElement(Request $request)
+    {
+        menu_form_elements::find($request->id)->delete();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Form element successfully deleted"
+        ]);
+    }
 }

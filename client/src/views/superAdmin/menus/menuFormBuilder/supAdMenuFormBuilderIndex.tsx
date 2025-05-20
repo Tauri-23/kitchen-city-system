@@ -3,12 +3,14 @@ import { useOutletContext } from "react-router-dom";
 import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
 import { MenuShiftStructure } from "../../../../types/menuShiftStructure";
 import { fetchAllMenuShifts } from "../../../../services/menuShiftsServices";
-import { Button, Spin, Table, TableColumnsType } from "antd";
+import { Button, Popconfirm, Spin, Table, TableColumnsType } from "antd";
 import { useGeneralContext } from "../../../../contexts/GeneralContext";
 import { MenuFormElementStructure } from "../../../../types/menuFormElementStructure";
 import { fetchAllMenuFormElements } from "../../../../services/menuFormElementServices";
 import { MenuClassStructure } from "../../../../types/menuClassStructure";
 import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
+import axiosClient from "../../../../axios-client";
+import { notify } from "../../../../assets/lib/utils";
 
 interface OutletContextTypes {
     setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
@@ -87,19 +89,6 @@ export default function SuperAdminMenuFormBuilderIndex() {
 
 
     /**
-     * Menu Shift Handlers
-     */
-    const handleAddElement = (selectedShift: MenuShiftStructure) => {
-        showModal("SuperAdminAddMenuFormElementModal", {
-            setmenuFormElements,
-            selectedShift,
-            menuClasses
-        });
-    }
-
-
-
-    /**
      * Setup Columns
      */
     const menuSettingsColumns: TableColumnsType<any> = [
@@ -122,7 +111,13 @@ export default function SuperAdminMenuFormBuilderIndex() {
                     return <Button size="small" onClick={() => handleAddElement(row)}>Add Element</Button>
                 }
                 if(row.type === "class") {
-                    return <Button size="small">Remove Element</Button>
+                    return (
+                        <Popconfirm
+                        title="Delete this element"
+                        onConfirm={() => handleDeleteElement(row.id)}>
+                            <Button size="small">Remove Element</Button>
+                        </Popconfirm>
+                    )
                 }
             },
             onCell: (row) => ({
@@ -134,6 +129,36 @@ export default function SuperAdminMenuFormBuilderIndex() {
             width: "100px"
         }
     ];
+
+
+
+    /**
+     * Handlers
+     */
+    const handleAddElement = (selectedShift: MenuShiftStructure) => {
+        showModal("SuperAdminAddMenuFormElementModal", {
+            setmenuFormElements,
+            selectedShift,
+            menuClasses
+        });
+    }
+
+    const handleDeleteElement = (id: number) => {
+        const formData = new FormData();
+        formData.append("id", String(id));
+
+        axiosClient.post("/delete-menu-form-element", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+            if(data.status === 200) {
+                setmenuFormElements(prev => prev?.filter(element => element.id !== id) || []);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
 
 
 

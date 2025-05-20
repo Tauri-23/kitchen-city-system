@@ -106,6 +106,7 @@ Route::post("/delete-menu-tag", [MenuTagsController::class, "DeleteMenuTag"]);
 Route::get("/get-all-menu-form-elements", [MenuFormElementsController::class, "GetAllMenuFormElements"]);
 
 Route::post("/create-menu-form-element", [MenuFormElementsController::class, "CreateMenuFormElement"]);
+Route::post("/delete-menu-form-element", [MenuFormElementsController::class, "DeleteMenuFormElement"]);
 
 
 

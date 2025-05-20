@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2025 at 06:53 PM
+-- Generation Time: May 20, 2025 at 03:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1228,26 +1228,63 @@ CREATE TABLE `menu_categories` (
 --
 
 INSERT INTO `menu_categories` (`id`, `category`, `created_at`, `updated_at`) VALUES
-(1, 'Regular', '2025-05-19 07:44:16', '2025-05-19 08:24:39'),
-(2, 'Plant Based', '2025-05-19 07:46:02', '2025-05-19 07:46:02'),
-(5, 'Cold Cuts', '2025-05-19 07:53:49', '2025-05-19 07:53:49'),
-(6, 'Canned Goods', '2025-05-19 07:53:55', '2025-05-19 07:53:55'),
-(7, 'Eggs', '2025-05-19 07:53:59', '2025-05-19 07:53:59'),
-(8, 'On The Spot', '2025-05-19 07:54:04', '2025-05-19 07:54:04'),
-(9, 'Salad', '2025-05-19 07:54:09', '2025-05-19 07:54:09'),
-(10, 'Rice', '2025-05-19 07:54:13', '2025-05-19 07:54:13'),
-(11, 'Free Soup', '2025-05-19 07:54:18', '2025-05-19 07:54:18'),
-(12, 'Desserts', '2025-05-19 07:54:23', '2025-05-19 07:54:23'),
-(13, 'Delicacies', '2025-05-19 07:54:27', '2025-05-19 07:54:27'),
-(14, 'Bakeshop', '2025-05-19 07:54:35', '2025-05-19 07:54:35'),
-(15, 'Special', '2025-05-19 07:54:43', '2025-05-19 07:54:43'),
-(16, 'Executive', '2025-05-19 07:54:48', '2025-05-19 07:54:48'),
-(17, 'Pinoy Favorite Mainstay', '2025-05-19 07:57:05', '2025-05-19 15:59:29'),
-(18, 'Pasta', '2025-05-19 07:57:29', '2025-05-19 07:57:29'),
-(19, 'Noodles', '2025-05-19 07:57:32', '2025-05-19 07:57:32'),
-(20, 'Porridge', '2025-05-19 07:57:36', '2025-05-19 07:57:36'),
-(21, 'Pinoy Favorites', '2025-05-19 07:58:15', '2025-05-19 07:58:15'),
-(22, 'Kalye Uno', '2025-05-19 07:58:58', '2025-05-19 07:58:58');
+(23, 'Bakeshop', '2025-05-20 01:35:17', '2025-05-20 01:50:12'),
+(24, 'Breakfast', '2025-05-20 01:35:21', '2025-05-20 01:35:21'),
+(25, 'Canned Goods', '2025-05-20 01:35:26', '2025-05-20 01:35:26'),
+(26, 'Cold Cuts', '2025-05-20 01:35:35', '2025-05-20 01:35:35'),
+(27, 'Delicacies', '2025-05-20 01:35:40', '2025-05-20 01:35:40'),
+(28, 'Dessert', '2025-05-20 01:35:45', '2025-05-20 01:35:45'),
+(29, 'Egg', '2025-05-20 01:35:47', '2025-05-20 01:35:47'),
+(30, 'Executive', '2025-05-20 01:35:54', '2025-05-20 01:35:54'),
+(31, 'Pasta & Noodles', '2025-05-20 01:35:59', '2025-05-20 01:35:59'),
+(32, 'Plant Based', '2025-05-20 01:36:04', '2025-05-20 01:36:04'),
+(33, 'Porridge', '2025-05-20 01:36:08', '2025-05-20 01:36:08'),
+(34, 'Regular', '2025-05-20 01:36:11', '2025-05-20 01:36:11'),
+(35, 'Rice', '2025-05-20 01:36:14', '2025-05-20 01:36:14'),
+(36, 'Salad', '2025-05-20 01:36:17', '2025-05-20 01:36:17'),
+(37, 'Soup', '2025-05-20 01:36:20', '2025-05-20 01:36:20'),
+(38, 'Special', '2025-05-20 01:36:23', '2025-05-20 01:36:23'),
+(39, 'Themed', '2025-05-20 01:36:26', '2025-05-20 01:36:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_classes`
+--
+
+CREATE TABLE `menu_classes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_classes`
+--
+
+INSERT INTO `menu_classes` (`id`, `class`, `created_at`, `updated_at`) VALUES
+(1, 'Regular', '2025-05-20 01:56:01', '2025-05-20 01:56:01'),
+(2, 'Plant Based', '2025-05-20 01:56:41', '2025-05-20 01:56:41'),
+(3, 'Cold Cuts', '2025-05-20 01:56:48', '2025-05-20 01:56:48'),
+(4, 'Canned Goods', '2025-05-20 01:56:52', '2025-05-20 01:56:52'),
+(5, 'Eggs', '2025-05-20 01:56:55', '2025-05-20 01:56:55'),
+(6, 'On The Spot', '2025-05-20 01:57:00', '2025-05-20 01:57:00'),
+(7, 'Salad', '2025-05-20 01:57:03', '2025-05-20 01:57:03'),
+(8, 'Rice', '2025-05-20 01:57:06', '2025-05-20 01:57:06'),
+(9, 'Free Soup', '2025-05-20 01:57:10', '2025-05-20 01:57:10'),
+(10, 'Desserts', '2025-05-20 01:57:14', '2025-05-20 01:57:14'),
+(11, 'Delicacies', '2025-05-20 01:57:18', '2025-05-20 01:57:18'),
+(12, 'Bakeshop', '2025-05-20 01:57:25', '2025-05-20 01:57:25'),
+(13, 'Special', '2025-05-20 01:57:34', '2025-05-20 01:57:34'),
+(14, 'Executive', '2025-05-20 01:57:38', '2025-05-20 01:57:38'),
+(15, 'Pinoy Favorite Mainstay', '2025-05-20 01:58:01', '2025-05-20 01:58:01'),
+(16, 'Pasta', '2025-05-20 01:58:09', '2025-05-20 01:58:09'),
+(17, 'Noodles', '2025-05-20 01:58:12', '2025-05-20 01:58:12'),
+(18, 'Porridge', '2025-05-20 01:58:17', '2025-05-20 01:58:17'),
+(19, 'Pinoy Favorites Mainstay', '2025-05-20 01:58:27', '2025-05-20 01:58:27'),
+(20, 'Pinoy Favorites', '2025-05-20 01:58:52', '2025-05-20 01:58:52'),
+(21, 'Kalye Uno', '2025-05-20 01:58:57', '2025-05-20 01:58:57');
 
 -- --------------------------------------------------------
 
@@ -1317,6 +1354,27 @@ INSERT INTO `menu_dishes_categories` (`id`, `category`, `created_at`, `updated_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu_form_elements`
+--
+
+CREATE TABLE `menu_form_elements` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `menu_shift_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `menu_class_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_form_elements`
+--
+
+INSERT INTO `menu_form_elements` (`id`, `menu_shift_id`, `menu_class_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2025-05-20 05:15:24', '2025-05-20 05:15:24');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_shifts`
 --
 
@@ -1362,7 +1420,7 @@ INSERT INTO `menu_sub_categories` (`id`, `sub_category`, `created_at`, `updated_
 (3, 'Breakfast', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
 (4, 'Canned Goods', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
 (5, 'Chicken', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
-(6, 'Coldcuts', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(6, 'Cold cuts', '2025-05-19 09:23:20', '2025-05-20 10:27:48'),
 (7, 'Delicacies', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
 (8, 'Dessert', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
 (9, 'Egg', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
@@ -1374,7 +1432,10 @@ INSERT INTO `menu_sub_categories` (`id`, `sub_category`, `created_at`, `updated_
 (15, 'Salad', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
 (16, 'Seafood', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
 (17, 'Soup', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
-(18, 'Vegetable', '2025-05-19 09:23:20', '2025-05-19 09:23:20');
+(18, 'Vegetable', '2025-05-19 09:23:20', '2025-05-19 09:23:20'),
+(19, 'On The Spot', '2025-05-20 10:40:15', '2025-05-20 10:40:15'),
+(20, 'Pinoy Favorite Mainstay', '2025-05-20 11:00:39', '2025-05-20 11:00:39'),
+(21, 'Kalye Uno', '2025-05-20 11:03:45', '2025-05-20 11:03:45');
 
 -- --------------------------------------------------------
 
@@ -1384,12 +1445,74 @@ INSERT INTO `menu_sub_categories` (`id`, `sub_category`, `created_at`, `updated_
 
 CREATE TABLE `menu_tags` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `menu_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `menu_class_id` bigint(20) UNSIGNED DEFAULT NULL,
   `menu_sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
   `tag` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_tags`
+--
+
+INSERT INTO `menu_tags` (`id`, `menu_class_id`, `menu_sub_category_id`, `tag`, `created_at`, `updated_at`) VALUES
+(1, 1, 5, 'Chicken Regular', '2025-05-20 02:20:50', '2025-05-20 03:46:54'),
+(2, 1, 12, 'Pork Regular', '2025-05-20 02:21:08', '2025-05-20 02:21:08'),
+(3, 1, 16, 'Seafood Regular', '2025-05-20 02:21:22', '2025-05-20 02:21:22'),
+(5, 2, 11, 'Plant Based', '2025-05-20 02:22:06', '2025-05-20 02:22:06'),
+(6, 3, 6, 'Cold Cuts 1', '2025-05-20 02:29:12', '2025-05-20 02:29:12'),
+(7, 3, 6, 'Cold Cuts 2', '2025-05-20 02:29:15', '2025-05-20 02:29:15'),
+(8, 4, 4, 'Canned Goods 1', '2025-05-20 02:38:53', '2025-05-20 02:38:53'),
+(9, 4, 4, 'Canned Goods 2', '2025-05-20 02:38:56', '2025-05-20 02:38:56'),
+(10, 5, 9, 'Egg 1', '2025-05-20 02:39:34', '2025-05-20 02:39:34'),
+(11, 5, 9, 'Egg 2', '2025-05-20 02:39:37', '2025-05-20 02:39:37'),
+(12, 5, 9, 'Egg 3', '2025-05-20 02:39:39', '2025-05-20 02:39:39'),
+(13, 6, 19, 'On The Spot 1', '2025-05-20 02:41:37', '2025-05-20 02:41:37'),
+(16, 7, 15, 'Salad 1', '2025-05-20 02:42:59', '2025-05-20 10:43:30'),
+(17, 8, 14, 'Flavored Rice', '2025-05-20 02:50:43', '2025-05-20 02:50:43'),
+(18, 9, 17, 'Free Soup', '2025-05-20 02:51:01', '2025-05-20 02:51:01'),
+(19, 10, 8, 'Dessert 1', '2025-05-20 02:51:12', '2025-05-20 02:51:12'),
+(20, 10, 8, 'Dessert 2', '2025-05-20 02:51:13', '2025-05-20 02:51:13'),
+(21, 10, 8, 'Dessert 3', '2025-05-20 02:51:14', '2025-05-20 02:51:14'),
+(22, 11, 7, 'Delicacies 1', '2025-05-20 02:51:33', '2025-05-20 02:51:33'),
+(23, 11, 7, 'Delicacies 2', '2025-05-20 02:51:35', '2025-05-20 02:51:35'),
+(24, 12, 1, 'Freshly Baked Breads', '2025-05-20 02:52:38', '2025-05-20 02:52:38'),
+(25, 12, 1, 'Freshly Baked Breads (Mainstay)', '2025-05-20 02:52:43', '2025-05-20 02:52:43'),
+(26, 13, 2, 'Beef Special', '2025-05-20 02:53:17', '2025-05-20 02:53:17'),
+(27, 13, 5, 'Chicken Special', '2025-05-20 02:53:26', '2025-05-20 02:53:26'),
+(28, 13, 12, 'Pork Special', '2025-05-20 02:53:36', '2025-05-20 02:53:36'),
+(29, 13, 16, 'Seafood Special', '2025-05-20 02:53:44', '2025-05-20 02:53:44'),
+(30, 13, 18, 'Vegetable Special', '2025-05-20 02:54:22', '2025-05-20 02:54:22'),
+(31, 14, 2, 'Beef Executive', '2025-05-20 02:54:39', '2025-05-20 02:54:39'),
+(32, 14, 5, 'Chicken Executive', '2025-05-20 02:55:47', '2025-05-20 02:55:47'),
+(33, 14, 12, 'Pork Executive', '2025-05-20 02:55:54', '2025-05-20 02:55:54'),
+(34, 14, 16, 'Seafood Executive', '2025-05-20 02:56:02', '2025-05-20 02:56:02'),
+(35, 14, 18, 'Vegetable Executive', '2025-05-20 02:56:12', '2025-05-20 02:56:12'),
+(36, 2, 11, 'Plant Based 1', '2025-05-20 02:56:44', '2025-05-20 02:56:44'),
+(37, 2, 11, 'Plant Based 2', '2025-05-20 02:57:03', '2025-05-20 02:57:03'),
+(38, 6, 19, 'On The Spot 2', '2025-05-20 02:57:31', '2025-05-20 02:57:31'),
+(39, 6, 19, 'On The Spot 3', '2025-05-20 02:57:34', '2025-05-20 02:57:34'),
+(40, 6, 19, 'On The Spot 4', '2025-05-20 02:57:35', '2025-05-20 02:57:35'),
+(41, 11, 7, 'Delicacies 3', '2025-05-20 02:58:04', '2025-05-20 02:58:04'),
+(43, 15, 20, 'Pinoy Favorite Mainstay 1', '2025-05-20 03:01:24', '2025-05-20 03:01:24'),
+(44, 15, 20, 'Pinoy Favorite Mainstay 2', '2025-05-20 03:01:27', '2025-05-20 03:01:27'),
+(45, 15, 20, 'Pinoy Favorite Mainstay 3', '2025-05-20 03:01:29', '2025-05-20 03:01:29'),
+(46, 16, 10, 'Pasta 1', '2025-05-20 03:01:42', '2025-05-20 03:01:42'),
+(47, 16, 10, 'Pasta 2', '2025-05-20 03:01:45', '2025-05-20 03:01:45'),
+(48, 17, 10, 'Noodles 1', '2025-05-20 03:02:11', '2025-05-20 03:02:11'),
+(49, 17, 10, 'Noodles 2', '2025-05-20 03:02:13', '2025-05-20 03:02:13'),
+(50, 18, 13, 'Porridge', '2025-05-20 03:02:24', '2025-05-20 03:02:24'),
+(51, 19, 20, 'Pinoy Favorite (Mainstay) 1', '2025-05-20 03:02:45', '2025-05-20 03:02:45'),
+(52, 19, 20, 'Pinoy Favorite (Mainstay) 2', '2025-05-20 03:02:48', '2025-05-20 03:02:48'),
+(53, 20, 20, 'Pinoy Favorites 1', '2025-05-20 03:03:08', '2025-05-20 03:03:08'),
+(54, 20, 20, 'Pinoy Favorites 2', '2025-05-20 03:03:09', '2025-05-20 03:03:09'),
+(55, 21, 21, 'Kalye Uno 1', '2025-05-20 03:04:44', '2025-05-20 03:04:44'),
+(56, 21, 21, 'Kalye Uno 2', '2025-05-20 03:04:46', '2025-05-20 03:04:46'),
+(57, 21, 21, 'Kalye Uno 3', '2025-05-20 03:04:47', '2025-05-20 03:04:47'),
+(58, 21, 21, 'Kalye Uno 4', '2025-05-20 03:04:48', '2025-05-20 03:04:48'),
+(59, 21, 21, 'Kalye Uno 5', '2025-05-20 03:04:50', '2025-05-20 03:04:50'),
+(62, 1, 18, 'Vegetable Regular', '2025-05-20 03:57:45', '2025-05-20 03:57:45');
 
 -- --------------------------------------------------------
 
@@ -1424,7 +1547,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (50, '2025_05_19_091424_create_menu_sub_categories_table', 14),
 (51, '2025_05_05_120656_create_menu_dishes_table', 15),
 (52, '2025_05_15_145951_create_menu_categories_table', 16),
-(53, '2025_05_16_142013_create_menu_tags_table', 17);
+(55, '2025_05_20_091007_create_menu_classes_table', 18),
+(56, '2025_05_16_142013_create_menu_tags_table', 19),
+(57, '2025_05_20_120633_create_menu_form_elements_table', 20);
 
 -- --------------------------------------------------------
 
@@ -1504,7 +1629,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (49, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'd846575624f6d60027f0998f6c2004ec5842e3aff6b3850aee0ed26cba87471f', '[\"*\"]', '2025-05-10 08:44:31', NULL, '2025-05-10 07:41:26', '2025-05-10 08:44:31'),
 (51, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '65751f3609c377d66f01e7fe73473784a0138db4831775b3175343c8fc55bbc4', '[\"*\"]', '2025-05-13 23:51:48', NULL, '2025-05-12 04:48:38', '2025-05-13 23:51:48'),
 (54, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'a057aacc3e05b01ec6a736a0101ea1f630e376373bae3b512feb6c02fc97f7fd', '[\"*\"]', '2025-05-12 22:42:55', NULL, '2025-05-12 22:26:55', '2025-05-12 22:42:55'),
-(59, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '4a09430f0d3b409788efd6a0676ebe12251a2c6a1b3861341a6ac53b29d9dbaf', '[\"*\"]', '2025-05-19 08:45:48', NULL, '2025-05-18 06:47:14', '2025-05-19 08:45:48');
+(59, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '4a09430f0d3b409788efd6a0676ebe12251a2c6a1b3861341a6ac53b29d9dbaf', '[\"*\"]', '2025-05-20 05:34:57', NULL, '2025-05-18 06:47:14', '2025-05-20 05:34:57');
 
 -- --------------------------------------------------------
 
@@ -1645,6 +1770,12 @@ ALTER TABLE `menu_categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menu_classes`
+--
+ALTER TABLE `menu_classes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `menu_dishes`
 --
 ALTER TABLE `menu_dishes`
@@ -1657,6 +1788,14 @@ ALTER TABLE `menu_dishes`
 --
 ALTER TABLE `menu_dishes_categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `menu_form_elements`
+--
+ALTER TABLE `menu_form_elements`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `menu_form_elements_menu_shift_id_foreign` (`menu_shift_id`),
+  ADD KEY `menu_form_elements_menu_class_id_foreign` (`menu_class_id`);
 
 --
 -- Indexes for table `menu_shifts`
@@ -1675,7 +1814,7 @@ ALTER TABLE `menu_sub_categories`
 --
 ALTER TABLE `menu_tags`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_tags_menu_category_id_foreign` (`menu_category_id`),
+  ADD KEY `menu_tags_menu_class_id_foreign` (`menu_class_id`),
   ADD KEY `menu_tags_menu_sub_category_id_foreign` (`menu_sub_category_id`);
 
 --
@@ -1755,13 +1894,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `menu_categories`
 --
 ALTER TABLE `menu_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `menu_classes`
+--
+ALTER TABLE `menu_classes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `menu_dishes_categories`
 --
 ALTER TABLE `menu_dishes_categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `menu_form_elements`
+--
+ALTER TABLE `menu_form_elements`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `menu_shifts`
@@ -1773,19 +1924,19 @@ ALTER TABLE `menu_shifts`
 -- AUTO_INCREMENT for table `menu_sub_categories`
 --
 ALTER TABLE `menu_sub_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `menu_tags`
 --
 ALTER TABLE `menu_tags`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1822,10 +1973,17 @@ ALTER TABLE `menu_dishes`
   ADD CONSTRAINT `menu_dishes_sub_category_id_foreign` FOREIGN KEY (`sub_category_id`) REFERENCES `menu_sub_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Constraints for table `menu_form_elements`
+--
+ALTER TABLE `menu_form_elements`
+  ADD CONSTRAINT `menu_form_elements_menu_class_id_foreign` FOREIGN KEY (`menu_class_id`) REFERENCES `menu_classes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `menu_form_elements_menu_shift_id_foreign` FOREIGN KEY (`menu_shift_id`) REFERENCES `menu_shifts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
 -- Constraints for table `menu_tags`
 --
 ALTER TABLE `menu_tags`
-  ADD CONSTRAINT `menu_tags_menu_category_id_foreign` FOREIGN KEY (`menu_category_id`) REFERENCES `menu_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `menu_tags_menu_class_id_foreign` FOREIGN KEY (`menu_class_id`) REFERENCES `menu_classes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `menu_tags_menu_sub_category_id_foreign` FOREIGN KEY (`menu_sub_category_id`) REFERENCES `menu_sub_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
