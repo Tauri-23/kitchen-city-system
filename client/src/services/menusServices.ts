@@ -11,7 +11,7 @@ export const fetchAllMenus = async() => {
 }
 
 
-export const fetchAllMenusWhereWeek = async(week: number) => {
+export const fetchAllMenusWhereWeek = async(week: string) => {
     try {
         const response = await axiosClient.get(`/get-all-menus-where-week/${week}`);
         return response.data;

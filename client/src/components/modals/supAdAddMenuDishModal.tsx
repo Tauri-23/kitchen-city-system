@@ -4,24 +4,28 @@ import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import axiosClient from "../../axios-client";
 import { MenuDishStructure } from "../../types/menuDishStructure";
 import { MenuSubCategoryStructure } from "../../types/menuSubCategoryStucture";
+import { MenuClassStructure } from "../../types/menuClassStructure";
+import { MenuCategoryStructure } from "../../types/menuCategoryStructure";
 
 interface SuperAdminAddMenuDishModalTypes {
+    menuClasses: MenuClassStructure[];
+    menuCategories: MenuCategoryStructure[];
     menuSubCategories: MenuSubCategoryStructure[] | null;
-    menuToDishtag: string;
     setMenuDishes: React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>
     onClose: () => void;
 }
 
-const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({menuSubCategories, menuToDishtag, setMenuDishes, onClose}) => {
+const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({menuClasses, menuCategories, menuSubCategories, setMenuDishes, onClose}) => {
     const [isAdding, setIsAdding] = useState<boolean>(false);
 
     const productionTypes = ["Commis", "Commis Cooked", "On Site"];
 
     const [menuDishIn, setMenuDishIn] = useState({
-        menu_to_dish_tag: menuToDishtag,
         dish_code: "",
         name: "",
-        sub_category: "",
+        menu_class_id: "",
+        menu_category_id: "",
+        menu_sub_category_id: "",
         unit_cost: 0,
         production: "",
     });
@@ -31,8 +35,9 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
     /**
      * Checkers
      */
-    const isSubmitBtnDisabled = isEmptyOrSpaces(menuDishIn.name) || menuDishIn.production === "" ||
-    menuDishIn.sub_category === "" || isEmptyOrSpaces(menuDishIn.dish_code);
+    const isSubmitBtnDisabled = isEmptyOrSpaces(menuDishIn.dish_code) || isEmptyOrSpaces(menuDishIn.name) ||
+    menuDishIn.menu_class_id === "" || menuDishIn.menu_category_id === "" ||
+    menuDishIn.menu_sub_category_id === "" || menuDishIn.production === "";
 
 
 
@@ -70,10 +75,11 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
 
     const clearFields = () => {
         setMenuDishIn({
-            menu_to_dish_tag: menuToDishtag,
             dish_code: "",
             name: "",
-            sub_category: "",
+            menu_class_id: "",
+            menu_category_id: "",
+            menu_sub_category_id: "",
             unit_cost: 0,
             production: "",
         })
@@ -95,8 +101,6 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
         >
             <form onSubmit={handleSubmit} className="mar-top-1">
 
-                <h3 className="mar-bottom-1">For: {menuToDishtag}</h3>
-
                 {/* Fields */}
                 <div className="mar-bottom-1">
                     {/* Dish Code */}
@@ -107,6 +111,7 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
                         size="large"
                         id="dish_code"
                         name="dish_code"
+                        placeholder="XXXXX"
                         value={menuDishIn.dish_code}
                         onChange={handleInputChange}/>
                     </>
@@ -121,6 +126,7 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
                         id="name"
                         name="name"
                         value={menuDishIn.name}
+                        placeholder="e.g. Chicken Adobo"
                         onChange={handleInputChange}/>
                     </>
                     
@@ -136,21 +142,73 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
                         value={menuDishIn.unit_cost}
                         onChange={(val) => handleInputChange({ target: { name: "unit_cost", value: val } } as unknown as ChangeEvent<HTMLInputElement>)}/>
                     </>
+
+                    {/* Menu Class */}
+                    <>
+                        <label htmlFor="menu_class_id">Menu Class</label>
+                        <Select
+                        className="mar-bottom-3 w-100"
+                        size="large"
+                        id="menu_class_id"
+                        options={[
+                            {label: "Select menu class", value: ""},
+                            ...menuClasses?.map(menuClass => ({label: menuClass.class, value: menuClass.id})) || []
+                        ]}
+                        value={menuDishIn.menu_class_id}
+                        onChange={(val) => handleInputChange({ target: { name: "menu_class_id", value: val } } as ChangeEvent<HTMLInputElement>)}
+                        showSearch
+                        filterOption={(input, option) => 
+                            (option?.label ?? "")
+                            .toString()
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }/>
+                    </>
+
+
+                    {/* Category */}
+                    <>
+                        <label htmlFor="menu_category_id">Category</label>
+                        <Select
+                        className="mar-bottom-3 w-100"
+                        size="large"
+                        id="menu_category_id"
+                        options={[
+                            {label: "Select category", value: ""},
+                            ...menuCategories?.map(category => ({label: category.category, value: category.id})) || []
+                        ]}
+                        value={menuDishIn.menu_category_id}
+                        onChange={(val) => handleInputChange({ target: { name: "menu_category_id", value: val } } as ChangeEvent<HTMLInputElement>)}
+                        showSearch
+                        filterOption={(input, option) => 
+                            (option?.label ?? "")
+                            .toString()
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }/>
+                    </>
                     
 
                     {/* Sub Category */}
                     <>
-                        <label htmlFor="sub_category">Sub Category</label>
+                        <label htmlFor="menu_sub_category_id">Sub Category</label>
                         <Select
                         className="mar-bottom-3 w-100"
                         size="large"
-                        id="sub_category"
+                        id="menu_sub_category_id"
                         options={[
-                            {label: "Select Sub Category", value: ""},
+                            {label: "Select sub-category", value: ""},
                             ...menuSubCategories?.map(subCat => ({label: subCat.sub_category, value: subCat.id})) || []
                         ]}
-                        value={menuDishIn.sub_category}
-                        onChange={(val) => handleInputChange({ target: { name: "sub_category", value: val } } as ChangeEvent<HTMLInputElement>)}/>
+                        value={menuDishIn.menu_sub_category_id}
+                        onChange={(val) => handleInputChange({ target: { name: "menu_sub_category_id", value: val } } as ChangeEvent<HTMLInputElement>)}
+                        showSearch
+                        filterOption={(input, option) => 
+                            (option?.label ?? "")
+                            .toString()
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }/>
                     </>
 
                     {/* Production */}

@@ -12,11 +12,12 @@ class menu extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        "menu_name",
         "menu_week",
+        "menu_dish_id",
+        "menu_class_id",
+        "menu_sub_category_id",
         "menu_day",
-        "meal_type",
-        "menu_size",
+        "menu_size"
     ];
 
     public static function boot()
@@ -35,8 +36,19 @@ class menu extends Model
     /**
      * Foreign Joins
      */
-    public function menu_dishes()
+    public function menu_dish()
     {
-        return $this->hasMany(menu_dishes::class, "menu_id", "id")->with("category");
+        return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id");
     }
+
+    public function menu_class()
+    {
+        return $this->belongsTo(menu_classes::class, "menu_class_id", "id");
+    }
+
+    public function menu_sub_category()
+    {
+        return $this->belongsTo(menu_sub_categories::class, "menu_sub_category_id", "id");
+    }
+
 }

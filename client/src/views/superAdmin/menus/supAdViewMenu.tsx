@@ -3,26 +3,32 @@ import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Breadcrumb, Button, Select, Spin, Table, TableColumnsType } from "antd";
 import "../../../assets/css/viewMenu.css";
+import { fetchAllMenusWhereWeek } from "../../../services/menusServices";
+import { MenuStructure } from "../../../types/menuStructure";
+import { MenuShiftStructure } from "../../../types/menuShiftStructure";
+import { MenuFormElementStructure } from "../../../types/menuFormElementStructure";
+import { MenuClassStructure } from "../../../types/menuClassStructure";
+import { fetchAllMenuShifts } from "../../../services/menuShiftsServices";
+import { fetchAllMenuFormElements } from "../../../services/menuFormElementServices";
+import { fetchAllMenuClasses } from "../../../services/menuClassesServices";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
-import { formatToPhilPeso } from "../../../assets/lib/utils";
-// import { fetchAllMenuDishesWhereWeek } from "../../../services/menuDishesServices";
-
-interface menuDishNamesByMealTypeStructure {
-    mealType: string;
-    dishNames: string[];
-}
+import { fetchAllMenuDishes } from "../../../services/menuDishesServices";
 
 export default function SuperAdminViewMenu() {
     const { setActiveSideNavLink } = useSuperAdminContext();
 
-    const [dishes, setDishes] = useState<MenuDishStructure[] | null>(null);
-    const [menuDishNamesByMealType, setMenuDishNamesByMealType] = useState<menuDishNamesByMealTypeStructure[] | null>(null);
+    const [menus, setMenus] = useState<MenuStructure[] | null>(null);
+    const [shifts, setShifts] = useState<MenuShiftStructure[] | null>(null);
+    const [menuFormElements, setmenuFormElements] = useState<MenuFormElementStructure[] | null>(null);
+    const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
+    const [menuDishes, setMenuDishes] = useState<MenuDishStructure[] | null>(null);
     
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
     const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
     
     const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
+    const [selectedDishesIn, setSelectedDishesIn] = useState<MenuStructure[]>([]);
 
 
     const params = useParams();
@@ -33,109 +39,162 @@ export default function SuperAdminViewMenu() {
     /**
      * Onmount
      */
-    // useEffect(() => {
-    //     setActiveSideNavLink("Menus");
+    useEffect(() => {
+        setActiveSideNavLink("Menus");
 
-    //     const getAll = async() => {
-    //         const dishesData = await fetchAllMenuDishesWhereWeek(String(params.id));
-    //         setDishes(dishesData);
-    //     }
+        const getAll = async() => {
+            const [menusData, shiftsData, menuFormElementsData, menuClassesData, menuDishesData] = await Promise.all([
+                fetchAllMenusWhereWeek(String(params.id)),
+                fetchAllMenuShifts(),
+                fetchAllMenuFormElements(),
+                fetchAllMenuClasses(),
+                fetchAllMenuDishes()
+            ]);
+            setMenus(menusData);
+            setShifts(shiftsData);
+            setmenuFormElements(menuFormElementsData);
+            setMenuClasses(menuClassesData);
+            setMenuDishes(menuDishesData);
+        }
 
-    //     getAll();
-    // }, []);
-
-    // useEffect(() => {
-    //     if(dishes) {
-    //         const extractedMenuDishNames = mealTypes.map(mealType => {
-    //             const basedDish = dishes.filter((x: MenuDishStructure) => 
-    //                 x.menu?.meal_type === mealType && 
-    //                 x.menu.menu_day === days[0] && x.menu.menu_size === selectedSize
-    //             );
-    //             return {
-    //                 mealType,
-    //                 dishNames: basedDish.flatMap((x: MenuDishStructure) => x.name)
-    //             }
-    //         });
-
-    //         setMenuDishNamesByMealType(extractedMenuDishNames);
-    //     }
-    // }, [selectedSize, dishes])
+        getAll();
+    }, []);
 
 
 
     /**
      * Setup Columns
      */
-    // const dishesColumns: TableColumnsType<any> = [
-    //     {
-    //         title: "Dish Name",
-    //         fixed: "left",
-    //         dataIndex: "dishName",
-    //         width: 250
-    //     },
-    //     ...days.map(day => ({
-    //         title: day,
-    //         children: [
-    //         {
-    //             title: "Description",
-    //             render: (_: never, row: any) => {
-    //                 const dish = dishes?.find(dish => 
-    //                     dish.menu?.meal_type === row.mealType && 
-    //                     dish.menu?.menu_size === selectedSize &&
-    //                     dish.name === row.dishName && 
-    //                     dish.menu?.menu_day === day
-    //                 )
+    const transformedShifts = shifts?.map((shift) => ({
+        key: `shift-${shift.id}`,
+        id: shift.id,
+        shift: shift.shift,
+        type: "shift",
+        children: menuFormElements?.filter(element => element.menu_shift_id === shift.id).map(category => ({
+            key: `class-${category.id}`,
+            id: category.id,
+            class: category.menu_class.class,
+            type: "class",
+            children: category.menu_class.menu_tags.map(tag => ({
+                key: `tag-${tag.id}`,
+                id: tag.id,
+                tag: tag.tag,
+                subCategory: tag.menu_sub_category_id,
+                class: tag.menu_class_id,
+                type: "tag"
+            }))
+        }))
+    })) || [];
 
-    //                 return dish ? dish.odoo_name : "-"
-    //             },
-    //             width: 400,
-    //         },
-    //         {
-    //             title: "Category",
-    //             render: (_: never, row: any) => {
-    //                 const dish = dishes?.find(dish => 
-    //                     dish.menu?.meal_type === row.mealType && 
-    //                     dish.menu?.menu_size === selectedSize &&
-    //                     dish.name === row.dishName && 
-    //                     dish.menu?.menu_day === day
-    //                 )
+    const getDefaultExpandedKeys = (shifts: MenuShiftStructure[] | any[]) => {
+        const keys: string[] = [];
 
-    //                 return dish ? dish.category?.category : "-" 
-    //             },
-    //             width: 150,
-    //         },
-    //         {
-    //             title: "Unit Cost",
-    //             render: (_: never, row: any) => {
-    //                 const dish = dishes?.find(dish => 
-    //                     dish.menu?.meal_type === row.mealType && 
-    //                     dish.menu?.menu_size === selectedSize &&
-    //                     dish.name === row.dishName && 
-    //                     dish.menu?.menu_day === day
-    //                 )
+        shifts.forEach(shift => {
+            // Expand shift row if needed
+            keys.push(shift.key);
 
-    //                 return dish ? formatToPhilPeso(dish.unit_cost) : "-"
-    //             },
-    //             width: 100,
-    //         },
-    //         {
-    //             title: "Production",
-    //             render: (_: never, row: any) => {
-    //                 const dish = dishes?.find(dish => 
-    //                     dish.menu?.meal_type === row.mealType && 
-    //                     dish.menu?.menu_size === selectedSize &&
-    //                     dish.name === row.dishName && 
-    //                     dish.menu?.menu_day === day
-    //                 )
+            shift.children?.forEach((menuClass: { key: string; }) => {
+                // Expand all categories
+                keys.push(menuClass.key);
+            });
+        });
 
-    //                 return dish ? dish.production : "-"
-    //             },
-    //             width: 150,
-    //         }
-    //         ]
-    //     }))
-    // ];
+        return keys;
+    };
 
+
+
+    /**
+     * Table columns
+     */
+    const menuSettingsColumns: TableColumnsType<any> = [
+        {
+            title: "Name",
+            render: (_, row) => {
+                return row.type === "shift" ? row.shift : (row.type === "class" ? row.class : row.tag);
+            },
+            onCell: (row) => ({
+                style: {
+                    backgroundColor: row.type === "shift" ? 'black' : (row.type === "class" ? "orange" : undefined),
+                    color: row.type === "shift" ? "white" : "black"
+                },
+                colSpan: row.type === "tag" ? 1 : 6
+            }),
+            width: 150
+        },
+        {
+            title: "Dish",
+            render: (_, row) => {
+                if(row.type === "tag") {
+                    return(
+                        <Select
+                        className="w-100"
+                        size="small"
+                        options={[
+                            {label: "-", value: ""},
+                            ...menuDishes
+                            ? menuDishes.filter(dish => dish.menu_sub_category_id === row.subCategory && dish.menu_class_id === row.class)
+                            .map(dish => ({label: dish.name, value: dish.id})) : []
+                        ]}
+                        value={""}/>
+                    )
+                }
+            },
+            onCell: (row) => ({
+                colSpan: row.type === "tag" ? 1 : 0
+            }),
+            width: 250
+        },
+        {
+            title: "Unit Cost",
+            render: (_, row) => {
+                if(row.type === "tag") {
+                    return " - "
+                }
+            },
+            onCell: (row) => ({
+                colSpan: row.type === "tag" ? 1 : 0
+            }),
+            width: 100
+        },
+        {
+            title: "SRP",
+            render: (_, row) => {
+                if(row.type === "tag") {
+                    return " - "
+                }
+            },
+            onCell: (row) => ({
+                colSpan: row.type === "tag" ? 1 : 0
+            }),
+            width: 100
+        },
+        {
+            title: "Category",
+            render: (_, row) => {
+                if(row.type === "tag") {
+                    return " - "
+                }
+            },
+            onCell: (row) => ({
+                colSpan: row.type === "tag" ? 1 : 0
+            }),
+            width: 200
+        },
+        {
+            title: "Production",
+            render: (_, row) => {
+                if(row.type === "tag") {
+                    return " - "
+                }
+            },
+            onCell: (row) => ({
+                colSpan: row.type === "tag" ? 1 : 0
+            }),
+            width: 200
+        },
+    ];
+    
 
 
     /**
@@ -143,7 +202,7 @@ export default function SuperAdminViewMenu() {
      */
     return(
         <div className="content1 compressed">
-            {!dishes || !menuDishNamesByMealType
+            {!menus || !shifts || !menuFormElements || !menuClasses || !menuDishes
             ? (<Spin size="large"/>)
             : ( 
                 <>
@@ -161,86 +220,14 @@ export default function SuperAdminViewMenu() {
                 
                     {/* <h3 className="fw-bold mar-bottom-1">{menu.menu_name}</h3> */}
 
-                    {/* Menu Information */}
-                    {/* <div className="viewMenuCont1 mar-bottom-1">
-                        <div className="d-flex align-items-center">
-                            <div className="text-m1 fw-bold" style={{width: 120}}>
-                                Week
-                            </div>
-                            <div className="text-m1">
-                                : {menu.menu_week}
-                            </div>
-                        </div>
-
-                        <div className="d-flex align-items-center">
-                            <div className="text-m1 fw-bold" style={{width: 120}}>
-                                Day
-                            </div>
-                            <div className="text-m1">
-                                : {menu.menu_day}
-                            </div>
-                        </div>
-
-                        <div className="d-flex align-items-center">
-                            <div className="text-m1 fw-bold" style={{width: 120}}>
-                                Meal Type
-                            </div>
-                            <div className="text-m1">
-                                : {menu.meal_type}
-                            </div>
-                        </div>
-
-                        <div className="d-flex align-items-center">
-                            <div className="text-m1 fw-bold" style={{width: 120}}>
-                                Size
-                            </div>
-                            <div className="text-m1">
-                                : {menu.menu_size}
-                            </div>
-                        </div>
-                    </div> */}
-
-                    {/* Menu Dishes */}
-                    <h4 className="fw-bold mar-bottom-1">Dishes</h4>
-
-                    <div 
-                    className="d-flex align-items-center justify-content-between mar-bottom-1"
-                    >
-                        <Select
-                        size="large"
-                        style={{width: 200}}
-                        value={selectedSize}
-                        onChange={(val) => setSelectedSize(val)}
-                        options={sizes.map(size => ({label: size, value: size}))}/>
-                        <Button
-                        size="large"
-                        type="primary"
-                        onClick={() => navigate(`../AddMenuDish/1`)}>
-                            Add Dish
-                        </Button>
-                    </div>
-                    
-                    {mealTypes.map((mealType, index) => (
-                        <div key={index} className="mar-bottom-2">
-                            <h3>{mealType}</h3>
-
-                            {/* <Table
-                            size="small"
-                            dataSource={
-                                // dishes?.filter(dish => dish.menu?.meal_type === mealType && dish.menu.menu_size === selectedSize).map((item, index) => ({...item, key: index})) || []
-                                menuDishNamesByMealType.find(x => x.mealType === mealType)?.dishNames.map((item, index) => ({
-                                    key: index,
-                                    mealType,
-                                    dishName: item
-                                })) || []
-                            }
-                            columns={dishesColumns}
-                            scroll={{ x: 'max-content', y: "600px" }}
-                            pagination={false}
-                            bordered/> */}
-                        </div>
-                    ))}
-                    
+                    <Table
+                    columns={menuSettingsColumns}
+                    dataSource={transformedShifts}
+                    size="small"
+                    bordered
+                    pagination={false}
+                    expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
+                    />                    
                 </>
             )}
         </div>

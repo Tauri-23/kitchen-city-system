@@ -158,6 +158,7 @@ Route::get('/get-all-menu-sub-categories', [MenuSubCategoryController::class, "G
 Route::get("/get-all-menu-dishes", [MenuDishesController::class, "GetAllMenuDishes"]);
 
 Route::post("/create-menu-dish", [MenuDishesController::class, "CreateMenuDish"]);
+Route::post("/update-menu-dish", [MenuDishesController::class, "UpdateMenuDish"]);
 
 
 

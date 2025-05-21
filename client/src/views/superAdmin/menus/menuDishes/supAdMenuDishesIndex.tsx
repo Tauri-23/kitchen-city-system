@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react"
-import { fetchAllUniqueMenuToDishTags } from "../../../../services/menuTagsServices";
 import { useOutletContext } from "react-router-dom";
 import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
 import { fetchAllMenuDishes } from "../../../../services/menuDishesServices";
 import { MenuDishStructure } from "../../../../types/menuDishStructure";
 import { Button, Input, InputNumber, Select, Spin, Table, TableColumnsType } from "antd";
 import { useGeneralContext } from "../../../../contexts/GeneralContext";
-import { formatToPhilPeso, isEmptyOrSpaces } from "../../../../assets/lib/utils";
+import { formatToPhilPeso, isEmptyOrSpaces, notify } from "../../../../assets/lib/utils";
 import { LuSquareCheckBig, LuSquarePen } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
 import { MenuSubCategoryStructure } from "../../../../types/menuSubCategoryStucture";
 import { fetchAllMenuSubCategories } from "../../../../services/menuSubCategoriesServices";
+import { fetchAllMenuCategories } from "../../../../services/menuCategoriesServices";
+import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure";
+import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
+import { MenuClassStructure } from "../../../../types/menuClassStructure";
+import axiosClient from "../../../../axios-client";
 
 interface OutletContextTypes {
     setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
@@ -20,29 +24,32 @@ export default function SuperAdminMenuDishesIndex() {
     const { showModal } = useGeneralContext();
     const { setSupAdMenuActivePage } = useOutletContext<OutletContextTypes>();
     
-    const [uniqueMenuToDishTag, setUniqueMenuToDishTags] = useState<{value: string | any}[] | null>(null);
     const [menuDishes, setMenuDishes] = useState<MenuDishStructure[] | null>(null);
+    const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
+    const [menuCategories, setMenuCategories] = useState<MenuCategoryStructure[] | null>(null);
     const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
 
-    const [selectedUniqueTag, setSelectedUniqueTag] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<string | number>("");
 
     const productionTypes = ["Commis", "Commis Cooked", "On Site"];
 
     const [editMenuDishIn, setEditMenuDishIn] = useState({
         id: "",
         name: "",
-        sub_category_id: 0,
+        menu_class_id: 0,
+        menu_category_id: 0,
+        menu_sub_category_id: 0,
         unit_cost: 0,
         production: "",
         status: "",
     });
 
     const isSaveEditMenuDishDisabled = (selectedMenuDish: MenuDishStructure) => {
-        return  isEmptyOrSpaces(editMenuDishIn.name) || editMenuDishIn.production === "" || editMenuDishIn.sub_category_id === 0 ||
+        return  isEmptyOrSpaces(editMenuDishIn.name) || editMenuDishIn.production === "" || editMenuDishIn.menu_sub_category_id === 0 ||
         (
             editMenuDishIn.name === selectedMenuDish.name && editMenuDishIn.production === selectedMenuDish.production &&
             editMenuDishIn.unit_cost === selectedMenuDish.unit_cost && editMenuDishIn.status === selectedMenuDish.status &&
-            editMenuDishIn.sub_category_id === selectedMenuDish.sub_category_id
+            editMenuDishIn.menu_sub_category_id === selectedMenuDish.menu_sub_category_id
         )
     };
 
@@ -55,15 +62,16 @@ export default function SuperAdminMenuDishesIndex() {
         setSupAdMenuActivePage("Dishes");
 
         const getAll = async() => {
-            const [uniqueMenuToDishTagData, menuDishesData, menuSubCatData] = await Promise.all([
-                fetchAllUniqueMenuToDishTags(),
+            const [menuDishesData, menuClassesData, menuCategoriesData, menuSubCatData] = await Promise.all([
                 fetchAllMenuDishes(),
+                fetchAllMenuClasses(),
+                fetchAllMenuCategories(),
                 fetchAllMenuSubCategories()
             ]);
 
-            setUniqueMenuToDishTags(uniqueMenuToDishTagData);
             setMenuDishes(menuDishesData);
-            setSelectedUniqueTag(String(uniqueMenuToDishTagData[0].value));
+            setMenuClasses(menuClassesData);
+            setMenuCategories(menuCategoriesData);
             setMenuSubCategories(menuSubCatData);
         }
         getAll();
@@ -78,7 +86,7 @@ export default function SuperAdminMenuDishesIndex() {
         {
             title: "Dish Code",
             render: (_, row) => row.dish_code,
-            width: 200
+            width: 150
         },
         {
             title: "Dish Name",
@@ -110,10 +118,35 @@ export default function SuperAdminMenuDishesIndex() {
                 }
                 return formatToPhilPeso(row.unit_cost)
             },
+            width: 100
+        },
+        {
+            title: "SRP",
+            render: (_,  row) => {
+                return formatToPhilPeso(row.srp)
+            },
+            width: 50
+        },
+        {
+            title: "Category",
+            render: (_, row) => {
+                if(editMenuDishIn.id === row.id) {
+                    return(
+                        <Select
+                        size="small"
+                        className="w-100"
+                        options={menuCategories?.map(category => ({label: category.category, value: category.id}))}
+                        value={editMenuDishIn.menu_category_id}
+                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, menu_category_id: val}))}/>
+                    )
+                }
+
+                return row.menu_category?.category || "N/A"
+            },
             width: 200
         },
         {
-            title: "Sub Category",
+            title: "Sub-Category",
             render: (_, row) => {
                 if(editMenuDishIn.id === row.id) {
                     return(
@@ -121,12 +154,12 @@ export default function SuperAdminMenuDishesIndex() {
                         size="small"
                         className="w-100"
                         options={menuSubCategories?.map(subCat => ({label: subCat.sub_category, value: subCat.id}))}
-                        value={editMenuDishIn.sub_category_id}
-                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, sub_category_id: val}))}/>
+                        value={editMenuDishIn.menu_sub_category_id}
+                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, menu_sub_category_id: val}))}/>
                     )
                 }
 
-                return row.sub_category?.sub_category || "N/A"
+                return row.menu_sub_category?.sub_category || "N/A"
             },
             width: 200
         },
@@ -146,7 +179,7 @@ export default function SuperAdminMenuDishesIndex() {
                 }
                 return row.production
             },
-            width: 200
+            width: 180
         },
         {
             title: "Actions",
@@ -157,24 +190,26 @@ export default function SuperAdminMenuDishesIndex() {
                         ? (
                             <>
                                 <Button
-                                    size="small"
-                                    icon={<LuSquareCheckBig />}
-                                    color="green"
-                                    variant="solid"
-                                    disabled={isSaveEditMenuDishDisabled(row)}
-                                    onClick={handleEditMenuDishSave}
+                                size="small"
+                                icon={<LuSquareCheckBig />}
+                                color="green"
+                                variant="solid"
+                                disabled={isSaveEditMenuDishDisabled(row)}
+                                onClick={handleEditMenuDishSave}
                                 />
                                 <Button
-                                    size="small"
-                                        icon={<GiCancel />}
-                                        onClick={() => setEditMenuDishIn({ 
-                                            id: "",
-                                            name: "",
-                                            sub_category_id: 0,
-                                            unit_cost: 0,
-                                            production: "",
-                                            status: "",
-                                    })}
+                                size="small"
+                                    icon={<GiCancel />}
+                                    onClick={() => setEditMenuDishIn({
+                                        id: "",
+                                        name: "",
+                                        menu_class_id: 0,
+                                        menu_category_id: 0,
+                                        menu_sub_category_id: 0,
+                                        unit_cost: 0,
+                                        production: "",
+                                        status: "",
+                                })}
                                 />
                             </>
                         )
@@ -186,7 +221,9 @@ export default function SuperAdminMenuDishesIndex() {
                                 onClick={() => setEditMenuDishIn({
                                     id: row.id,
                                     name: row.name,
-                                    sub_category_id: row.sub_category_id,
+                                    menu_class_id: row.menu_class_id,
+                                    menu_category_id: row.menu_category_id,
+                                    menu_sub_category_id: row.menu_sub_category_id,
                                     unit_cost: row.unit_cost,
                                     production: row.production,
                                     status: row.status,
@@ -199,7 +236,7 @@ export default function SuperAdminMenuDishesIndex() {
                     </div>
                 )
             },
-            width: 200
+            width: 100
         }
     ];
 
@@ -208,16 +245,41 @@ export default function SuperAdminMenuDishesIndex() {
     /**
      * Handlers
      */
-    const handleAddDish = (menuToDishtag: string) => {
+    const handleAddDish = () => {
         showModal("SuperAdminAddMenuDishModal", {
+            menuClasses,
+            menuCategories,
             menuSubCategories,
-            menuToDishtag,
             setMenuDishes
         })
     }
 
     const handleEditMenuDishSave = () => {
-        
+        const formData = new FormData();
+        formData.append("editMenuDishIn", JSON.stringify(editMenuDishIn));
+
+        axiosClient.post("/update-menu-dish", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+
+            if(data.status === 200) {
+                setMenuDishes(data.menuDishes);
+                setEditMenuDishIn({
+                    id: "",
+                    name: "",
+                    menu_class_id: 0,
+                    menu_category_id: 0,
+                    menu_sub_category_id: 0,
+                    unit_cost: 0,
+                    production: "",
+                    status: "",
+                })
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
     }
 
 
@@ -229,7 +291,7 @@ export default function SuperAdminMenuDishesIndex() {
         <>
             <h3 className="fw-bold mar-bottom-1">Dishes</h3>
 
-            {!uniqueMenuToDishTag || !menuDishes
+            {(!menuClasses || !menuCategories || !menuSubCategories || !menuDishes)
             ? (
                 <Spin size="large"/>
             )
@@ -240,16 +302,19 @@ export default function SuperAdminMenuDishesIndex() {
                             <Select
                             style={{width: 200}}
                             size="large"
-                            options={uniqueMenuToDishTag.map(item => ({label: item.value, value: item.value}))}
-                            value={selectedUniqueTag}
-                            onChange={(val) => setSelectedUniqueTag(val)}
+                            options={[
+                                {label: "All menu categories"},
+                                ...menuCategories.map(item => ({label: item.category, value: item.category}))
+                            ]}
+                            value={selectedCategory}
+                            onChange={(val) => setSelectedCategory(val)}
                             />
                         </div>
 
                         <Button
                         size="large"
                         type="primary"
-                        onClick={() => handleAddDish(selectedUniqueTag)}>
+                        onClick={() => handleAddDish()}>
                             Add Dish
                         </Button>
                     </div>
@@ -257,7 +322,7 @@ export default function SuperAdminMenuDishesIndex() {
                     <Table
                     size="small"
                     columns={menuDishesColumns}
-                    dataSource={menuDishes?.filter(x => x.menu_to_dish_tag === selectedUniqueTag).map((item, index) => ({...item, key: index}))}
+                    dataSource={menuDishes?.filter(x => (selectedCategory !== "" ? x.menu_category_id === selectedCategory : true)).map((item, index) => ({...item, key: index}))}
                     bordered/>
                 </>
             )}

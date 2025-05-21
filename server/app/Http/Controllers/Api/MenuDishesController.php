@@ -14,7 +14,7 @@ class MenuDishesController extends Controller
     //GET
     public function GetAllMenuDishes()
     {
-        return response()->json(menu_dishes::with("sub_category")->get());
+        return response()->json(menu_dishes::with(["menu_class", "menu_category", "menu_sub_category"])->get());
     }
 
     
@@ -35,18 +35,46 @@ class MenuDishesController extends Controller
         }
 
         menu_dishes::Create([
-            "menu_to_dish_tag" => $menuDishIn->menu_to_dish_tag,
             "dish_code" => $menuDishIn->dish_code,
             "name" => $menuDishIn->name,
-            "sub_category_id" => $menuDishIn->sub_category,
+            "menu_class_id" => $menuDishIn->menu_class_id,
+            "menu_category_id" => $menuDishIn->menu_category_id,
+            "menu_sub_category_id" => $menuDishIn->menu_sub_category_id,
             "unit_cost" => $menuDishIn->unit_cost,
+            "srp" => ($menuDishIn->unit_cost * 30 / 100) + $menuDishIn->unit_cost,
             "production" => $menuDishIn->production,
         ]);
+
+        $menuDishes = new MenuDishesController();
 
         return response()->json([
             "status" => 200,
             "message" => "Dish successfully added",
-            "updatedMenuDishes" => menu_dishes::with("sub_category")->get()
+            "menuDishes" => $menuDishes->GetAllMenuDishes()->original
+        ]);
+    }
+
+    public function UpdateMenuDish(Request $request)
+    {
+        $editMenuDishIn = json_decode($request->input("editMenuDishIn"));
+
+        menu_dishes::find($editMenuDishIn->id)->update([
+            "name" => $editMenuDishIn->name,
+            "menu_class_id" => $editMenuDishIn->menu_class_id,
+            "menu_category_id" => $editMenuDishIn->menu_category_id,
+            "menu_sub_category_id" => $editMenuDishIn->menu_sub_category_id,
+            "unit_cost" => $editMenuDishIn->unit_cost,
+            "srp" => ($editMenuDishIn->unit_cost * 30 / 100) + $editMenuDishIn->unit_cost,
+            "production" => $editMenuDishIn->production,
+            "status" => $editMenuDishIn->status,
+        ]);
+
+        $menuDishes = new MenuDishesController();
+        
+        return response()->json([
+            "status" => 200,
+            "message" => "Menu dish successfully updated",
+            "menuDishes" => $menuDishes->GetAllMenuDishes()->original
         ]);
     }
 }

@@ -14,22 +14,46 @@ return new class extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->string("id", 20)->primary();
 
-            $table->string("menu_name")->nullable();
             $table->integer("menu_week");
+
+            $table->string("menu_dish_id", 20)->nullable();
+            $table->unsignedBigInteger("menu_class_id")->nullable();
+            $table->unsignedBigInteger("menu_sub_category_id")->nullable();
+
             $table->enum("menu_day", [
                 "Monday", "Tuesday", "Wednesday", "Thursday", 
                 "Friday", "Saturday", "Sunday"
             ]);
-            $table->enum("meal_type", [
-                "Breakfast", "Lunch", "Snack", "Dinner", 
-                "Midnight Lunch", "Midnight Snack"
-            ]);
+
             $table->enum("menu_size", [
                 "XL", "Large", "Medium", "Medium Frying", 
                 "Small", "Small Frying"
             ]);
 
             $table->timestamps();
+
+
+
+            /**
+             * Foreign Keys
+             */
+            $table->foreign("menu_dish_id")
+            ->references("id")
+            ->on("menu_dishes")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign("menu_class_id")
+            ->references("id")
+            ->on("menu_classes")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign("menu_sub_category_id")
+            ->references("id")
+            ->on("menu_sub_categories")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
         });
     }
 

@@ -80,8 +80,9 @@ const ModalManager = () => {
 
             case "SuperAdminAddMenuDishModal":
                 return <SuperAdminAddMenuDishModal
+                menuClasses={props.menuClasses as MenuClassStructure[]}
+                menuCategories={props.menuCategories as MenuCategoryStructure[]}
                 menuSubCategories={props.menuSubCategories as MenuSubCategoryStructure[] | null}
-                menuToDishtag={props.menuToDishtag as string}
                 setMenuDishes={props.setMenuDishes as React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>}
                 onClose={hideModal}
                 />
