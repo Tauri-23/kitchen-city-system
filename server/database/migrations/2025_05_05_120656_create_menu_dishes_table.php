@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('menu_dishes', function (Blueprint $table) {
             $table->string("id", 20)->primary();
 
-            $table->string("menu_to_dish_tag");
             $table->string("dish_code")->unique()->nullable();
             $table->string("name");
-            $table->unsignedBigInteger("sub_category_id")->nullable();
+            $table->unsignedBigInteger("menu_class_id")->nullable();
+            $table->unsignedBigInteger("menu_category_id")->nullable();
+            $table->unsignedBigInteger("menu_sub_category_id")->nullable();
             $table->float("unit_cost")->default(0);
+            $table->float("srp")->default(0);
             $table->enum("production", ["Commis", "Commis Cooked", "On Site"]);
             $table->enum("status", ["Active", "Discontinued"])->default("Active");
 
@@ -28,7 +30,19 @@ return new class extends Migration
             /**
              * Foriegn Keys
              */
-            $table->foreign("sub_category_id")
+            $table->foreign("menu_class_id")
+            ->references("id")
+            ->on("menu_classes")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign("menu_category_id")
+            ->references("id")
+            ->on("menu_categories")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
+
+            $table->foreign("menu_sub_category_id")
             ->references("id")
             ->on("menu_sub_categories")
             ->nullOnDelete()
