@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2025 at 05:07 PM
+-- Generation Time: May 22, 2025 at 04:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -186,6 +186,7 @@ CREATE TABLE `job_batches` (
 CREATE TABLE `menus` (
   `id` varchar(20) NOT NULL,
   `menu_week` int(11) NOT NULL,
+  `menu_shift_id` bigint(20) UNSIGNED DEFAULT NULL,
   `menu_dish_id` varchar(20) DEFAULT NULL,
   `menu_class_id` bigint(20) UNSIGNED DEFAULT NULL,
   `menu_sub_category_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -586,7 +587,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (56, '2025_05_16_142013_create_menu_tags_table', 19),
 (57, '2025_05_20_120633_create_menu_form_elements_table', 20),
 (58, '2025_05_05_120656_create_menu_dishes_table', 21),
-(60, '2025_05_05_075641_create_menus_table', 22);
+(61, '2025_05_05_075641_create_menus_table', 22);
 
 -- --------------------------------------------------------
 
@@ -666,7 +667,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (49, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'd846575624f6d60027f0998f6c2004ec5842e3aff6b3850aee0ed26cba87471f', '[\"*\"]', '2025-05-10 08:44:31', NULL, '2025-05-10 07:41:26', '2025-05-10 08:44:31'),
 (51, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '65751f3609c377d66f01e7fe73473784a0138db4831775b3175343c8fc55bbc4', '[\"*\"]', '2025-05-13 23:51:48', NULL, '2025-05-12 04:48:38', '2025-05-13 23:51:48'),
 (54, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', 'a057aacc3e05b01ec6a736a0101ea1f630e376373bae3b512feb6c02fc97f7fd', '[\"*\"]', '2025-05-12 22:42:55', NULL, '2025-05-12 22:26:55', '2025-05-12 22:42:55'),
-(59, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '4a09430f0d3b409788efd6a0676ebe12251a2c6a1b3861341a6ac53b29d9dbaf', '[\"*\"]', '2025-05-21 07:00:59', NULL, '2025-05-18 06:47:14', '2025-05-21 07:00:59');
+(59, 'App\\Models\\super_admins', 'X4r9KxLtQz7UeGvW2Fjd', 'Super Admin', '4a09430f0d3b409788efd6a0676ebe12251a2c6a1b3861341a6ac53b29d9dbaf', '[\"*\"]', '2025-05-21 18:10:02', NULL, '2025-05-18 06:47:14', '2025-05-21 18:10:02');
 
 -- --------------------------------------------------------
 
@@ -799,6 +800,7 @@ ALTER TABLE `job_batches`
 --
 ALTER TABLE `menus`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `menus_menu_shift_id_foreign` (`menu_shift_id`),
   ADD KEY `menus_menu_dish_id_foreign` (`menu_dish_id`),
   ADD KEY `menus_menu_class_id_foreign` (`menu_class_id`),
   ADD KEY `menus_menu_sub_category_id_foreign` (`menu_sub_category_id`);
@@ -978,7 +980,7 @@ ALTER TABLE `menu_tags`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1014,6 +1016,7 @@ ALTER TABLE `branch_managers`
 ALTER TABLE `menus`
   ADD CONSTRAINT `menus_menu_class_id_foreign` FOREIGN KEY (`menu_class_id`) REFERENCES `menu_classes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `menus_menu_dish_id_foreign` FOREIGN KEY (`menu_dish_id`) REFERENCES `menu_dishes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `menus_menu_shift_id_foreign` FOREIGN KEY (`menu_shift_id`) REFERENCES `menu_shifts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `menus_menu_sub_category_id_foreign` FOREIGN KEY (`menu_sub_category_id`) REFERENCES `menu_sub_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
