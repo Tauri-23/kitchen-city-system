@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->integer("menu_week");
 
+            $table->unsignedBigInteger("menu_shift_id")->nullable();
             $table->string("menu_dish_id", 20)->nullable();
             $table->unsignedBigInteger("menu_class_id")->nullable();
             $table->unsignedBigInteger("menu_sub_category_id")->nullable();
@@ -37,6 +38,12 @@ return new class extends Migration
             /**
              * Foreign Keys
              */
+            $table->foreign("menu_shift_id")
+            ->references("id")
+            ->on("menu_shifts")
+            ->nullOnDelete()
+            ->cascadeOnUpdate();
+
             $table->foreign("menu_dish_id")
             ->references("id")
             ->on("menu_dishes")

@@ -13,6 +13,7 @@ class menu extends Model
 
     protected $fillable = [
         "menu_week",
+        "menu_shift_id",
         "menu_dish_id",
         "menu_class_id",
         "menu_sub_category_id",
@@ -36,6 +37,11 @@ class menu extends Model
     /**
      * Foreign Joins
      */
+    public function menu_shift()
+    {
+        return $this->belongsTo(menu_shifts::class, "menu_shift_id", "id");
+    }
+
     public function menu_dish()
     {
         return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id");

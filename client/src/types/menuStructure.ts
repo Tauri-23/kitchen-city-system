@@ -1,10 +1,12 @@
 import { MenuClassStructure } from "./menuClassStructure";
 import { MenuDishStructure } from "./menuDishStructure";
+import { MenuShiftStructure } from "./menuShiftStructure";
 import { MenuSubCategoryStructure } from "./menuSubCategoryStucture";
 
 export interface MenuStructure {
     id: string;
     menu_week: number;
+    menu_shift_id: number;
     menu_dish_id: string;
     menu_class_id: number;
     menu_sub_category_id: number;
@@ -17,6 +19,7 @@ export interface MenuStructure {
     /**
      * Foreign Calls
      */
+    menu_shift: MenuShiftStructure;
     menu_dish: MenuDishStructure;
     menu_class: MenuClassStructure;
     menu_sub_category: MenuSubCategoryStructure;

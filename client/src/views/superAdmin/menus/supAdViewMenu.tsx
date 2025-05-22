@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { Breadcrumb, Button, Select, Spin, Table, TableColumnsType } from "antd";
+import { Link, useParams } from "react-router-dom";
+import { Breadcrumb, Button, Popconfirm, Select, Spin, Table, TableColumnsType } from "antd";
 import "../../../assets/css/viewMenu.css";
 import { fetchAllMenusWhereWeek } from "../../../services/menusServices";
 import { MenuStructure } from "../../../types/menuStructure";
@@ -13,6 +13,16 @@ import { fetchAllMenuFormElements } from "../../../services/menuFormElementServi
 import { fetchAllMenuClasses } from "../../../services/menuClassesServices";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { fetchAllMenuDishes } from "../../../services/menuDishesServices";
+import { formatToPhilPeso, notify } from "../../../assets/lib/utils";
+import axiosClient from "../../../axios-client";
+
+type SelectedDishType = {
+    menu_shift_id: number;
+    menu_class_id: number;
+    menu_sub_category_id: number;
+    menu_dish_id: string;
+    menu_dish: MenuDishStructure;
+};
 
 export default function SuperAdminViewMenu() {
     const { setActiveSideNavLink } = useSuperAdminContext();
@@ -25,14 +35,22 @@ export default function SuperAdminViewMenu() {
     
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
-    const mealTypes = ["Breakfast", "Lunch", "Snack", "Dinner", "Midnight Lunch", "Midnight Snack"];
     
     const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
-    const [selectedDishesIn, setSelectedDishesIn] = useState<MenuStructure[]>([]);
+    const [selectedDay, setSelectedDay] = useState<string>(days[0]);
+    const [selectedDishesIn, setSelectedDishesIn] = useState<SelectedDishType[]>([]);
 
 
     const params = useParams();
-    const navigate = useNavigate();
+
+
+
+    /**
+     * Debugginhg
+     */
+    useEffect(() => {
+        console.log(selectedDishesIn);
+    }, [selectedDishesIn]);
 
 
 
@@ -60,6 +78,10 @@ export default function SuperAdminViewMenu() {
         getAll();
     }, []);
 
+    useEffect(() => {
+
+    }, [selectedDay])
+
 
 
     /**
@@ -70,17 +92,18 @@ export default function SuperAdminViewMenu() {
         id: shift.id,
         shift: shift.shift,
         type: "shift",
-        children: menuFormElements?.filter(element => element.menu_shift_id === shift.id).map(category => ({
-            key: `class-${category.id}`,
-            id: category.id,
-            class: category.menu_class.class,
+        children: menuFormElements?.filter(element => element.menu_shift_id === shift.id).map(menuClass => ({
+            key: `class-${menuClass.id}`,
+            id: menuClass.id,
+            class: menuClass.menu_class.class,
             type: "class",
-            children: category.menu_class.menu_tags.map(tag => ({
-                key: `tag-${tag.id}`,
+            children: menuClass.menu_class.menu_tags.map(tag => ({
+                key: `tag-${shift.id}-${tag.menu_class_id}-${tag.id}`,
                 id: tag.id,
                 tag: tag.tag,
-                subCategory: tag.menu_sub_category_id,
-                class: tag.menu_class_id,
+                shiftId: shift.id,
+                subCategoryId: tag.menu_sub_category_id,
+                classId: tag.menu_class_id,
                 type: "tag"
             }))
         }))
@@ -125,6 +148,10 @@ export default function SuperAdminViewMenu() {
         {
             title: "Dish",
             render: (_, row) => {
+                const value = selectedDishesIn.find(dish => 
+                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
+                    && dish.menu_shift_id === row.shiftId
+                );
                 if(row.type === "tag") {
                     return(
                         <Select
@@ -133,10 +160,11 @@ export default function SuperAdminViewMenu() {
                         options={[
                             {label: "-", value: ""},
                             ...menuDishes
-                            ? menuDishes.filter(dish => dish.menu_sub_category_id === row.subCategory && dish.menu_class_id === row.class)
+                            ? menuDishes.filter(dish => dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId)
                             .map(dish => ({label: dish.name, value: dish.id})) : []
                         ]}
-                        value={""}/>
+                        value={value?.menu_dish_id || ""}
+                        onChange={(val) => handleInputMenuDish(row.shiftId, row.subCategoryId, row.classId, menuDishes?.find(dish => dish.id === val))}/>
                     )
                 }
             },
@@ -148,8 +176,12 @@ export default function SuperAdminViewMenu() {
         {
             title: "Unit Cost",
             render: (_, row) => {
+                const value = selectedDishesIn.find(dish => 
+                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
+                    && dish.menu_shift_id === row.shiftId
+                );
                 if(row.type === "tag") {
-                    return " - "
+                    return value?.menu_dish ?  formatToPhilPeso(value?.menu_dish.unit_cost) : " - "
                 }
             },
             onCell: (row) => ({
@@ -160,8 +192,12 @@ export default function SuperAdminViewMenu() {
         {
             title: "SRP",
             render: (_, row) => {
+                const value = selectedDishesIn.find(dish => 
+                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
+                    && dish.menu_shift_id === row.shiftId
+                );
                 if(row.type === "tag") {
-                    return " - "
+                    return value?.menu_dish ?  formatToPhilPeso(value?.menu_dish.srp) : " - "
                 }
             },
             onCell: (row) => ({
@@ -172,8 +208,12 @@ export default function SuperAdminViewMenu() {
         {
             title: "Category",
             render: (_, row) => {
+                const value = selectedDishesIn.find(dish => 
+                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
+                    && dish.menu_shift_id === row.shiftId
+                );
                 if(row.type === "tag") {
-                    return " - "
+                    return value?.menu_dish ?  value?.menu_dish.menu_category.category : " - "
                 }
             },
             onCell: (row) => ({
@@ -184,8 +224,12 @@ export default function SuperAdminViewMenu() {
         {
             title: "Production",
             render: (_, row) => {
+                const value = selectedDishesIn.find(dish => 
+                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
+                    && dish.menu_shift_id === row.shiftId
+                );
                 if(row.type === "tag") {
-                    return " - "
+                    return value?.menu_dish ?  value?.menu_dish.production : " - "
                 }
             },
             onCell: (row) => ({
@@ -194,6 +238,89 @@ export default function SuperAdminViewMenu() {
             width: 200
         },
     ];
+
+
+
+    /**
+     * Handlers
+     */
+    const handleInputMenuDish = (
+        menuShiftId: number,
+        menuSubCategoryId: number,
+        menuClassId: number,
+        newMenuDish?: MenuDishStructure
+    ) => {
+
+        setSelectedDishesIn(prev => {
+            // Remove if newMenuDish is not provided
+            if (!newMenuDish) {
+                return prev.filter(
+                    menu =>
+                        !(
+                            menu.menu_class_id === menuClassId &&
+                            menu.menu_sub_category_id === menuSubCategoryId &&
+                            menu.menu_shift_id === menuShiftId
+                        )
+                );
+            }
+            
+            const exists = prev.some(menu =>
+                menu.menu_class_id === menuClassId &&
+                menu.menu_sub_category_id === menuSubCategoryId &&
+                menu.menu_shift_id === menuShiftId
+            );
+
+            if (exists) {
+                return prev.map(menu => {
+                    if (
+                        menu.menu_class_id === menuClassId &&
+                        menu.menu_sub_category_id === menuSubCategoryId &&
+                        menu.menu_shift_id === menuShiftId
+                    ) {
+                        return {
+                            menu_shift_id: menuShiftId,
+                            menu_class_id: menuClassId,
+                            menu_sub_category_id: menuSubCategoryId,
+                            menu_dish_id: newMenuDish.id,
+                            menu_dish: newMenuDish
+                        };
+                    }
+                    return menu;
+                });
+            } 
+            else {
+                return [
+                    ...prev,
+                    {
+                        menu_shift_id: menuShiftId,
+                        menu_class_id: menuClassId,
+                        menu_sub_category_id: menuSubCategoryId,
+                        menu_dish_id: newMenuDish.id,
+                        menu_dish: newMenuDish
+                    }
+                ];
+            }
+        });
+    };
+
+    const handleSaveMenu = () => {
+        const formData = new FormData();
+        formData.append("selectedDishesIn", JSON.stringify(selectedDishesIn));
+        formData.append("menuWeek", String(params.id));
+        formData.append("menuDay", selectedDay);
+        formData.append("menuSize", selectedSize);
+
+        axiosClient.post("/create-update-menu", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
+
+
     
 
 
@@ -219,6 +346,30 @@ export default function SuperAdminViewMenu() {
                     />
                 
                     {/* <h3 className="fw-bold mar-bottom-1">{menu.menu_name}</h3> */}
+                    <div className="d-flex mar-bottom-1 justify-content-between">
+                        <div className="d-flex gap3">
+                            <Select
+                            size="large"
+                            style={{width: 200}}
+                            options={sizes.map(size => ({label: size, value: size}))}
+                            value={selectedSize}/>
+
+                            <Select
+                            size="large"
+                            style={{width: 200}}
+                            options={days.map(day => ({label: day, value: day}))}
+                            value={selectedDay}/>
+                        </div>
+                        <Popconfirm
+                        title="Do you want to save menu?"
+                        onConfirm={handleSaveMenu}>
+                            <Button
+                            size="large"
+                            type="primary">
+                                Save Menu
+                            </Button>
+                        </Popconfirm>
+                    </div>
 
                     <Table
                     columns={menuSettingsColumns}
