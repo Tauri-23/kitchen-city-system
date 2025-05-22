@@ -122,8 +122,7 @@ Route::get('/get-all-menus-where-week/{week}', [MenuController::class, "GetAllMe
 Route::get('/get-all-menus-where-week-day-and-size/{week}/{day}/{size}', [MenuController::class, "GetAllMenusWhereWeekDayAndSize"]);
 Route::get('/get-menu-by-id/{id}', [MenuController::class, "GetMenuById"]);
 
-Route::post('/create-menus', [MenuController::class, "CreateMenu"]);
-Route::post('/create-menus-via-excel', [MenuController::class, "CreateMenuViaExcel"]);
+Route::post('/create-update-menu', [MenuController::class, "CreateUpdateMenu"]);
 
 
 
