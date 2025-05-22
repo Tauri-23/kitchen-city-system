@@ -119,6 +119,7 @@ Route::post("/delete-menu-form-element", [MenuFormElementsController::class, "De
 */
 Route::get('/get-all-menus', [MenuController::class, "GetAllMenus"]);
 Route::get('/get-all-menus-where-week/{week}', [MenuController::class, "GetAllMenusWhereWeek"]);
+Route::get('/get-all-menus-where-week-day-and-size/{week}/{day}/{size}', [MenuController::class, "GetAllMenusWhereWeekDayAndSize"]);
 Route::get('/get-menu-by-id/{id}', [MenuController::class, "GetMenuById"]);
 
 Route::post('/create-menus', [MenuController::class, "CreateMenu"]);

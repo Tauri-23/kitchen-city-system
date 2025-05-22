@@ -3,7 +3,7 @@ import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { Link, useParams } from "react-router-dom";
 import { Breadcrumb, Button, Popconfirm, Select, Spin, Table, TableColumnsType } from "antd";
 import "../../../assets/css/viewMenu.css";
-import { fetchAllMenusWhereWeek } from "../../../services/menusServices";
+import { fetchAllMenusWhereWeekDayAndSize } from "../../../services/menusServices";
 import { MenuStructure } from "../../../types/menuStructure";
 import { MenuShiftStructure } from "../../../types/menuShiftStructure";
 import { MenuFormElementStructure } from "../../../types/menuFormElementStructure";
@@ -46,15 +46,6 @@ export default function SuperAdminViewMenu() {
 
 
     /**
-     * Debugginhg
-     */
-    useEffect(() => {
-        console.log(selectedDishesIn);
-    }, [selectedDishesIn]);
-
-
-
-    /**
      * Onmount
      */
     useEffect(() => {
@@ -62,7 +53,7 @@ export default function SuperAdminViewMenu() {
 
         const getAll = async() => {
             const [menusData, shiftsData, menuFormElementsData, menuClassesData, menuDishesData] = await Promise.all([
-                fetchAllMenusWhereWeek(String(params.id)),
+                fetchAllMenusWhereWeekDayAndSize(String(params.id), selectedDay, selectedSize),
                 fetchAllMenuShifts(),
                 fetchAllMenuFormElements(),
                 fetchAllMenuClasses(),
@@ -73,14 +64,32 @@ export default function SuperAdminViewMenu() {
             setmenuFormElements(menuFormElementsData);
             setMenuClasses(menuClassesData);
             setMenuDishes(menuDishesData);
+            setSelectedDishesIn(menusData.map((menu: MenuStructure) => ({
+                menu_shift_id: menu.menu_shift_id,
+                menu_class_id: menu.menu_class_id,
+                menu_sub_category_id: menu.menu_sub_category_id,
+                menu_dish_id: menu.menu_dish_id,
+                menu_dish: menu.menu_dish
+            })));
         }
 
         getAll();
     }, []);
 
     useEffect(() => {
-
-    }, [selectedDay])
+        const updateMenus = async() => {
+            const data = await fetchAllMenusWhereWeekDayAndSize(String(params.id), selectedDay, selectedSize);
+            setMenus(data);
+            setSelectedDishesIn(data.map((menu: MenuStructure) => ({
+                menu_shift_id: menu.menu_shift_id,
+                menu_class_id: menu.menu_class_id,
+                menu_sub_category_id: menu.menu_sub_category_id,
+                menu_dish_id: menu.menu_dish_id,
+                menu_dish: menu.menu_dish
+            })));
+        }
+        updateMenus();
+    }, [selectedDay, selectedSize])
 
 
 
@@ -352,13 +361,15 @@ export default function SuperAdminViewMenu() {
                             size="large"
                             style={{width: 200}}
                             options={sizes.map(size => ({label: size, value: size}))}
-                            value={selectedSize}/>
+                            value={selectedSize}
+                            onChange={(val) => setSelectedSize(val)}/>
 
                             <Select
                             size="large"
                             style={{width: 200}}
                             options={days.map(day => ({label: day, value: day}))}
-                            value={selectedDay}/>
+                            value={selectedDay}
+                            onChange={(val) => setSelectedDay(val)}/>
                         </div>
                         <Popconfirm
                         title="Do you want to save menu?"

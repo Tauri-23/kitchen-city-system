@@ -22,6 +22,18 @@ export const fetchAllMenusWhereWeek = async(week: string) => {
 }
 
 
+
+export const fetchAllMenusWhereWeekDayAndSize = async(week: string, day: string, size: string) => {
+    try {
+        const response = await axiosClient.get(`/get-all-menus-where-week-day-and-size/${week}/${day}/${size}`);
+        return response.data;
+    } catch(error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+
 export const fetchMenuById = async(id: string) => {
     try {
         const response = await axiosClient.get(`/get-menu-by-id/${id}`);

@@ -24,6 +24,18 @@ class MenuController extends Controller
             ->get()
         );
     }
+    
+    public function GetAllMenusWhereWeekDayAndSize($week, $day, $size)
+    {
+        return response()->json(
+            menu::with("menu_dishes")
+            ->where("menu_week", $week)
+            ->where("menu_day", $day)
+            ->where("menu_size", $size)
+            ->with(["menu_dish", "menu_class", "menu_sub_category"])
+            ->get()
+        );
+    }
 
 
 
