@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type activeSideNavLinkTypes = "Dashboard" | "Menus" | "Branches" | "Accounts" | "Settings";
+type activeSideNavLinkTypes = "Dashboard" | "Menus" | "Dishes" | "Reports" | "Settings";
 
 interface SuperAdminContextType {
     activeSideNavLink: activeSideNavLinkTypes,

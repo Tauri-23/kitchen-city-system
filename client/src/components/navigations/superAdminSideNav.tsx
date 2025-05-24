@@ -2,6 +2,7 @@ import { MdDashboard, MdOutlineDashboard } from "react-icons/md"
 import { useSuperAdminContext } from "../../contexts/SuperAdminContext"
 import { IoFastFood, IoFastFoodOutline, IoSettings, IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { BiDish, BiFoodMenu, BiSolidDish, BiSolidFoodMenu } from "react-icons/bi";
 
 export default function SuperAdminSideNav() {
     const { activeSideNavLink } = useSuperAdminContext();
@@ -11,14 +12,21 @@ export default function SuperAdminSideNav() {
             icon: <MdOutlineDashboard size={30}/>,
             iconActive: <MdDashboard size={30}/>,
             activeAt: "Dashboard",
-            to: "/"
+            to: ""
         },
         {
             title: "Menus",
-            icon: <IoFastFoodOutline size={30}/>,
-            iconActive: <IoFastFood size={30}/>,
+            icon: <BiFoodMenu size={30}/>,
+            iconActive: <BiSolidFoodMenu size={30}/>,
             activeAt: "Menus",
             to: "Menus"
+        },
+        {
+            title: "Dishes",
+            icon: <BiDish size={30}/>,
+            iconActive: <BiSolidDish size={30}/>,
+            activeAt: "Dishes",
+            to: "Dishes"
         },
         {
             title: "Settings",
