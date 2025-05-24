@@ -1,6 +1,6 @@
 import { MdDashboard, MdOutlineDashboard } from "react-icons/md"
 import { useSuperAdminContext } from "../../contexts/SuperAdminContext"
-import { IoFastFood, IoFastFoodOutline, IoSettings, IoSettingsOutline } from "react-icons/io5";
+import { IoSettings, IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { BiDish, BiFoodMenu, BiSolidDish, BiSolidFoodMenu } from "react-icons/bi";
 
