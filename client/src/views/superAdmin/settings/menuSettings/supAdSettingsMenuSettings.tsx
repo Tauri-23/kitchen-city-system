@@ -1,28 +1,20 @@
-import { useEffect, useState } from "react"
-import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure"
-import { useOutletContext } from "react-router-dom";
-import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
+import { useEffect, useState } from "react";
+import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure";
 import { MenuSubCategoryStructure } from "../../../../types/menuSubCategoryStucture";
+import { MenuClassStructure } from "../../../../types/menuClassStructure";
 import { Select, Spin } from "antd";
 import { fetchAllMenuCategories } from "../../../../services/menuCategoriesServices";
 import { fetchAllMenuSubCategories } from "../../../../services/menuSubCategoriesServices";
-import { MenuClassStructure } from "../../../../types/menuClassStructure";
 import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
-import SuperAdminMenuCategories from "./components/supAdMenuCategories";
-import SuperAdminMenuSubCategories from "./components/supAdMenuSubCategories";
-import SuperAdminMenuClasses from "./components/supAdMenuClasses";
+import SuperAdminMenuCategoriesSettings from "./pageComponents/supAdMenuCategoriesSettings";
+import SuperAdminMenuClassesSettings from "./pageComponents/supAdMenuClassesSettings";
+import SuperAdminMenuSubCategoriesSettings from "./pageComponents/supAdMenuSubCategories";
 
-interface OutletContextTypes {
-    setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
-}
-
-export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
-    const { setSupAdMenuActivePage } = useOutletContext<OutletContextTypes>();
-
+export default function SuperAdminSettingsMenuSettings() {
     const [menuCategories, setMenuCategories] = useState<MenuCategoryStructure[] | null>(null);
     const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
     const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
-
+    
     const pages = ["Categories", "Sub-Categories", "Classes"];
     const [selectedPage, setSelectedPage] = useState<string>(pages[0]);
 
@@ -32,22 +24,20 @@ export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
      * Onmount
      */
     useEffect(() => {
-        setSupAdMenuActivePage("Categories, Sub-Categories And Classes");
-
         const getAll = async() => {
             const [menuCategoreiesData, menuSubCategoriesData, menuClassesData] = await Promise.all([
                 fetchAllMenuCategories(),
                 fetchAllMenuSubCategories(),
                 fetchAllMenuClasses()
             ]);
-
+        
             setMenuCategories(menuCategoreiesData);
             setMenuSubCategories(menuSubCategoriesData);
             setMenuClasses(menuClassesData);
         }
-
+        
         getAll();
-    }, []);
+    })
 
 
 
@@ -56,8 +46,6 @@ export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
      */
     return(
         <>
-            <h3 className="fw-bold mar-bottom-1">Categories, Sub-Categories & Classes</h3>
-
             {(!menuCategories || !menuSubCategories || !menuClasses)
             ? (<Spin size="large"/>)
             : (
@@ -74,7 +62,7 @@ export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
 
                     {/* Categories */}
                     {(selectedPage === "Categories") && (
-                        <SuperAdminMenuCategories
+                        <SuperAdminMenuCategoriesSettings
                         menuCategories={menuCategories}
                         setMenuCategories={setMenuCategories as React.Dispatch<React.SetStateAction<MenuCategoryStructure[]>>}
                         />
@@ -84,7 +72,7 @@ export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
 
                     {/* Sub Categories */}
                     {(selectedPage === "Sub-Categories") && (
-                        <SuperAdminMenuSubCategories
+                        <SuperAdminMenuSubCategoriesSettings
                         menuSubCategories={menuSubCategories}
                         setMenuSubCategories={setMenuSubCategories as React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>}
                         />
@@ -94,7 +82,7 @@ export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
 
                     {/* Classes */}
                     {(selectedPage === "Classes") && (
-                        <SuperAdminMenuClasses
+                        <SuperAdminMenuClassesSettings
                         menuClasses={menuClasses as MenuClassStructure[]}
                         setMenuClasses={setMenuClasses as React.Dispatch<React.SetStateAction<MenuClassStructure[]>>}
                         />
@@ -102,5 +90,5 @@ export default function SuperAdminMenuCategoriesSubAndClassesIndex() {
                 </>
             )}
         </>
-    )
+    );
 }

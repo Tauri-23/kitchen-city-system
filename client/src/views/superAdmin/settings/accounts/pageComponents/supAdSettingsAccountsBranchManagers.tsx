@@ -1,16 +1,18 @@
-import { useOutletContext } from "react-router-dom";
-import { SuperAdminAccountsOutletContextType } from "./supAdAccountsDefault";
 import { useEffect, useState } from "react";
-import { useGeneralContext } from "../../../contexts/GeneralContext";
-import { BranchManagerStructure } from "../../../types/branchManagerSturcture";
+import { useGeneralContext } from "../../../../../contexts/GeneralContext";
+import { BranchManagerStructure } from "../../../../../types/branchManagerSturcture";
 import { Button, Input, Spin, Table, TableColumnsType } from "antd";
-import { fetchAllBranchManagers } from "../../../services/branchManagerServices";
-import { BranchStructure } from "../../../types/branchStructure";
-import { fetchAllBranches } from "../../../services/branchServices";
+import { fetchAllBranchManagers } from "../../../../../services/branchManagerServices";
+import { BranchStructure } from "../../../../../types/branchStructure";
+import { fetchAllBranches } from "../../../../../services/branchServices";
+import { activeLinkTypes } from "../supAdSettingsAccounts";
 
-export default function SuperAdminAccountsBranchManagers() {
+interface SuperAdminSettingsAccountsBranchManagersTypes {
+    setActiveLink: (value: activeLinkTypes) => void;
+}
+
+const SuperAdminSettingsAccountsBranchManagers: React.FC<SuperAdminSettingsAccountsBranchManagersTypes> = ({setActiveLink}) => {
     const { showModal } = useGeneralContext();
-    const { setActiveLink } = useOutletContext<SuperAdminAccountsOutletContextType>();
 
     const [branchManagers, setBranchManagers] = useState<BranchManagerStructure[] | null>(null);
     const [filteredBranchManagers, setFilteredBranchManagers] = useState<BranchManagerStructure[] | null>(null);
@@ -122,3 +124,5 @@ export default function SuperAdminAccountsBranchManagers() {
         </>
     )
 }
+
+export default SuperAdminSettingsAccountsBranchManagers;

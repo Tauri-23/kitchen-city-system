@@ -8,13 +8,6 @@ import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
 import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
 import SuperAdminViewMenu from "./views/superAdmin/menus/supAdViewMenu";
 import SuperAdminAddMenuDish from "./views/superAdmin/menus/supAdAddMenuDish";
-import SuperAdminAccountsDefault from "./views/superAdmin/accounts/supAdAccountsDefault";
-import SuperAdminAccountsSuperAdmins from "./views/superAdmin/accounts/supAdAccountsSuperAdmins";
-import SuperAdminAccountsBranchAdmins from "./views/superAdmin/accounts/supAdAccountsBranchAdmins";
-import SuperAdminAccountsBranchManagers from "./views/superAdmin/accounts/supAdAccountsBranchManagers";
-import SuperAdminAccountsAreaManagers from "./views/superAdmin/accounts/supAdAccountsAreaManagers";
-import SuperAdminAccountsCommissaryWorkers from "./views/superAdmin/accounts/supAdAccountsCommissaryWorkers";
-import SuperAdminBranchesIndex from "./views/superAdmin/branches/supAdBranchesIndex";
 import BranchManagerDefault from "./views/branchManager/braManDefault";
 import BranchManagerIndex from "./views/branchManager/braManIndex";
 import BranchManagerAddOrder from "./views/branchManager/orders/braManAddOrder";
@@ -22,8 +15,7 @@ import BranchManagerOrdersIndex from "./views/branchManager/orders/braManOrdersI
 import BranchManagerViewOrder from "./views/branchManager/orders/braManViewOrder";
 import SuperAdminMenuDishesIndex from "./views/superAdmin/menus/menuDishes/supAdMenuDishesIndex";
 import SuperAdminMenuTagsIndex from "./views/superAdmin/menus/menuTags/supAdMenuTagsIndex";
-import SuperAdminMenuCategoriesSubAndClassesIndex from "./views/superAdmin/menus/menuCategoriesSubAndClasses/supAdMenuCategoriesSubAndClassesIndex";
-import SuperAdminMenuFormBuilderIndex from "./views/superAdmin/menus/menuFormBuilder/supAdMenuFormBuilderIndex";
+import SuperAdminSettingsDefault from "./views/superAdmin/settings/supAdSettingsDefault";
 
 const router = createBrowserRouter([
     /**
@@ -70,16 +62,8 @@ const router = createBrowserRouter([
                         element: <SuperAdminMenusIndex/>
                     },
                     {
-                        path: "MenuCategoriesSubAndClasses",
-                        element: <SuperAdminMenuCategoriesSubAndClassesIndex/>
-                    },
-                    {
                         path: "MenuTags",
                         element: <SuperAdminMenuTagsIndex/>
-                    },
-                    {
-                        path: "MenuFormBuilder",
-                        element: <SuperAdminMenuFormBuilderIndex/>
                     },
                     {
                         path: "MenuDishes",
@@ -103,44 +87,12 @@ const router = createBrowserRouter([
 
 
             /**
-             * Branches
+             * Settings
              */
             {
-                path: "Branches",
-                element: <SuperAdminBranchesIndex/>
-            },
-
-
-
-            /**
-             * Accounts
-             */
-            {
-                path: "Accounts",
-                element: <SuperAdminAccountsDefault/>,
-                children: [
-                    {
-                        index: true,
-                        element: <SuperAdminAccountsSuperAdmins/>
-                    },
-                    {
-                        path: "BranchAdmins",
-                        element: <SuperAdminAccountsBranchAdmins/>
-                    },
-                    {
-                        path: "BranchManagers",
-                        element: <SuperAdminAccountsBranchManagers/>
-                    },
-                    {
-                        path: "AreaManagers",
-                        element: <SuperAdminAccountsAreaManagers/>
-                    },
-                    {
-                        path: "CommissaryWorkers",
-                        element: <SuperAdminAccountsCommissaryWorkers/>
-                    },
-                ]
-            },
+                path: "Settings", 
+                element: <SuperAdminSettingsDefault/>
+            }
         ]
     },
 

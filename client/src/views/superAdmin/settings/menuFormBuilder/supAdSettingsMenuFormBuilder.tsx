@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
+import { useGeneralContext } from "../../../../contexts/GeneralContext";
+import { MenuClassStructure } from "../../../../types/menuClassStructure";
+import { MenuFormElementStructure } from "../../../../types/menuFormElementStructure";
 import { MenuShiftStructure } from "../../../../types/menuShiftStructure";
 import { fetchAllMenuShifts } from "../../../../services/menuShiftsServices";
-import { Button, Popconfirm, Spin, Table, TableColumnsType } from "antd";
-import { useGeneralContext } from "../../../../contexts/GeneralContext";
-import { MenuFormElementStructure } from "../../../../types/menuFormElementStructure";
 import { fetchAllMenuFormElements } from "../../../../services/menuFormElementServices";
-import { MenuClassStructure } from "../../../../types/menuClassStructure";
 import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
-import axiosClient from "../../../../axios-client";
 import { notify } from "../../../../assets/lib/utils";
+import axiosClient from "../../../../axios-client";
+import { Button, Popconfirm, Spin, Table, TableColumnsType } from "antd";
 
-interface OutletContextTypes {
-    setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
-}
-
-export default function SuperAdminMenuFormBuilderIndex() {
+export default function SuperAdminSettingsMenuFormBuilder() {
     const { showModal } = useGeneralContext();
-    const {setSupAdMenuActivePage} = useOutletContext<OutletContextTypes>();
 
     const [shifts, setShifts] = useState<MenuShiftStructure[] | null>(null);
     const [menuFormElements, setmenuFormElements] = useState<MenuFormElementStructure[] | null>(null);
@@ -29,9 +22,7 @@ export default function SuperAdminMenuFormBuilderIndex() {
     /**
      * Onmount
      */
-    useEffect(() => {
-        setSupAdMenuActivePage("Menu Form Builder");
-
+    useEffect(() => {    
         const getAll = async() => {
             const [shiftsData, menuFormElementsData, menuClassesData] = await Promise.all([
                 fetchAllMenuShifts(),
@@ -42,10 +33,10 @@ export default function SuperAdminMenuFormBuilderIndex() {
             setmenuFormElements(menuFormElementsData);
             setMenuClasses(menuClassesData);
         }
-
+    
         getAll();
     }, []);
-
+    
 
 
     /**
@@ -167,8 +158,6 @@ export default function SuperAdminMenuFormBuilderIndex() {
      */
     return(
         <>
-            <h3 className="fw-bold mar-bottom-1">Menu Form Builder</h3>
-
             {!shifts || !menuFormElements
             ? (<Spin size="large"/>)
             : (

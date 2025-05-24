@@ -7,12 +7,12 @@ import { Button, Input, Popconfirm, Table, TableColumnsType } from "antd";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
 
-interface SuperAdminMenuClassesTypes {
+interface SuperAdminMenuClassesSettingsTypes {
     menuClasses: MenuClassStructure[];
     setMenuClasses: React.Dispatch<React.SetStateAction<MenuClassStructure[]>>;
 }
 
-const SuperAdminMenuClasses: React.FC<SuperAdminMenuClassesTypes> = ({menuClasses, setMenuClasses}) => {
+const SuperAdminMenuClassesSettings: React.FC<SuperAdminMenuClassesSettingsTypes> = ({menuClasses, setMenuClasses}) => {
     const { showModal } = useGeneralContext();
 
     const [editMenuClassIn, setEditMenuClassIn] = useState({
@@ -170,4 +170,4 @@ const SuperAdminMenuClasses: React.FC<SuperAdminMenuClassesTypes> = ({menuClasse
     );
 }
 
-export default SuperAdminMenuClasses;
+export default SuperAdminMenuClassesSettings;

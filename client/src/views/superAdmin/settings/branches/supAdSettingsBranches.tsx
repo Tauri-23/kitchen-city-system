@@ -1,18 +1,16 @@
-import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 import { useEffect, useState } from "react";
-import { BranchStructure } from "../../../types/branchStructure";
-import { fetchAllBranches } from "../../../services/branchServices";
+import { isEmptyOrSpaces, notify } from "../../../../assets/lib/utils";
+import { useGeneralContext } from "../../../../contexts/GeneralContext";
+import { BranchStructure } from "../../../../types/branchStructure";
+import { AreaManagerStructure } from "../../../../types/areaManagerSturcture";
 import { Button, Input, Select, Spin, Table, TableColumnsType } from "antd";
-import { useGeneralContext } from "../../../contexts/GeneralContext";
-import { fetchAllAreaManagers } from "../../../services/areaManagerServices";
-import { AreaManagerStructure } from "../../../types/areaManagerSturcture";
+import { fetchAllBranches } from "../../../../services/branchServices";
+import { fetchAllAreaManagers } from "../../../../services/areaManagerServices";
 import { LuSquareCheckBig, LuSquarePen } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
-import { isEmptyOrSpaces, notify } from "../../../assets/lib/utils";
-import axiosClient from "../../../axios-client";
+import axiosClient from "../../../../axios-client";
 
-export default function SuperAdminBranchesIndex() {
-    const { setActiveSideNavLink } = useSuperAdminContext();
+export default function SuperAdminSettingsBranches() {
     const { showModal } = useGeneralContext();
 
     const [branches, setBranches] = useState<BranchStructure[] | null>(null);
@@ -48,8 +46,6 @@ export default function SuperAdminBranchesIndex() {
      * Onmount
      */
     useEffect(() => {
-        setActiveSideNavLink("Branches");
-
         const getAll = async() => {
             const [branchesData, areaManagersData] = await Promise.all([
                 fetchAllBranches(),
@@ -217,7 +213,7 @@ export default function SuperAdminBranchesIndex() {
                 )
             }
         }
-    ]
+    ];
 
 
 
@@ -270,9 +266,7 @@ export default function SuperAdminBranchesIndex() {
      * Render
      */
     return(
-        <div className="content1 compressed">
-            <h3 className="fw-bold mar-bottom-1">Branches</h3>
-
+        <>
             <div className="d-flex align-items-center justify-content-between mar-bottom-1">
                 <Search 
                 size="large"
@@ -303,6 +297,6 @@ export default function SuperAdminBranchesIndex() {
                 bordered
                 />
             )}
-        </div>
-    )
+        </>
+    );
 }

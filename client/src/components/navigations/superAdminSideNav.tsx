@@ -1,7 +1,6 @@
 import { MdDashboard, MdOutlineDashboard } from "react-icons/md"
 import { useSuperAdminContext } from "../../contexts/SuperAdminContext"
-import { IoFastFood, IoFastFoodOutline, IoStorefront, IoStorefrontOutline } from "react-icons/io5";
-import { PiUsersFour, PiUsersFourFill } from "react-icons/pi";
+import { IoFastFood, IoFastFoodOutline, IoSettings, IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 export default function SuperAdminSideNav() {
@@ -22,18 +21,11 @@ export default function SuperAdminSideNav() {
             to: "Menus"
         },
         {
-            title: "Branches",
-            icon: <IoStorefrontOutline size={30}/>,
-            iconActive: <IoStorefront size={30}/>,
-            activeAt: "Branches",
-            to: "Branches"
-        },
-        {
-            title: "Accounts",
-            icon: <PiUsersFour size={30}/>,
-            iconActive: <PiUsersFourFill size={30}/>,
-            activeAt: "Accounts",
-            to: "Accounts"
+            title: "Settings",
+            icon: <IoSettingsOutline size={30}/>,
+            iconActive: <IoSettings size={30}/>,
+            activeAt: "Settings",
+            to: "Settings"
         },
     ]
 

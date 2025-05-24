@@ -2,12 +2,12 @@ import Table, { ColumnsType as TableColumnsType } from "antd/es/table";
 import { MenuSubCategoryStructure } from "../../../../../types/menuSubCategoryStucture";
 import { Button } from "antd";
 
-interface SuperAdminMenuSubCategoriesTypes {
+interface SuperAdminMenuSubCategoriesSettingsTypes {
     menuSubCategories: MenuSubCategoryStructure[];
     setMenuSubCategories: React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>;
 }
 
-const SuperAdminMenuSubCategories: React.FC<SuperAdminMenuSubCategoriesTypes> = ({menuSubCategories, setMenuSubCategories}) => {
+const SuperAdminMenuSubCategoriesSettings: React.FC<SuperAdminMenuSubCategoriesSettingsTypes> = ({menuSubCategories, setMenuSubCategories}) => {
     /**
      * Setup table columns
      */
@@ -43,4 +43,4 @@ const SuperAdminMenuSubCategories: React.FC<SuperAdminMenuSubCategoriesTypes> = 
     );
 }
 
-export default SuperAdminMenuSubCategories;
+export default SuperAdminMenuSubCategoriesSettings;

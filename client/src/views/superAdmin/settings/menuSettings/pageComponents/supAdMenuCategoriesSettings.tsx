@@ -7,12 +7,12 @@ import { useGeneralContext } from "../../../../../contexts/GeneralContext";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
 
-interface SuperAdminMenuCategoriesTypes {
+interface SuperAdminMenuCategoriesSettingsTypes {
     menuCategories: MenuCategoryStructure[], 
     setMenuCategories: React.Dispatch<React.SetStateAction<MenuCategoryStructure[]>>
 }
 
-const SuperAdminMenuCategories: React.FC<SuperAdminMenuCategoriesTypes> = ({menuCategories, setMenuCategories}) => {
+const SuperAdminMenuCategoriesSettings: React.FC<SuperAdminMenuCategoriesSettingsTypes> = ({menuCategories, setMenuCategories}) => {
     const { showModal } = useGeneralContext();
     const [editMenuCategoryIn, setEditMenuCategoryIn] = useState({
         id: 0,
@@ -169,4 +169,4 @@ const SuperAdminMenuCategories: React.FC<SuperAdminMenuCategoriesTypes> = ({menu
     )
 }
 
-export default SuperAdminMenuCategories;
+export default SuperAdminMenuCategoriesSettings;

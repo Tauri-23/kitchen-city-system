@@ -41,26 +41,12 @@ export default function SuperAdminMenusDefault() {
                 onClick={() => navigate("MenuDishes")}>
                     Dishes
                 </Button>
-
-                <Button
-                color="primary"
-                variant={supAdMenuActivePage === "Categories, Sub-Categories And Classes" ? "solid" : "outlined"}
-                onClick={() => navigate("MenuCategoriesSubAndClasses")}>
-                    Categories, Sub-Categories & Classes
-                </Button>
                 
                 <Button
                 color="primary"
                 variant={supAdMenuActivePage === "Menu Tags" ? "solid" : "outlined"}
                 onClick={() => navigate("MenuTags")}>
                     Menu Tags
-                </Button>
-
-                <Button
-                color="primary"
-                variant={supAdMenuActivePage === "Menu Form Builder" ? "solid" : "outlined"}
-                onClick={() => navigate("MenuFormBuilder")}>
-                    Menu Form Builder
                 </Button>
             </div>
             <Outlet

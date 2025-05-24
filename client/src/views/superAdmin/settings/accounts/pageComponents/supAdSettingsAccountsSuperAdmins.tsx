@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom"
-import { SuperAdminAccountsOutletContextType } from "./supAdAccountsDefault";
 import { Button, Input, Spin, Table, TableColumnsType } from "antd";
-import { useGeneralContext } from "../../../contexts/GeneralContext";
-import { AreaManagerStructure } from "../../../types/areaManagerSturcture";
-import { fetchAllAreaManagers } from "../../../services/areaManagerServices";
+import { SuperAdminStructure } from "../../../../../types/superAdminSturcture";
+import { fetchAllSuperAdminsWhereNotId } from "../../../../../services/superAdminServices";
+import { useLoggedUserContext } from "../../../../../contexts/LoggedUserContext";
+import { useGeneralContext } from "../../../../../contexts/GeneralContext";
+import { activeLinkTypes } from "../supAdSettingsAccounts";
 
-export default function SuperAdminAccountsAreaManagers() {
-    const { setActiveLink } = useOutletContext<SuperAdminAccountsOutletContextType>();
+interface SuperAdminSettingsAccountsSuperAdminsTypes {
+    setActiveLink: (value: activeLinkTypes) => void;
+}
+
+const SuperAdminSettingsAccountsSuperAdmins: React.FC<SuperAdminSettingsAccountsSuperAdminsTypes> = ({setActiveLink}) => {
+    const { user } = useLoggedUserContext();
     const { showModal } = useGeneralContext();
-    
-    const [areaManagers, setAreaManagers] = useState<AreaManagerStructure[] | null>(null);
-    
+
+    const [superAdmins, setSuperAdmins] = useState<SuperAdminStructure[] | null>(null);
+
     const {Search} = Input;
 
 
@@ -20,22 +24,24 @@ export default function SuperAdminAccountsAreaManagers() {
      * Onmount
      */
     useEffect(() => {
-        setActiveLink("Area Managers");
-        
-        const getAll = async() => {
-            const data = await fetchAllAreaManagers();
-            setAreaManagers(data);
-        }
+        setActiveLink("Super Admins");
 
-        getAll();
-    }, []);
+        if(user) {
+            const getAll = async() => {
+                const data = await fetchAllSuperAdminsWhereNotId(String(user.id));
+                setSuperAdmins(data);
+            }
+
+            getAll();
+        }
+    }, [user]);
 
 
 
     /**
      * Setup Columns
      */
-    const tableCols: TableColumnsType<AreaManagerStructure> = [
+    const tableCols: TableColumnsType<SuperAdminStructure> = [
         {
             title: "Id",
             dataIndex: "id"
@@ -64,8 +70,8 @@ export default function SuperAdminAccountsAreaManagers() {
     }
 
     const handleAddBtnClick = () => {
-        showModal("SupAdAddAreaManagerModal", {
-            setAreaManagers
+        showModal("SupAdAddSuperAdminModal", {
+            setSuperAdmins
         });
     }
 
@@ -76,7 +82,7 @@ export default function SuperAdminAccountsAreaManagers() {
      */
     return (
         <>
-            {!areaManagers
+            {!superAdmins
             ? (<Spin size="large"/>)
             : (
                 <>
@@ -93,13 +99,13 @@ export default function SuperAdminAccountsAreaManagers() {
                         type="primary"
                         onClick={handleAddBtnClick}
                         >
-                            Add Area Manager
+                            Add Super Admin
                         </Button>
                     </div>
 
                     <Table
                     size="small"
-                    dataSource={areaManagers.map((item, index) => ({...item, key: index}))}
+                    dataSource={superAdmins.map((item, index) => ({...item, key: index}))}
                     columns={tableCols}
                     bordered/>
                 </>
@@ -107,3 +113,5 @@ export default function SuperAdminAccountsAreaManagers() {
         </>
     )
 }
+
+export default SuperAdminSettingsAccountsSuperAdmins;
