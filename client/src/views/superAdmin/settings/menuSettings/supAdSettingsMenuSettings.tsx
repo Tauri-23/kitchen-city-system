@@ -75,7 +75,7 @@ export default function SuperAdminSettingsMenuSettings() {
                     {(selectedPage === "Sub-Categories") && (
                         <SuperAdminMenuSubCategoriesSettings
                         menuSubCategories={menuSubCategories}
-                        setMenuSubCategories={setMenuSubCategories as React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>}
+                        // setMenuSubCategories={setMenuSubCategories as React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>}
                         />
                     )}
 

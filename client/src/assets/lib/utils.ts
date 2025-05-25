@@ -155,11 +155,11 @@ export function notify(
 |----------------------------------------
 */
 export const getWeekOfMonthFixed4 = (date = new Date()): number => {
-    const year = date.getFullYear();
-    const month = date.getMonth(); // 0 = Jan
+    // const year = date.getFullYear();
+    // const month = date.getMonth(); // 0 = Jan
   
-    const firstDayOfMonth = new Date(year, month, 1);
-    const totalDays = new Date(year, month + 1, 0).getDate(); // last day of month
+    // const firstDayOfMonth = new Date(year, month, 1);
+    // const totalDays = new Date(year, month + 1, 0).getDate(); // last day of month
     const dayOfMonth = date.getDate();
   
     // Weeks 1-3 are 7 days each

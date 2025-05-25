@@ -50,7 +50,7 @@ export default function BranchManagerViewOrder() {
         },
         {
             title: "Dish",
-            render: (_, row) => `${row.menu_dish.name} (${row.menu_dish.odoo_name})`
+            render: (_, row) => `${row.menu_dish.name}`
         },
         {
             title: "Cost",

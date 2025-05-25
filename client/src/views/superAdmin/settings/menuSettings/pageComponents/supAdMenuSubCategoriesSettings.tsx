@@ -4,10 +4,10 @@ import { Button } from "antd";
 
 interface SuperAdminMenuSubCategoriesSettingsTypes {
     menuSubCategories: MenuSubCategoryStructure[];
-    setMenuSubCategories: React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>;
+    // setMenuSubCategories: React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>;
 }
 
-const SuperAdminMenuSubCategoriesSettings: React.FC<SuperAdminMenuSubCategoriesSettingsTypes> = ({menuSubCategories, setMenuSubCategories}) => {
+const SuperAdminMenuSubCategoriesSettings: React.FC<SuperAdminMenuSubCategoriesSettingsTypes> = ({menuSubCategories/*, setMenuSubCategories*/}) => {
     /**
      * Setup table columns
      */

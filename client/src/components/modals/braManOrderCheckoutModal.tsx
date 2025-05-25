@@ -19,7 +19,7 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
 
     const totalCost = selectedMenusIn.reduce((sum, dish) => {
         return sum + (dish.qty_selected * dish.menu_dish.srp);
-      }, 0);
+    }, 0);
 
 
 
@@ -121,7 +121,7 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
 
                 <Table
                 columns={orderCols}
-                dataSource={orderedDishes.map((dish, index) => ({...dish, key: index}))}
+                dataSource={selectedMenusIn.map((dish, index) => ({...dish, key: index}))}
                 bordered
                 />
 

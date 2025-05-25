@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import Cookies from "js-cookie";
+import { BranchStructure } from "../types/branchStructure";
 
 interface userStructure {
     id: string;
     fname: string;
     mname: string;
     lname: string;
+    user_type: string | null | undefined;
+    branch: BranchStructure | undefined;
 }
 
 interface StateContextTypes {

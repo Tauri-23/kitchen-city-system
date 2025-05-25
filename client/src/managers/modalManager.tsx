@@ -1,4 +1,3 @@
-import BranchManagerAddOrderModal from "../components/modals/braManAddOrderModal";
 import BranchManagerOrderCheckoutModal from "../components/modals/braManOrderCheckoutModal";
 import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaManagerModal";
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
@@ -19,9 +18,9 @@ import { MenuClassStructure } from "../types/menuClassStructure";
 import { MenuDishStructure } from "../types/menuDishStructure";
 import { MenuFormElementStructure } from "../types/menuFormElementStructure";
 import { MenuShiftStructure } from "../types/menuShiftStructure";
-import { MenuStructure } from "../types/menuStructure";
 import { MenuSubCategoryStructure } from "../types/menuSubCategoryStucture";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
+import { SelectedMenusType } from "../views/branchManager/orders/braManAddOrder";
 
 const ModalManager = () => {
     const { modalState, hideModal } = useGeneralContext();
@@ -107,17 +106,9 @@ const ModalManager = () => {
             /**
              * Branch Manager
              */
-            case "BranchManagerAddOrderModal":
-                return <BranchManagerAddOrderModal
-                menuDish={props.menuDish as MenuDishStructure}
-                processedMenus={props.processedMenus as MenuStructure[]}
-                setprocessedMenus={props.setprocessedMenus as (value: MenuStructure[]) => void}
-                onClose={hideModal}
-                />
-
             case "BranchManagerOrderCheckoutModal":
                 return <BranchManagerOrderCheckoutModal
-                orderedDishes={props.orderedDishes as MenuDishStructure[]}
+                selectedMenusIn={props.selectedMenusIn as SelectedMenusType[]}
                 onSuccess={props.onSuccess as () => void}
                 onClose={hideModal}
                 />

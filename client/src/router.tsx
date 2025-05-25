@@ -4,7 +4,6 @@ import GuestIndex from "./views";
 import SuperAdminDefault from "./views/superAdmin/supAdDefault";
 import SuperAdminDashboard from "./views/superAdmin/dashboard/supAdDashboard";
 import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
-import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
 import SuperAdminViewMenu from "./views/superAdmin/menus/supAdViewMenu";
 import BranchManagerDefault from "./views/branchManager/braManDefault";
 import BranchManagerIndex from "./views/branchManager/braManIndex";
@@ -54,10 +53,6 @@ const router = createBrowserRouter([
             {
                 path: "Menus",
                 element: <SuperAdminMenusIndex/>,
-            },
-            {
-                path: "AddMenu",
-                element: <SuperAdminAddMenu/>
             },
             {
                 path: "ViewMenu/:id",

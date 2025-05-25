@@ -67,10 +67,11 @@ class OrdersController extends Controller
             foreach ($selectedMenusIn as $key => $dish) {
                 order_items::Create([
                     "order_id" => $order->id,
-                    "menu_dish_id" => $dish->id,
-                    "qty" => $dish->qtySelected,
-                    "unit_cost" => $dish->unit_cost,
-                    "total_cost" => $dish->unit_cost * $dish->qtySelected
+                    "menu_dish_id" => $dish->menu_dish_id,
+                    "qty" => $dish->qty_selected,
+                    "unit_cost" => $dish->menu_dish->unit_cost,
+                    "srp" => $dish->menu_dish->srp,
+                    "total_cost" => $dish->menu_dish->unit_cost * $dish->qty_selected
                 ]);
             }
 

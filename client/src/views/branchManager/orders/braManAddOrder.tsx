@@ -8,12 +8,10 @@ import { useGeneralContext } from "../../../contexts/GeneralContext";
 import { Link, useNavigate } from "react-router-dom";
 import { MenuShiftStructure } from "../../../types/menuShiftStructure";
 import { MenuFormElementStructure } from "../../../types/menuFormElementStructure";
-import { MenuClassStructure } from "../../../types/menuClassStructure";
 import { fetchAllMenusWhereWeekDayAndSize } from "../../../services/menusServices";
 import { fetchAllMenuShifts } from "../../../services/menuShiftsServices";
 import { fetchAllMenuFormElements } from "../../../services/menuFormElementServices";
-import { fetchAllMenuClasses } from "../../../services/menuClassesServices";
-import { fetchAllMenuDishes } from "../../../services/menuDishesServices";
+import { useLoggedUserContext } from "../../../contexts/LoggedUserContext";
 
 export type SelectedMenusType = {
     menu_shift_id: number;
@@ -25,6 +23,7 @@ export type SelectedMenusType = {
 };
 
 export default function BranchManagerAddOrder() {
+    const { user } = useLoggedUserContext();
     const { setActiveSideNavLink } = useBranchManagerContext();
     const { showModal } = useGeneralContext();
 
@@ -33,18 +32,13 @@ export default function BranchManagerAddOrder() {
     const [menus, setMenus] = useState<MenuStructure[] | null>(null);
     const [shifts, setShifts] = useState<MenuShiftStructure[] | null>(null);
     const [menuFormElements, setmenuFormElements] = useState<MenuFormElementStructure[] | null>(null);
-    const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
-    const [menuDishes, setMenuDishes] = useState<MenuDishStructure[] | null>(null);
     const [selectedMenusIn, setSelectedMenusIn] = useState<SelectedMenusType[] | null>([]);
 
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const sizes = ["XL", "Large", "Medium", "Medium Frying", "Small", "Small Frying"];
 
-    const dateNow = new Date();
     const weekNow = 1;
 
     const [selectedDay, setSelectedDay] = useState<string>((days[0]));
-    const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
 
 
     /**
@@ -54,18 +48,14 @@ export default function BranchManagerAddOrder() {
         setActiveSideNavLink("Orders");
 
         const getAll = async() => {
-            const [menusData, shiftsData, menuFormElementsData, menuClassesData, menuDishesData] = await Promise.all([
-                fetchAllMenusWhereWeekDayAndSize(String(weekNow), selectedDay, selectedSize),
+            const [menusData, shiftsData, menuFormElementsData] = await Promise.all([
+                fetchAllMenusWhereWeekDayAndSize(String(weekNow), selectedDay, user?.branch?.size || ""),
                 fetchAllMenuShifts(),
                 fetchAllMenuFormElements(),
-                fetchAllMenuClasses(),
-                fetchAllMenuDishes()
             ]);
             setMenus(menusData);
             setShifts(shiftsData);
             setmenuFormElements(menuFormElementsData);
-            setMenuClasses(menuClassesData);
-            setMenuDishes(menuDishesData);
             setSelectedMenusIn(menusData.map((menu: MenuStructure) => ({
                 menu_shift_id: menu.menu_shift_id,
                 menu_class_id: menu.menu_class_id,
@@ -82,7 +72,7 @@ export default function BranchManagerAddOrder() {
     useEffect(() => {
         const updateMenus = async() => {
             setSelectedMenusIn(null);
-            const data = await fetchAllMenusWhereWeekDayAndSize(String(weekNow), selectedDay, selectedSize);
+            const data = await fetchAllMenusWhereWeekDayAndSize(String(weekNow), selectedDay, user?.branch?.size || "");
             setMenus(data);
             setSelectedMenusIn(data.map((menu: MenuStructure) => ({
                 menu_shift_id: menu.menu_shift_id,
@@ -94,7 +84,7 @@ export default function BranchManagerAddOrder() {
             })));
         }
         updateMenus();
-    }, [selectedDay, selectedSize]);
+    }, [selectedDay, user?.branch?.size || ""]);
 
 
 
@@ -341,7 +331,7 @@ export default function BranchManagerAddOrder() {
             ]}
             />
 
-            <h3 className="fw-bold mar-bottom-1">Add Orders</h3>
+            <h3 className="fw-bold mar-bottom-1">Add Orders ({user?.branch?.size || ""})</h3>
 
             <div className="d-flex align-items-center justify-content-between mar-bottom-1">
                 <div className="d-flex gap3">

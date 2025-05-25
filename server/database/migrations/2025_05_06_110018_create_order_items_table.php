@@ -18,6 +18,7 @@ return new class extends Migration
             
             $table->integer("qty")->nullable();
             $table->float("unit_cost")->default(0);
+            $table->float("srp")->default(0);
             $table->float("total_cost")->default(0);
             $table->enum("status", ["Open", "Pending", "Completed", "Cancelled"])->default("Open");
             

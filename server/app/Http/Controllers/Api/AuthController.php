@@ -18,6 +18,7 @@ class AuthController extends Controller
         $superAdmin = super_admins::where('username', $loginCreDentials->username)
         ->first();
         $branchManager = branch_managers::where('username', $loginCreDentials->username)
+        ->with("branch")
         ->first();
 
         if($superAdmin && Hash::check($loginCreDentials->password, $superAdmin->password))
@@ -50,7 +51,8 @@ class AuthController extends Controller
                     "fname" => $branchManager->fname,
                     "mname" => $branchManager->mname,
                     "lname" => $branchManager->lname,
-                    "user_type" => "Branch Manager"
+                    "user_type" => "Branch Manager",
+                    "branch" => $branchManager->branch,
                 ],
                 "token" => $token,
                 "userType" => "Branch Manager"
@@ -94,6 +96,13 @@ class AuthController extends Controller
             : ($user instanceof branch_managers
             ? "Branch Manager"
             : "");
+
+        // Load branch info if Branch Manager
+        $branch = null;
+        if ($userType === "Branch Manager" && $user->relationLoaded('branch') === false) {
+            $user->load('branch'); // Eager load branch relation
+            $branch = $user->branch;
+        }
         
         return response()->json([
             "user" => [
@@ -101,7 +110,8 @@ class AuthController extends Controller
                 "fname" => $user->fname,
                 "mname" => $user->mname,
                 "lname" => $user->lname,
-                "user_type" => $userType
+                "user_type" => $userType,
+                "branch" => $branch
             ],
             "userType" => $userType
         ]);
