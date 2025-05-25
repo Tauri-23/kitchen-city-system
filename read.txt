@@ -1,2 +1,7 @@
 u669549108_kitchen_city
 kitchen_cityDB123
+
+ssh -p 65002 u669549108@46.202.138.142
+KcAutomation@123
+
+ln -s ~/domains/api.kitchencity-automation.com/server/public api
