@@ -57,7 +57,7 @@ const SuperAdminAddMenuDishModal: React.FC<SuperAdminAddMenuDishModalTypes> = ({
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
             if(data.status === 200) {
-                setMenuDishes(data.updatedMenuDishes);
+                setMenuDishes(data.menuDishes);
             }
         })
         .catch(error => {

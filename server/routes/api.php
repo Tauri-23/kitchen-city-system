@@ -159,6 +159,7 @@ Route::get("/get-all-menu-dishes", [MenuDishesController::class, "GetAllMenuDish
 
 Route::post("/create-menu-dish", [MenuDishesController::class, "CreateMenuDish"]);
 Route::post("/update-menu-dish", [MenuDishesController::class, "UpdateMenuDish"]);
+Route::post("/delete-menu-dish", [MenuDishesController::class, "DeleteMenuDish"]);
 
 
 

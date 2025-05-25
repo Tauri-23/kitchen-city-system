@@ -1,28 +1,23 @@
 import { useEffect, useState } from "react"
-import { useOutletContext } from "react-router-dom";
-import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
-import { fetchAllMenuDishes } from "../../../../services/menuDishesServices";
-import { MenuDishStructure } from "../../../../types/menuDishStructure";
-import { Button, Input, InputNumber, Select, Spin, Table, TableColumnsType } from "antd";
-import { useGeneralContext } from "../../../../contexts/GeneralContext";
-import { formatToPhilPeso, isEmptyOrSpaces, notify } from "../../../../assets/lib/utils";
-import { LuSquareCheckBig, LuSquarePen } from "react-icons/lu";
+import { fetchAllMenuDishes } from "../../../services/menuDishesServices";
+import { MenuDishStructure } from "../../../types/menuDishStructure";
+import { Button, Input, InputNumber, Popconfirm, Select, Spin, Table, TableColumnsType } from "antd";
+import { useGeneralContext } from "../../../contexts/GeneralContext";
+import { formatToPhilPeso, isEmptyOrSpaces, notify } from "../../../assets/lib/utils";
+import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
-import { MenuSubCategoryStructure } from "../../../../types/menuSubCategoryStucture";
-import { fetchAllMenuSubCategories } from "../../../../services/menuSubCategoriesServices";
-import { fetchAllMenuCategories } from "../../../../services/menuCategoriesServices";
-import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure";
-import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
-import { MenuClassStructure } from "../../../../types/menuClassStructure";
-import axiosClient from "../../../../axios-client";
-
-interface OutletContextTypes {
-    setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
-}
+import { MenuSubCategoryStructure } from "../../../types/menuSubCategoryStucture";
+import { fetchAllMenuSubCategories } from "../../../services/menuSubCategoriesServices";
+import { fetchAllMenuCategories } from "../../../services/menuCategoriesServices";
+import { MenuCategoryStructure } from "../../../types/menuCategoryStructure";
+import { fetchAllMenuClasses } from "../../../services/menuClassesServices";
+import { MenuClassStructure } from "../../../types/menuClassStructure";
+import axiosClient from "../../../axios-client";
+import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 
 export default function SuperAdminMenuDishesIndex() {
     const { showModal } = useGeneralContext();
-    const { setSupAdMenuActivePage } = useOutletContext<OutletContextTypes>();
+    const { setActiveSideNavLink } = useSuperAdminContext();
     
     const [menuDishes, setMenuDishes] = useState<MenuDishStructure[] | null>(null);
     const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
@@ -30,6 +25,7 @@ export default function SuperAdminMenuDishesIndex() {
     const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
 
     const [selectedCategory, setSelectedCategory] = useState<string | number>("");
+    const [selectedSubCategory, setSelectedSubCategory] = useState<string | number>("");
 
     const productionTypes = ["Commis", "Commis Cooked", "On Site"];
 
@@ -59,7 +55,7 @@ export default function SuperAdminMenuDishesIndex() {
      * Onmount
      */
     useEffect(() => {
-        setSupAdMenuActivePage("Dishes");
+        setActiveSideNavLink("Dishes");
 
         const getAll = async() => {
             const [menuDishesData, menuClassesData, menuCategoriesData, menuSubCatData] = await Promise.all([
@@ -231,6 +227,18 @@ export default function SuperAdminMenuDishesIndex() {
                                 color="blue"
                                 variant="solid"
                                 />
+
+                                <Popconfirm
+                                    title="Delete this dish"
+                                    onConfirm={() => handleDeleteMenuDish(row.id)}
+                                >
+                                    <Button
+                                    size="small"
+                                    icon={<LuTrash2 />}
+                                    color="red"
+                                    variant="solid"
+                                    />
+                                </Popconfirm>
                             </>
                         )}
                     </div>
@@ -282,13 +290,31 @@ export default function SuperAdminMenuDishesIndex() {
         })
     }
 
+    const handleDeleteMenuDish = (id: string) => {
+        const formData = new FormData();
+        formData.append("id", id);
+
+        axiosClient.post("/delete-menu-dish",  formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+
+            if(data.status === 200) {
+                setMenuDishes(prev => prev?.filter((dish: MenuDishStructure) => dish.id !== id) || []);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        })
+    }
+
 
 
     /**
      * Render
      */
     return(
-        <>
+        <div className="content1 compressed">
             <h3 className="fw-bold mar-bottom-1">Dishes</h3>
 
             {(!menuClasses || !menuCategories || !menuSubCategories || !menuDishes)
@@ -300,14 +326,39 @@ export default function SuperAdminMenuDishesIndex() {
                     <div className="d-flex align-items-center justify-content-between mar-bottom-1">
                         <div className="d-flex gap3">
                             <Select
-                            style={{width: 200}}
+                            style={{width: 250}}
                             size="large"
                             options={[
-                                {label: "All menu categories"},
-                                ...menuCategories.map(item => ({label: item.category, value: item.category}))
+                                {label: "All menu categories", value: ""},
+                                ...menuCategories.map(item => ({label: item.category, value: item.id}))
                             ]}
                             value={selectedCategory}
                             onChange={(val) => setSelectedCategory(val)}
+                            showSearch
+                            filterOption={(input, option) => 
+                                (option?.label ?? "")
+                                    .toString()
+                                    .toLowerCase()
+                                    .includes(input.toLowerCase())
+                            }
+                            />
+
+                            <Select
+                            style={{width: 250}}
+                            size="large"
+                            options={[
+                                {label: "All menu sub-categories", value: ""},
+                                ...menuSubCategories.map(item => ({label: item.sub_category, value: item.id}))
+                            ]}
+                            value={selectedSubCategory}
+                            onChange={(val) => setSelectedSubCategory(val)}
+                            showSearch
+                            filterOption={(input, option) => 
+                                (option?.label ?? "")
+                                    .toString()
+                                    .toLowerCase()
+                                    .includes(input.toLowerCase())
+                            }
                             />
                         </div>
 
@@ -322,10 +373,14 @@ export default function SuperAdminMenuDishesIndex() {
                     <Table
                     size="small"
                     columns={menuDishesColumns}
-                    dataSource={menuDishes?.filter(x => (selectedCategory !== "" ? x.menu_category_id === selectedCategory : true)).map((item, index) => ({...item, key: index}))}
+                    dataSource={
+                        menuDishes?.filter(x => 
+                            (selectedCategory !== "" ? x.menu_category_id === selectedCategory : true) &&
+                            (selectedSubCategory !== "" ? x.menu_sub_category_id === selectedSubCategory : true)
+                        ).map((item, index) => ({...item, key: index}))}
                     bordered/>
                 </>
             )}
-        </>
+        </div>
     )
 }

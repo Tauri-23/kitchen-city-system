@@ -1,24 +1,24 @@
 import { Button, Modal } from "antd";
 import { useState } from "react";
-import { MenuDishStructure } from "../../types/menuDishStructure";
 import { formatToPhilPeso, notify } from "../../assets/lib/utils";
 import Table, { ColumnsType as TableColumnsType } from "antd/es/table";
 import axiosClient from "../../axios-client";
 import { useLoggedUserContext } from "../../contexts/LoggedUserContext";
+import { SelectedMenusType } from "../../views/branchManager/orders/braManAddOrder";
 
 interface BranchManagerOrderCheckoutModalTypes {
-    orderedDishes: MenuDishStructure[];
+    selectedMenusIn: SelectedMenusType[];
     onSuccess: () => void;
     onClose: () => void;
 }
 
-const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalTypes> = ({orderedDishes, onSuccess, onClose}) => {
+const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalTypes> = ({selectedMenusIn, onSuccess, onClose}) => {
     const { user } = useLoggedUserContext();
 
     const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 
-    const totalCost = orderedDishes.reduce((sum, dish) => {
-        return sum + (dish.qtySelected * dish.unit_cost);
+    const totalCost = selectedMenusIn.reduce((sum, dish) => {
+        return sum + (dish.qty_selected * dish.menu_dish.srp);
       }, 0);
 
 
@@ -26,34 +26,34 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
     /**
      * Setup Columns
      */
-    const orderCols: TableColumnsType<MenuDishStructure> = [
-        {
-            title: "Dish Name",
-            dataIndex: "name"
-        },
+    const orderCols: TableColumnsType<SelectedMenusType> = [
         {
             title: "Odoo Name",
-            dataIndex: "odoo_name"
+            render: (_, row) => row.menu_dish.name
         },
         {
             title: "Category",
-            render: (_, row) => row.category?.category
+            render: (_, row) => row.menu_dish.menu_category.category
         },
         {
             title: "Unit Cost",
-            render: (_, row) => formatToPhilPeso(row.unit_cost)
+            render: (_, row) => formatToPhilPeso(row.menu_dish.unit_cost)
+        },
+        {
+            title: "SRP",
+            render: (_, row) => formatToPhilPeso(row.menu_dish.srp)
         },
         {
             title: "Production",
-            dataIndex: "production"
+            render: (_, row) => row.menu_dish.production
         },
         {
             title: "Order Price",
-            render: (_, row) => formatToPhilPeso(row.qtySelected * row.unit_cost)
+            render: (_, row) => formatToPhilPeso(row.qty_selected * row.menu_dish.srp)
         },
         {
             title: "QTY Ordered",
-            dataIndex: "qtySelected"
+            dataIndex: "qty_selected"
         }
     ];
 
@@ -66,10 +66,8 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
         if(user) {
             setIsSubmitLoading(true)
 
-            console.log(orderedDishes);
-
             const formData = new FormData();
-            formData.append("orderedDishes", JSON.stringify(orderedDishes));
+            formData.append("selectedMenusIn", JSON.stringify(selectedMenusIn));
             formData.append("branchManager", user.id);
             formData.append("totalCost", String(totalCost));
 

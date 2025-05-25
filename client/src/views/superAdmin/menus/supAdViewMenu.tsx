@@ -78,6 +78,7 @@ export default function SuperAdminViewMenu() {
 
     useEffect(() => {
         const updateMenus = async() => {
+            setMenus(null);
             const data = await fetchAllMenusWhereWeekDayAndSize(String(params.id), selectedDay, selectedSize);
             setMenus(data);
             setSelectedDishesIn(data.map((menu: MenuStructure) => ({
@@ -338,7 +339,7 @@ export default function SuperAdminViewMenu() {
      */
     return(
         <div className="content1 compressed">
-            {!menus || !shifts || !menuFormElements || !menuClasses || !menuDishes
+            { !menuClasses
             ? (<Spin size="large"/>)
             : ( 
                 <>
@@ -388,6 +389,7 @@ export default function SuperAdminViewMenu() {
                     size="small"
                     bordered
                     pagination={false}
+                    loading={!shifts || !menuFormElements || !menus || !menuDishes}
                     expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
                     />                    
                 </>

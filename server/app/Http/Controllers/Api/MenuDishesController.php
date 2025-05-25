@@ -77,4 +77,14 @@ class MenuDishesController extends Controller
             "menuDishes" => $menuDishes->GetAllMenuDishes()->original
         ]);
     }
+
+    public function DeleteMenuDish(Request $request)
+    {
+        menu_dishes::find($request->id)->delete();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Dish successfully deleted"
+        ]);
+    }
 }

@@ -8,14 +8,15 @@ import { fetchAllMenuSubCategories } from "../../../../services/menuSubCategorie
 import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
 import SuperAdminMenuCategoriesSettings from "./pageComponents/supAdMenuCategoriesSettings";
 import SuperAdminMenuClassesSettings from "./pageComponents/supAdMenuClassesSettings";
-import SuperAdminMenuSubCategoriesSettings from "./pageComponents/supAdMenuSubCategories";
+import SuperAdminMenuSubCategoriesSettings from "./pageComponents/supAdMenuSubCategoriesSettings";
+import SuperAdminMenuTagSettings from "./pageComponents/supAdMenuTagsSettings";
 
 export default function SuperAdminSettingsMenuSettings() {
     const [menuCategories, setMenuCategories] = useState<MenuCategoryStructure[] | null>(null);
     const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
     const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
     
-    const pages = ["Categories", "Sub-Categories", "Classes"];
+    const pages = ["Categories", "Sub-Categories", "Classes", "Menu Tags"];
     const [selectedPage, setSelectedPage] = useState<string>(pages[0]);
 
 
@@ -84,6 +85,17 @@ export default function SuperAdminSettingsMenuSettings() {
                     {(selectedPage === "Classes") && (
                         <SuperAdminMenuClassesSettings
                         menuClasses={menuClasses as MenuClassStructure[]}
+                        setMenuClasses={setMenuClasses as React.Dispatch<React.SetStateAction<MenuClassStructure[]>>}
+                        />
+                    )}
+
+
+
+                    {/* Menu Tags */}
+                    {(selectedPage === "Menu Tags") && (
+                        <SuperAdminMenuTagSettings
+                        menuSubCategories={menuSubCategories}
+                        menuClasses={menuClasses}
                         setMenuClasses={setMenuClasses as React.Dispatch<React.SetStateAction<MenuClassStructure[]>>}
                         />
                     )}

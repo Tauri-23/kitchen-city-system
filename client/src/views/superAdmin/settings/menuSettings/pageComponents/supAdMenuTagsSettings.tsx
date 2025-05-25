@@ -1,29 +1,22 @@
-import { useOutletContext } from "react-router-dom";
-import { useGeneralContext } from "../../../../contexts/GeneralContext";
-import { SuperAdminMenuActivePageTypes } from "../supAdMenusDefault";
-import { useEffect, useState } from "react";
-import { MenuSubCategoryStructure } from "../../../../types/menuSubCategoryStucture";
-import { fetchAllMenuSubCategories } from "../../../../services/menuSubCategoriesServices";
 import { Button, Input, Popconfirm, Select, Spin, Table, TableColumnsType } from "antd";
-import { MenuClassStructure } from "../../../../types/menuClassStructure";
-import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
+import { MenuClassStructure } from "../../../../../types/menuClassStructure"
+import { MenuTagStructure } from "../../../../../types/menuTagStructure";
+import { useGeneralContext } from "../../../../../contexts/GeneralContext";
+import { useState } from "react";
+import { isEmptyOrSpaces, notify } from "../../../../../assets/lib/utils";
+import { MenuSubCategoryStructure } from "../../../../../types/menuSubCategoryStucture";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
-import { isEmptyOrSpaces, notify } from "../../../../assets/lib/utils";
-import { MenuTagStructure } from "../../../../types/menuTagStructure";
 import { GiCancel } from "react-icons/gi";
-import axiosClient from "../../../../axios-client";
+import axiosClient from "../../../../../axios-client";
 
-interface OutletContextTypes {
-    setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
+interface SuperAdminMenuTagSettingsTypes {
+    menuClasses: MenuClassStructure[];
+    setMenuClasses: React.Dispatch<React.SetStateAction<MenuClassStructure[]>>
+    menuSubCategories: MenuSubCategoryStructure[]
 }
 
-export default function SuperAdminMenuTagsIndex() {
+const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({menuClasses, setMenuClasses, menuSubCategories}) => {
     const { showModal } = useGeneralContext();
-    const { setSupAdMenuActivePage } = useOutletContext<OutletContextTypes>();
-
-    const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
-    const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
-
     const [editMenuTagIn, setEditMenutagIn] = useState({
         id: 0,
         menu_sub_category_id: 0,
@@ -34,27 +27,6 @@ export default function SuperAdminMenuTagsIndex() {
         return isEmptyOrSpaces(editMenuTagIn.tag) || 
         (editMenuTagIn.tag === selectedMenuTag.tag && editMenuTagIn.menu_sub_category_id === selectedMenuTag.menu_sub_category_id)
     }
-
-
-
-    /**
-     * Onmount
-     */
-    useEffect(() => {
-        setSupAdMenuActivePage("Menu Tags");
-
-        const getAll = async() => {
-            const [menuClassesData, menuSubCategoriesData] = await Promise.all([
-                fetchAllMenuClasses(),
-                fetchAllMenuSubCategories()
-            ]);
-
-            setMenuClasses(menuClassesData);
-            setMenuSubCategories(menuSubCategoriesData);
-        }
-
-        getAll();
-    }, []);
 
 
 
@@ -274,8 +246,6 @@ export default function SuperAdminMenuTagsIndex() {
      */
     return(
         <>
-            <h3 className="mar-bottom-1 fw-bold">Menu Tags</h3>
-
             {!menuClasses || !menuSubCategories
             ? (<Spin size="large"/>)
             : (
@@ -289,5 +259,7 @@ export default function SuperAdminMenuTagsIndex() {
                 </>
             )}
         </>
-    )
+    );
 }
+
+export default SuperAdminMenuTagSettings;

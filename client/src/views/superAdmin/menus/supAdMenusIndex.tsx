@@ -1,14 +1,10 @@
-import { Button, Input, Table, TableColumnsType } from "antd";
+import { Input, Table, TableColumnsType } from "antd";
 import { useEffect } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { SuperAdminMenuActivePageTypes } from "./supAdMenusDefault";
-
-interface OutletContextTypes {
-    setSupAdMenuActivePage: (value: SuperAdminMenuActivePageTypes) => void;
-}
+import { useNavigate } from "react-router-dom";
+import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
 
 export default function SuperAdminMenusIndex() {
-    const {setSupAdMenuActivePage} = useOutletContext<OutletContextTypes>();
+    const {setActiveSideNavLink} = useSuperAdminContext();
 
     const {Search} = Input;
 
@@ -23,7 +19,7 @@ export default function SuperAdminMenusIndex() {
      * Onmount
      */
     useEffect(() => {
-        setSupAdMenuActivePage("Menu");
+        setActiveSideNavLink("Menus");
     }, []);
 
 
@@ -53,7 +49,7 @@ export default function SuperAdminMenusIndex() {
      * Render
      */
     return(
-        <>
+        <div className="content1 compressed">
             <h3 className="fw-bold mar-bottom-1">Menus</h3>
                 <div 
                 className="d-flex align-items-center justify-content-between mar-bottom-1"
@@ -64,13 +60,6 @@ export default function SuperAdminMenusIndex() {
                     onSearch={handleSearch} enterButton
                     style={{width: 300}} 
                     />
-                    
-                    <Button
-                    size="large"
-                    type="primary"
-                    onClick={() => navigate("/KCSuperAdmin/AddMenu")}
-                    >Add Menu
-                    </Button>
                 </div>
                 
                 {/* Table Itself */}
@@ -83,6 +72,6 @@ export default function SuperAdminMenusIndex() {
                     onDoubleClick: () => navigate(`../ViewMenu/${item.week}`)
                 })}
                 />
-        </>
+        </div>
     )
 }

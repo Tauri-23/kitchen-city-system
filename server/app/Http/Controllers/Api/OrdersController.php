@@ -51,7 +51,7 @@ class OrdersController extends Controller
     // POST
     public function CreateOrder(Request $request)
     {
-        $orderedDishes = json_decode($request->input("orderedDishes"));
+        $selectedMenusIn = json_decode($request->input("selectedMenusIn"));
 
         $branchManager = branch_managers::find($request->branchManager);
 
@@ -64,7 +64,7 @@ class OrdersController extends Controller
                 "total_cost" => (float) $request->totalCost
             ]);
     
-            foreach ($orderedDishes as $key => $dish) {
+            foreach ($selectedMenusIn as $key => $dish) {
                 order_items::Create([
                     "order_id" => $order->id,
                     "menu_dish_id" => $dish->id,

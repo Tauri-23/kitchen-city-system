@@ -3,19 +3,17 @@ import GuestDefault from "./views/default";
 import GuestIndex from "./views";
 import SuperAdminDefault from "./views/superAdmin/supAdDefault";
 import SuperAdminDashboard from "./views/superAdmin/dashboard/supAdDashboard";
-import SuperAdminMenusDefault from "./views/superAdmin/menus/supAdMenusDefault";
 import SuperAdminMenusIndex from "./views/superAdmin/menus/supAdMenusIndex";
 import SuperAdminAddMenu from "./views/superAdmin/menus/supAdAddMenu";
 import SuperAdminViewMenu from "./views/superAdmin/menus/supAdViewMenu";
-import SuperAdminAddMenuDish from "./views/superAdmin/menus/supAdAddMenuDish";
 import BranchManagerDefault from "./views/branchManager/braManDefault";
 import BranchManagerIndex from "./views/branchManager/braManIndex";
 import BranchManagerAddOrder from "./views/branchManager/orders/braManAddOrder";
 import BranchManagerOrdersIndex from "./views/branchManager/orders/braManOrdersIndex";
 import BranchManagerViewOrder from "./views/branchManager/orders/braManViewOrder";
-import SuperAdminMenuDishesIndex from "./views/superAdmin/menus/menuDishes/supAdMenuDishesIndex";
-import SuperAdminMenuTagsIndex from "./views/superAdmin/menus/menuTags/supAdMenuTagsIndex";
+import SuperAdminMenuDishesIndex from "./views/superAdmin/dishes/supAdMenuDishesIndex";
 import SuperAdminSettingsDefault from "./views/superAdmin/settings/supAdSettingsDefault";
+import SuperAdminReportIndex from "./views/superAdmin/reports/supAdReportsIndex";
 
 const router = createBrowserRouter([
     /**
@@ -55,33 +53,35 @@ const router = createBrowserRouter([
              */
             {
                 path: "Menus",
-                element: <SuperAdminMenusDefault/>,
-                children: [
-                    {
-                        index: true,
-                        element: <SuperAdminMenusIndex/>
-                    },
-                    {
-                        path: "MenuTags",
-                        element: <SuperAdminMenuTagsIndex/>
-                    },
-                    {
-                        path: "MenuDishes",
-                        element: <SuperAdminMenuDishesIndex/>
-                    }
-                ]
+                element: <SuperAdminMenusIndex/>,
             },
             {
                 path: "AddMenu",
                 element: <SuperAdminAddMenu/>
             },
             {
-                path: "AddMenuDish/:menuId",
-                element: <SuperAdminAddMenuDish/>
-            },
-            {
                 path: "ViewMenu/:id",
                 element: <SuperAdminViewMenu/>
+            },
+
+
+
+            /**
+             * Dishes
+             */
+            {
+                path: "Dishes", 
+                element: <SuperAdminMenuDishesIndex/>
+            },
+
+
+
+            /**
+             * Reports
+             */
+            {
+                path: "Reports",
+                element: <SuperAdminReportIndex/>
             },
 
 

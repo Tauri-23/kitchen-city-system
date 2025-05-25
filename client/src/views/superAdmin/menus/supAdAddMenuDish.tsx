@@ -212,7 +212,7 @@ export default function SuperAdminAddMenuDish() {
                                 title: <Link to={`/KCSuperAdmin/Menus`}>Menus</Link>,
                             },
                             {
-                                title: <Link to={`/KCSuperAdmin/ViewMenu/${menu.id}`}>{menu.menu_name}</Link>,
+                                title: <Link to={`/KCSuperAdmin/ViewMenu/${menu.id}`}></Link>,
                             },
                             {
                                 title: "Add Menu Dish",

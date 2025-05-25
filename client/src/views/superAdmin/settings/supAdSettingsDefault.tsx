@@ -43,7 +43,11 @@ export default function SuperAdminSettingsDefault() {
             key: 4,
             label: "Branches",
             children: <SuperAdminSettingsBranches/>
-        }
+        },
+        {
+            key: 5,
+            label: "Week Settings",
+        },
     ]
 
 

@@ -3,6 +3,7 @@ import { useSuperAdminContext } from "../../contexts/SuperAdminContext"
 import { IoSettings, IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { BiDish, BiFoodMenu, BiSolidDish, BiSolidFoodMenu } from "react-icons/bi";
+import { HiDocumentReport, HiOutlineDocumentReport } from "react-icons/hi";
 
 export default function SuperAdminSideNav() {
     const { activeSideNavLink } = useSuperAdminContext();
@@ -27,6 +28,13 @@ export default function SuperAdminSideNav() {
             iconActive: <BiSolidDish size={30}/>,
             activeAt: "Dishes",
             to: "Dishes"
+        },
+        {
+            title: "Reports",
+            icon: <HiOutlineDocumentReport size={30}/>,
+            iconActive: <HiDocumentReport size={30}/>,
+            activeAt: "Reports",
+            to: "Reports"
         },
         {
             title: "Settings",
