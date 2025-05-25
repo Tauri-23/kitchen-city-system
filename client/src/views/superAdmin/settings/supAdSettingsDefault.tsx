@@ -16,7 +16,7 @@ export default function SuperAdminSettingsDefault() {
      */
     useEffect(() => {
         setActiveSideNavLink("Settings");
-    });
+    }, []);
 
 
 

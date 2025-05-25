@@ -38,7 +38,7 @@ export default function SuperAdminSettingsMenuSettings() {
         }
         
         getAll();
-    })
+    }, []);
 
 
 
