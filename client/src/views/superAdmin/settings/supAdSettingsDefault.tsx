@@ -5,6 +5,7 @@ import SuperAdminSettingsMenuSettings from "./menuSettings/supAdSettingsMenuSett
 import SuperAdminSettingsMenuFormBuilder from "./menuFormBuilder/supAdSettingsMenuFormBuilder";
 import SuperAdminSettingsBranches from "./branches/supAdSettingsBranches";
 import SuperAdminSettingsAccounts from "./accounts/supAdSettingsAccounts";
+import SuperAdminSettingsWeekManagement from "./weekManagement/supAdSettingsWeekManagement";
 
 export default function SuperAdminSettingsDefault() {
     const { setActiveSideNavLink } = useSuperAdminContext();
@@ -47,6 +48,7 @@ export default function SuperAdminSettingsDefault() {
         {
             key: 5,
             label: "Week Settings",
+            children: <SuperAdminSettingsWeekManagement/>
         },
     ]
 
