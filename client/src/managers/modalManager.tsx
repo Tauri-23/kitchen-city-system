@@ -7,6 +7,7 @@ import SuperAdminAddMenuClassModal from "../components/modals/supAdAddMenuClassM
 import SuperAdminAddMenuDishModal from "../components/modals/supAdAddMenuDishModal";
 import SuperAdminAddMenuFormElementModal from "../components/modals/supAdAddMenuFormElementModal";
 import SuperAdminAddMenuShiftModal from "../components/modals/supAdAddMenuShiftModal";
+import SuperAdminAddMenuSubCategoryModal from "../components/modals/supAdAddMenuSubCategoryModal";
 import SuperAdminAddMenuTagModal from "../components/modals/supAdAddMenuTagModal";
 import SuperAdminAddSuperAdminModal from "../components/modals/supAdAddSuperAdminModal";
 import { useGeneralContext } from "../contexts/GeneralContext"
@@ -19,6 +20,7 @@ import { MenuDishStructure } from "../types/menuDishStructure";
 import { MenuFormElementStructure } from "../types/menuFormElementStructure";
 import { MenuShiftStructure } from "../types/menuShiftStructure";
 import { MenuSubCategoryStructure } from "../types/menuSubCategoryStucture";
+import { MenuTagStructure } from "../types/menuTagStructure";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
 import { SelectedMenusType } from "../views/branchManager/orders/braManAddOrder";
 
@@ -59,15 +61,19 @@ const ModalManager = () => {
 
             case "SuperAdminAddMenuTagModal": 
                 return <SuperAdminAddMenuTagModal
-                menuSubCategories={props.menuSubCategories as MenuSubCategoryStructure[]}
-                menuClass={props.menuClass as MenuClassStructure}
-                setMenuClasses={props.setMenuClasses as React.Dispatch<React.SetStateAction<MenuClassStructure[] | null>>}
+                setMenuTags={props.setMenuTags as React.Dispatch<React.SetStateAction<MenuTagStructure[] | null>>}
                 onClose={hideModal}
                 />
 
             case "SuperAdminAddMenuCategoryModal":
                 return <SuperAdminAddMenuCategoryModal
                 setMenuCategories={props.setMenuCategories as React.Dispatch<React.SetStateAction<MenuCategoryStructure[] | null>>}
+                onClose={hideModal}
+                />
+
+            case "SuperAdminAddMenuSubCategoryModal":
+                return <SuperAdminAddMenuSubCategoryModal
+                setMenuSubCategories={props.setMenuSubCategories as React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[] | null>>}
                 onClose={hideModal}
                 />
             

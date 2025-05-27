@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('weeks', function (Blueprint $table) {
             $table->id();
+            // $table->int
             $table->timestamps();
         });
     }

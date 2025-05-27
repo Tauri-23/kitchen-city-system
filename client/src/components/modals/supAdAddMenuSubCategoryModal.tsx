@@ -2,18 +2,18 @@ import { Modal, Input, Button } from "antd";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../assets/lib/utils";
 import axiosClient from "../../axios-client";
-import { MenuTagStructure } from "../../types/menuTagStructure";
+import { MenuSubCategoryStructure } from "../../types/menuSubCategoryStucture";
 
-interface SuperAdminAddMenuTagModalTypes {
-    setMenuTags: React.Dispatch<React.SetStateAction<MenuTagStructure[] | null>>;
+interface SuperAdminAddMenuSubCategoryModalTypes {
+    setMenuSubCategories: React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[] | null>>;
     onClose: () => void
 }
 
-const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({setMenuTags, onClose}) => {
+const SuperAdminAddMenuSubCategoryModal: React.FC<SuperAdminAddMenuSubCategoryModalTypes> = ({setMenuSubCategories, onClose}) => {
     const [isAdding, setIsAdding] = useState<boolean>(false);
 
-    const [menuTagIn, setMenuTagIn] = useState({
-        tag: ""
+    const [menuSubCategoryIn, setMenuSubCategoryIn] = useState({
+        sub_category: ""
     });
 
 
@@ -21,7 +21,7 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({se
     /**
      * Checkers
      */
-    const isSubmitBtnDisabled = isEmptyOrSpaces(menuTagIn.tag);
+    const isSubmitBtnDisabled = isEmptyOrSpaces(menuSubCategoryIn.sub_category);
 
 
 
@@ -34,14 +34,14 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({se
 
 
         const formData = new FormData();
-        formData.append("menuTagIn", JSON.stringify(menuTagIn));
+        formData.append("menuSubCategoryIn", JSON.stringify(menuSubCategoryIn));
 
-        axiosClient.post("/create-menu-tag", formData)
+        axiosClient.post("/create-menu-sub-category", formData)
         .then(async ({data}) => {
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
             if(data.status === 200) {
-                setMenuTags(data.menu_tags);
+                setMenuSubCategories(data.menu_sub_categories);
             }
         })
         .catch(error => {
@@ -54,12 +54,12 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({se
     }
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setMenuTagIn(prev => ({...prev, [e.target.name]: e.target.value}));
+        setMenuSubCategoryIn(prev => ({...prev, [e.target.name]: e.target.value}));
     }
 
     const clearFields = () => {
-        setMenuTagIn({
-            tag: ""
+        setMenuSubCategoryIn({
+            sub_category: ""
         })
     }
 
@@ -81,14 +81,14 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({se
 
                 {/* Tag */}
                 <div className="mar-bottom-1">
-                    <label htmlFor="tag">Menu Tag</label>
+                    <label htmlFor="sub_category">Sub Category</label>
                     <Input
                     className="mar-bottom-3"
                     size="large"
-                    id="tag"
-                    name="tag"
-                    placeholder="Input menu tag e.g. Egg 1"
-                    value={menuTagIn.tag}
+                    id="sub_category"
+                    name="sub_category"
+                    placeholder="Input menu sub-category e.g. Rice"
+                    value={menuSubCategoryIn.sub_category}
                     onChange={handleInputChange}/>
                 </div>
 
@@ -125,4 +125,4 @@ const SuperAdminAddMenuTagModal: React.FC<SuperAdminAddMenuTagModalTypes> = ({se
     )
 }
 
-export default SuperAdminAddMenuTagModal;
+export default SuperAdminAddMenuSubCategoryModal;

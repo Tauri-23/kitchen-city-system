@@ -11,7 +11,7 @@ class MenuClassesController extends Controller
     // GET
     public function GetAllMenuClasses()
     {
-        return response()->json(menu_classes::with("menu_tags")->get());
+        return response()->json(menu_classes::all());
     }
 
 

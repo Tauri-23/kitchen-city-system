@@ -91,7 +91,7 @@ export default function SuperAdminSettingsWeekManagement() {
      */
     return(
         <>
-            <Button.Group style={{ marginBottom: 16 }}>
+            <div className="d-flex align-items-center gap3 mar-bottom-1">
                 {["week1", "week2", "week3", "week4"].map((w) => (
                     <Button
                     key={w}
@@ -101,7 +101,7 @@ export default function SuperAdminSettingsWeekManagement() {
                     {w.toUpperCase()}
                     </Button>
                 ))}
-            </Button.Group>
+            </div>
             
             {/* Legend */}
             <div className="mar-bottom-3 d-flex gap3 align-items-center">

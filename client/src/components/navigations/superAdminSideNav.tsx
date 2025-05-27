@@ -1,6 +1,6 @@
 import { MdDashboard, MdOutlineDashboard } from "react-icons/md"
 import { useSuperAdminContext } from "../../contexts/SuperAdminContext"
-import { IoSettings, IoSettingsOutline } from "react-icons/io5";
+import { IoSettings, IoSettingsOutline, IoStorefront, IoStorefrontOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { BiDish, BiFoodMenu, BiSolidDish, BiSolidFoodMenu } from "react-icons/bi";
 import { HiDocumentReport, HiOutlineDocumentReport } from "react-icons/hi";
@@ -28,6 +28,13 @@ export default function SuperAdminSideNav() {
             iconActive: <BiSolidDish size={30}/>,
             activeAt: "Dishes",
             to: "Dishes"
+        },
+        {
+            title: "Market Lists",
+            icon: <IoStorefrontOutline size={30}/>,
+            iconActive: <IoStorefront size={30}/>,
+            activeAt: "Market Lists",
+            to: "MarketLists"
         },
         {
             title: "Reports",

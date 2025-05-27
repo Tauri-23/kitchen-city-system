@@ -21,14 +21,21 @@ class MenuTagsController extends Controller
     public function CreateMenuTag(Request $request)
     {
         $menuTagIn = json_decode($request->input("menuTagIn"));
+        $tagExist = menu_tags::where("tag", $menuTagIn->tag)->exists();
+
+        if($tagExist) 
+        {
+            return response()->json([
+                "status" => 422,
+                "message" => "tag $menuTagIn->tag already exists"
+            ]);
+        }
 
         try
         {
             DB::beginTransaction();
 
-            $menuTag = menu_tags::Create([
-                "menu_class_id" => $menuTagIn->menu_class_id,
-                "menu_sub_category_id" => $menuTagIn->menu_sub_category_id,
+            menu_tags::Create([
                 "tag" => $menuTagIn->tag,
             ]);
 
@@ -37,7 +44,7 @@ class MenuTagsController extends Controller
             return response()->json([
                 "status" => 200,
                 "message" => "Menu tag added successfully",
-                "menu_tag" => $menuTag->load("sub_category")
+                "menu_tags" => menu_tags::all()
             ]);
         }
         catch(\Exception $e)
@@ -55,16 +62,13 @@ class MenuTagsController extends Controller
         $editMenuTagIn = json_decode($request->input("editMenuTagIn"));
 
         menu_tags::find($editMenuTagIn->id)->update([
-            "menu_sub_category_id" => $editMenuTagIn->menu_sub_category_id,
             "tag" => $editMenuTagIn->tag
         ]);
-
-        $getMenuClasses = new MenuClassesController();
 
         return response()->json([
             "status" => 200,
             "message" => "Menu tag updated successfully",
-            "updated_menu_classes" => $getMenuClasses->GetAllMenuClasses()->original
+            "updated_menu_tags" => menu_tags::all()
         ]);
     }
 

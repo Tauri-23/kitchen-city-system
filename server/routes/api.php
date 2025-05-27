@@ -70,7 +70,7 @@ Route::post("/delete-menu-category", [MenuCategoriesController::class, "DeleteMe
 
 /*
 |----------------------------------------
-| Menu Categories 
+| Menu Classes 
 |----------------------------------------
 */
 Route::get("/get-all-menu-classes", [MenuClassesController::class, "GetAllMenuClasses"]);
@@ -141,10 +141,14 @@ Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::c
 
 /*
 |----------------------------------------
-| Menu Dishes Categories
+| Menu Sub Categories
 |----------------------------------------
 */
 Route::get('/get-all-menu-sub-categories', [MenuSubCategoryController::class, "GetAllMenuSubCategories"]);
+
+Route::post('/create-menu-sub-category', [MenuSubCategoryController::class, "CreateMenuSubCategory"]);
+Route::post('/update-menu-sub-category', [MenuSubCategoryController::class, "UpdateMenuSubCategory"]);
+Route::post('/delete-menu-sub-category', [MenuSubCategoryController::class, "DeleteMenuSubCategory"]);
 
 
 

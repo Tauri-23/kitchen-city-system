@@ -13,6 +13,7 @@ import BranchManagerViewOrder from "./views/branchManager/orders/braManViewOrder
 import SuperAdminMenuDishesIndex from "./views/superAdmin/dishes/supAdMenuDishesIndex";
 import SuperAdminSettingsDefault from "./views/superAdmin/settings/supAdSettingsDefault";
 import SuperAdminReportIndex from "./views/superAdmin/reports/supAdReportsIndex";
+import SuperAdminMarketListsDefault from "./views/superAdmin/marketLists/supAdMarketListsDefault";
 
 const router = createBrowserRouter([
     /**
@@ -67,6 +68,16 @@ const router = createBrowserRouter([
             {
                 path: "Dishes", 
                 element: <SuperAdminMenuDishesIndex/>
+            },
+
+
+
+            /**
+             * Market Lists
+             */
+            {
+                path: "MarketLists",
+                element: <SuperAdminMarketListsDefault/>
             },
 
 

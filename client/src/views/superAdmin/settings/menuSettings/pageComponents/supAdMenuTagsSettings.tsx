@@ -1,63 +1,38 @@
-import { Button, Input, Popconfirm, Select, Spin, Table, TableColumnsType } from "antd";
-import { MenuClassStructure } from "../../../../../types/menuClassStructure"
+import { Button, Input, Popconfirm, Spin, Table, TableColumnsType } from "antd";
 import { MenuTagStructure } from "../../../../../types/menuTagStructure";
 import { useGeneralContext } from "../../../../../contexts/GeneralContext";
 import { useState } from "react";
 import { isEmptyOrSpaces, notify } from "../../../../../assets/lib/utils";
-import { MenuSubCategoryStructure } from "../../../../../types/menuSubCategoryStucture";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
 import axiosClient from "../../../../../axios-client";
 
 interface SuperAdminMenuTagSettingsTypes {
-    menuClasses: MenuClassStructure[];
-    setMenuClasses: React.Dispatch<React.SetStateAction<MenuClassStructure[]>>
-    menuSubCategories: MenuSubCategoryStructure[]
+    menuTags: MenuTagStructure[] | null;
+    setMenuTags: React.Dispatch<React.SetStateAction<MenuTagStructure[]>>
 }
 
-const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({menuClasses, setMenuClasses, menuSubCategories}) => {
+const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({menuTags, setMenuTags}) => {
     const { showModal } = useGeneralContext();
     const [editMenuTagIn, setEditMenutagIn] = useState({
         id: 0,
-        menu_sub_category_id: 0,
         tag: ""
     })
 
     const isEditMenuTagSubmitDisabled = (selectedMenuTag: MenuTagStructure) => {
-        return isEmptyOrSpaces(editMenuTagIn.tag) || 
-        (editMenuTagIn.tag === selectedMenuTag.tag && editMenuTagIn.menu_sub_category_id === selectedMenuTag.menu_sub_category_id)
+        return isEmptyOrSpaces(editMenuTagIn.tag) || (editMenuTagIn.tag === selectedMenuTag.tag)
     }
-
-
-
-    /**
-     * Transformed Data for Table
-     */
-    const transformedTagsPerCategories = menuClasses?.map((menuClass) => ({
-        key: `class-${menuClass.id}`,
-        id: menuClass.id,
-        class: menuClass.class,
-        type: "class",
-        children: menuClass.menu_tags.map(tag => ({
-            key: `tag-${tag.id}`,
-            id: tag.id,
-            class: tag.menu_class,
-            subCategory: tag.sub_category,
-            tag: tag.tag,
-            type: "tag"
-        }))
-    })) || [];
 
 
 
     /**
      * Setup Columns
      */
-    const menuTagsColumns: TableColumnsType<any> = [
+    const menuTagsColumns: TableColumnsType<MenuTagStructure> = [
         {
             title: "Menu Tag",
             render: (_, row) => {
-                if(editMenuTagIn.id === row.id && row.type === "tag") {
+                if(editMenuTagIn.id === row.id) {
                     return(
                         <Input
                         size="small"
@@ -67,113 +42,60 @@ const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({me
                     )
                 }
 
-                return row.type === "class" ? row.class : row.tag
+                return row.tag
             },
-            onCell: (row) => ({
-                style: {
-                    backgroundColor: row.type === "class" ? 'orange' : undefined,
-                    alignItems: row.type === "tag" ? "center": undefined,
-                    display: row.type === "tag" ? "flex": undefined
-                },
-                colSpan: row.type === "class" ? 2 : 1
-            }),
-            width: "60%"
-        },
-        {
-            title: "Sub Category",
-            render: (_, row) => {
-                if(editMenuTagIn.id === row.id && row.type === "tag") {
-                    return(
-                        <Select
-                        size="small"
-                        className="w-100"
-                        options={menuSubCategories?.map(item => ({label: item.sub_category, value: item.id}))}
-                        value={editMenuTagIn.menu_sub_category_id}
-                        onChange={(val) => setEditMenutagIn(prev => ({...prev, menu_sub_category_id: val}))}
-                        showSearch
-                        filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toString()
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
-                        }
-                        />
-                    )
-                }
-
-                return row.type === "tag" ? row.subCategory.sub_category : ""
-            },
-            onCell: (row) => ({
-                colSpan: row.type === "class" ? 0 : 1
-            })
+            width: "90%"
         },
         {
             title: "Actions",
             render: (_, row) => {
-                if(row.type === "class") {
-                    return (
-                        <Button
-                        size="small"
-                        onClick={() => handleAddMenuTag(row)}>
-                            Add Menu Tag
-                        </Button>
-                    )
-                }
+                return(
+                    <div className="d-flex gap3">
+                        {editMenuTagIn.id === row.id
+                        ? (
+                            <>
+                                <Button
+                                    size="small"
+                                    icon={<LuSquareCheckBig />}
+                                    color="green"
+                                    variant="solid"
+                                    disabled={isEditMenuTagSubmitDisabled(row)}
+                                    onClick={handleEditMenuTag}
+                                />
+                                <Button
+                                    size="small"
+                                    icon={<GiCancel />}
+                                    onClick={() => setEditMenutagIn({ id: 0, tag: "" })}
+                                />
+                            </>
+                        )
+                        : (
+                            <>
+                                <Button
+                                size="small"
+                                icon={<LuSquarePen />}
+                                onClick={() => setEditMenutagIn({ id: row.id, tag: row.tag })}
+                                color="blue"
+                                variant="solid"
+                                />
 
-                if(row.type === "tag") {
-                    return(
-                        <div className="d-flex gap3">
-                            {editMenuTagIn.id === row.id
-                            ? (
-                                <>
-                                    <Button
-                                        size="small"
-                                        icon={<LuSquareCheckBig />}
-                                        color="green"
-                                        variant="solid"
-                                        disabled={isEditMenuTagSubmitDisabled(row)}
-                                        onClick={handleEditMenuTag}
-                                    />
-                                    <Button
-                                        size="small"
-                                        icon={<GiCancel />}
-                                        onClick={() => setEditMenutagIn({ id: 0, menu_sub_category_id: 0, tag: "" })}
-                                    />
-                                </>
-                            )
-                            : (
-                                <>
+                                <Popconfirm
+                                    title="Delete this tag"
+                                    onConfirm={() => handleDeleteMenuTag(row.id)}
+                                >
                                     <Button
                                     size="small"
-                                    icon={<LuSquarePen />}
-                                    onClick={() => setEditMenutagIn({ id: row.id, menu_sub_category_id: row.subCategory.id, tag: row.tag })}
-                                    color="blue"
+                                    icon={<LuTrash2 />}
+                                    color="red"
                                     variant="solid"
                                     />
-
-                                    <Popconfirm
-                                        title="Delete this tag"
-                                        onConfirm={() => handleDeleteMenuTag(row.id)}
-                                    >
-                                        <Button
-                                        size="small"
-                                        icon={<LuTrash2 />}
-                                        color="red"
-                                        variant="solid"
-                                        />
-                                    </Popconfirm>
-                                </>
-                            )}
-                        </div>
-                    )
-                }
+                                </Popconfirm>
+                            </>
+                        )}
+                    </div>
+                )
             },
-            onCell: (row) => ({
-                style: {
-                    backgroundColor: row.type === "class" ? 'orange' : undefined,
-                },
-            }),
-            width: 200
+            width: "10%"
         }
     ]
 
@@ -182,11 +104,9 @@ const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({me
     /**
      * Handlers
      */
-    const handleAddMenuTag = (menuClass: MenuClassStructure) => {
+    const handleAddMenuTag = () => {
         showModal("SuperAdminAddMenuTagModal", {
-            menuSubCategories, 
-            menuClass, 
-            setMenuClasses
+            setMenuTags
         });
     }
 
@@ -198,10 +118,9 @@ const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({me
         .then(({data}) => {
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
             if(data.status === 200) {
-                setMenuClasses(data.updated_menu_classes);
+                setMenuTags(data.updated_menu_tags);
                 setEditMenutagIn({
                     id: 0,
-                    menu_sub_category_id: 0,
                     tag: ""
                 })
             }
@@ -221,16 +140,7 @@ const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({me
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
             if(data.status === 200) {
-                setMenuClasses((prev) => {
-                    if (!prev) return prev;
-
-                    const updated = prev.map(menuClassPrev => ({
-                        ...menuClassPrev,
-                        menu_tags: menuClassPrev.menu_tags.filter(menuTag => menuTag.id !== id)
-                    }));
-
-                    return updated;
-                });
+                setMenuTags((prev) => prev.filter(tag => tag.id !== id));
             }
         })
         .catch(error => {
@@ -246,17 +156,26 @@ const SuperAdminMenuTagSettings: React.FC<SuperAdminMenuTagSettingsTypes> = ({me
      */
     return(
         <>
-            {!menuClasses || !menuSubCategories
+            {!menuTags
             ? (<Spin size="large"/>)
             : (
-                <>
+                <div>
+                    <div className="d-flex align-items-center justify-content-between mar-bottom-3">
+                        <h4 className="fw-bold">Sub-Categories</h4>
+                        <Button
+                        type="primary"
+                        onClick={handleAddMenuTag}>
+                            Add Menu Tag
+                        </Button>
+                    </div>
+
                     <Table
                     size="small"
                     columns={menuTagsColumns}
-                    dataSource={transformedTagsPerCategories}
-                    pagination={false}
+                    dataSource={menuTags}
+                    pagination={{pageSize: 10}}
                     bordered/>
-                </>
+                </div>
             )}
         </>
     );

@@ -1,6 +1,6 @@
-export interface MenuTagStructure {
+export interface MenuSubClassStructure {
     id: number;
-    tag: string;
+    sub_class: string;
     created_type: string | Date;
     updated_at: string | Date;
 }

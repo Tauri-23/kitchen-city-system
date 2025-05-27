@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menu_tags', function (Blueprint $table) {
+        Schema::create('menu_subclasses', function (Blueprint $table) {
             $table->id();
-            $table->string("tag");
+            $table->string("sub_class");
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_tags');
+        Schema::dropIfExists('menu_subclasses');
     }
 };

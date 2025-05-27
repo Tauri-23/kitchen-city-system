@@ -10,11 +10,14 @@ import SuperAdminMenuCategoriesSettings from "./pageComponents/supAdMenuCategori
 import SuperAdminMenuClassesSettings from "./pageComponents/supAdMenuClassesSettings";
 import SuperAdminMenuSubCategoriesSettings from "./pageComponents/supAdMenuSubCategoriesSettings";
 import SuperAdminMenuTagSettings from "./pageComponents/supAdMenuTagsSettings";
+import { MenuTagStructure } from "../../../../types/menuTagStructure";
+import { fetchAllMenuTags } from "../../../../services/menuTagsServices";
 
 export default function SuperAdminSettingsMenuSettings() {
     const [menuCategories, setMenuCategories] = useState<MenuCategoryStructure[] | null>(null);
     const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
     const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
+    const [menuTags, setMenuTags] = useState<MenuTagStructure[] | null>(null);
     
     const pages = ["Categories", "Sub-Categories", "Classes", "Menu Tags"];
     const [selectedPage, setSelectedPage] = useState<string>(pages[0]);
@@ -26,15 +29,17 @@ export default function SuperAdminSettingsMenuSettings() {
      */
     useEffect(() => {
         const getAll = async() => {
-            const [menuCategoreiesData, menuSubCategoriesData, menuClassesData] = await Promise.all([
+            const [menuCategoreiesData, menuSubCategoriesData, menuClassesData, menuTagsData] = await Promise.all([
                 fetchAllMenuCategories(),
                 fetchAllMenuSubCategories(),
-                fetchAllMenuClasses()
+                fetchAllMenuClasses(),
+                fetchAllMenuTags()
             ]);
         
             setMenuCategories(menuCategoreiesData);
             setMenuSubCategories(menuSubCategoriesData);
             setMenuClasses(menuClassesData);
+            setMenuTags(menuTagsData);
         }
         
         getAll();
@@ -75,7 +80,7 @@ export default function SuperAdminSettingsMenuSettings() {
                     {(selectedPage === "Sub-Categories") && (
                         <SuperAdminMenuSubCategoriesSettings
                         menuSubCategories={menuSubCategories}
-                        // setMenuSubCategories={setMenuSubCategories as React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>}
+                        setMenuSubCategories={setMenuSubCategories as React.Dispatch<React.SetStateAction<MenuSubCategoryStructure[]>>}
                         />
                     )}
 
@@ -94,9 +99,8 @@ export default function SuperAdminSettingsMenuSettings() {
                     {/* Menu Tags */}
                     {(selectedPage === "Menu Tags") && (
                         <SuperAdminMenuTagSettings
-                        menuSubCategories={menuSubCategories}
-                        menuClasses={menuClasses}
-                        setMenuClasses={setMenuClasses as React.Dispatch<React.SetStateAction<MenuClassStructure[]>>}
+                        menuTags={menuTags}
+                        setMenuTags={setMenuTags as React.Dispatch<React.SetStateAction<MenuTagStructure[]>>}
                         />
                     )}
                 </>
