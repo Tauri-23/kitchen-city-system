@@ -15,8 +15,6 @@ class menu extends Model
         "menu_week",
         "menu_shift_id",
         "menu_dish_id",
-        "menu_class_id",
-        "menu_sub_category_id",
         "menu_day",
         "menu_size"
     ];
@@ -46,15 +44,4 @@ class menu extends Model
     {
         return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id")->with("menu_category");
     }
-
-    public function menu_class()
-    {
-        return $this->belongsTo(menu_classes::class, "menu_class_id", "id");
-    }
-
-    public function menu_sub_category()
-    {
-        return $this->belongsTo(menu_sub_categories::class, "menu_sub_category_id", "id");
-    }
-
 }

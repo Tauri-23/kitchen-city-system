@@ -9,8 +9,6 @@ import { MenuShiftStructure } from "../../../types/menuShiftStructure";
 import { MenuFormElementStructure } from "../../../types/menuFormElementStructure";
 import { MenuClassStructure } from "../../../types/menuClassStructure";
 import { fetchAllMenuShifts } from "../../../services/menuShiftsServices";
-import { fetchAllMenuFormElements } from "../../../services/menuFormElementServices";
-import { fetchAllMenuClasses } from "../../../services/menuClassesServices";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { fetchAllMenuDishes } from "../../../services/menuDishesServices";
 import { formatToPhilPeso, notify } from "../../../assets/lib/utils";
@@ -18,8 +16,6 @@ import axiosClient from "../../../axios-client";
 
 type SelectedDishType = {
     menu_shift_id: number;
-    menu_class_id: number;
-    menu_sub_category_id: number;
     menu_dish_id: string;
     menu_dish: MenuDishStructure;
 };
@@ -38,6 +34,7 @@ export default function SuperAdminViewMenu() {
     
     const [selectedSize, setSelectedSize] = useState<string>(sizes[0]);
     const [selectedDay, setSelectedDay] = useState<string>(days[0]);
+
     const [selectedDishesIn, setSelectedDishesIn] = useState<SelectedDishType[]>([]);
 
 
@@ -52,25 +49,14 @@ export default function SuperAdminViewMenu() {
         setActiveSideNavLink("Menus");
 
         const getAll = async() => {
-            const [menusData, shiftsData, menuFormElementsData, menuClassesData, menuDishesData] = await Promise.all([
+            const [menusData, shiftsData, menuDishesData] = await Promise.all([
                 fetchAllMenusWhereWeekDayAndSize(String(params.id), selectedDay, selectedSize),
                 fetchAllMenuShifts(),
-                fetchAllMenuFormElements(),
-                fetchAllMenuClasses(),
                 fetchAllMenuDishes()
             ]);
             setMenus(menusData);
             setShifts(shiftsData);
-            setmenuFormElements(menuFormElementsData);
-            setMenuClasses(menuClassesData);
             setMenuDishes(menuDishesData);
-            setSelectedDishesIn(menusData.map((menu: MenuStructure) => ({
-                menu_shift_id: menu.menu_shift_id,
-                menu_class_id: menu.menu_class_id,
-                menu_sub_category_id: menu.menu_sub_category_id,
-                menu_dish_id: menu.menu_dish_id,
-                menu_dish: menu.menu_dish
-            })));
         }
 
         getAll();
@@ -81,13 +67,6 @@ export default function SuperAdminViewMenu() {
             setMenus(null);
             const data = await fetchAllMenusWhereWeekDayAndSize(String(params.id), selectedDay, selectedSize);
             setMenus(data);
-            setSelectedDishesIn(data.map((menu: MenuStructure) => ({
-                menu_shift_id: menu.menu_shift_id,
-                menu_class_id: menu.menu_class_id,
-                menu_sub_category_id: menu.menu_sub_category_id,
-                menu_dish_id: menu.menu_dish_id,
-                menu_dish: menu.menu_dish
-            })));
         }
         updateMenus();
     }, [selectedDay, selectedSize])
@@ -102,20 +81,10 @@ export default function SuperAdminViewMenu() {
         id: shift.id,
         shift: shift.shift,
         type: "shift",
-        children: menuFormElements?.filter(element => element.menu_shift_id === shift.id).map(menuClass => ({
-            key: `class-${menuClass.id}`,
-            id: menuClass.id,
-            class: menuClass.menu_class.class,
-            type: "class",
-            children: menuClass.menu_class.menu_tags.map(tag => ({
-                key: `tag-${shift.id}-${tag.menu_class_id}-${tag.id}`,
-                id: tag.id,
-                tag: tag.tag,
-                shiftId: shift.id,
-                subCategoryId: tag.menu_sub_category_id,
-                classId: tag.menu_class_id,
-                type: "tag"
-            }))
+        children: selectedDishesIn?.filter(dish => dish.menu_shift_id === shift.id).map(menuDish => ({
+            key: `dish-${menuDish.menu_dish_id}`,
+            id: menuDish.menu_dish_id,
+            type: "dish"
         }))
     })) || [];
 
@@ -142,111 +111,62 @@ export default function SuperAdminViewMenu() {
      */
     const menuSettingsColumns: TableColumnsType<any> = [
         {
-            title: "Name",
+            title: "Odoo Description",
             render: (_, row) => {
-                return row.type === "shift" ? row.shift : (row.type === "class" ? row.class : row.tag);
+                return row.type === "shift" ? row.shift : row.menu_dish.odoo_description;
             },
             onCell: (row) => ({
                 style: {
                     backgroundColor: row.type === "shift" ? 'black' : (row.type === "class" ? "orange" : undefined),
                     color: row.type === "shift" ? "white" : "black"
                 },
-                colSpan: row.type === "tag" ? 1 : 6
+                colSpan: row.type === "tag" ? 1 : 4
             }),
-            width: 150
+            width: 300
         },
         {
-            title: "Dish",
-            render: (_, row) => {
-                const value = selectedDishesIn.find(dish => 
-                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
-                    && dish.menu_shift_id === row.shiftId
-                );
-                if(row.type === "tag") {
-                    return(
-                        <Select
-                        className="w-100"
-                        size="small"
-                        options={[
-                            {label: "-", value: ""},
-                            ...menuDishes
-                            ? menuDishes.filter(dish => dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId)
-                            .map(dish => ({label: dish.name, value: dish.id})) : []
-                        ]}
-                        value={value?.menu_dish_id || ""}
-                        onChange={(val) => handleInputMenuDish(row.shiftId, row.subCategoryId, row.classId, menuDishes?.find(dish => dish.id === val))}/>
-                    )
-                }
-            },
+            title: "System Description",
+            render: (_, row) => row.type === "shift" ? row.shift : row.menu_dish.system_description,
             onCell: (row) => ({
-                colSpan: row.type === "tag" ? 1 : 0
+                colSpan: row.type === "dish" ? 1 : 0
             }),
-            width: 250
-        },
-        {
-            title: "Unit Cost",
-            render: (_, row) => {
-                const value = selectedDishesIn.find(dish => 
-                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
-                    && dish.menu_shift_id === row.shiftId
-                );
-                if(row.type === "tag") {
-                    return value?.menu_dish ?  formatToPhilPeso(value?.menu_dish.unit_cost) : " - "
-                }
-            },
-            onCell: (row) => ({
-                colSpan: row.type === "tag" ? 1 : 0
-            }),
-            width: 100
-        },
-        {
-            title: "SRP",
-            render: (_, row) => {
-                const value = selectedDishesIn.find(dish => 
-                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
-                    && dish.menu_shift_id === row.shiftId
-                );
-                if(row.type === "tag") {
-                    return value?.menu_dish ?  formatToPhilPeso(value?.menu_dish.srp) : " - "
-                }
-            },
-            onCell: (row) => ({
-                colSpan: row.type === "tag" ? 1 : 0
-            }),
-            width: 100
+            width: 300
         },
         {
             title: "Category",
-            render: (_, row) => {
-                const value = selectedDishesIn.find(dish => 
-                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
-                    && dish.menu_shift_id === row.shiftId
-                );
-                if(row.type === "tag") {
-                    return value?.menu_dish ?  value?.menu_dish.menu_category.category : " - "
-                }
-            },
+            render: (_, row) => row.type === "shift" ? row.shift : row.menu_dish.menu_category.category,
             onCell: (row) => ({
-                colSpan: row.type === "tag" ? 1 : 0
+                colSpan: row.type === "dish" ? 1 : 0
             }),
             width: 200
         },
         {
             title: "Production",
-            render: (_, row) => {
-                const value = selectedDishesIn.find(dish => 
-                    dish.menu_sub_category_id === row.subCategoryId && dish.menu_class_id === row.classId 
-                    && dish.menu_shift_id === row.shiftId
-                );
-                if(row.type === "tag") {
-                    return value?.menu_dish ?  value?.menu_dish.production : " - "
-                }
-            },
+            render: (_, row) => row.type === "shift" ? row.shift : row.menu_dish.production.production,
             onCell: (row) => ({
-                colSpan: row.type === "tag" ? 1 : 0
+                colSpan: row.type === "dish" ? 1 : 0
             }),
             width: 200
         },
+        {
+            title: "Actions",
+            render: (_, row) => {
+                if(row.type === "shift") {
+                    return(
+                        <Button
+                        size="small">Add Dish</Button>
+                    )
+                }
+            },
+            onCell: (row) => ({
+                style: {
+                    backgroundColor: row.type === "shift" ? 'black' : (row.type === "class" ? "orange" : undefined),
+                    color: row.type === "shift" ? "white" : "black"
+                },
+                colSpan: 1
+            }),
+            width: 50
+        }
     ];
 
 
@@ -254,65 +174,6 @@ export default function SuperAdminViewMenu() {
     /**
      * Handlers
      */
-    const handleInputMenuDish = (
-        menuShiftId: number,
-        menuSubCategoryId: number,
-        menuClassId: number,
-        newMenuDish?: MenuDishStructure
-    ) => {
-
-        setSelectedDishesIn(prev => {
-            // Remove if newMenuDish is not provided
-            if (!newMenuDish) {
-                return prev.filter(
-                    menu =>
-                        !(
-                            menu.menu_class_id === menuClassId &&
-                            menu.menu_sub_category_id === menuSubCategoryId &&
-                            menu.menu_shift_id === menuShiftId
-                        )
-                );
-            }
-            
-            const exists = prev.some(menu =>
-                menu.menu_class_id === menuClassId &&
-                menu.menu_sub_category_id === menuSubCategoryId &&
-                menu.menu_shift_id === menuShiftId
-            );
-
-            if (exists) {
-                return prev.map(menu => {
-                    if (
-                        menu.menu_class_id === menuClassId &&
-                        menu.menu_sub_category_id === menuSubCategoryId &&
-                        menu.menu_shift_id === menuShiftId
-                    ) {
-                        return {
-                            menu_shift_id: menuShiftId,
-                            menu_class_id: menuClassId,
-                            menu_sub_category_id: menuSubCategoryId,
-                            menu_dish_id: newMenuDish.id,
-                            menu_dish: newMenuDish
-                        };
-                    }
-                    return menu;
-                });
-            } 
-            else {
-                return [
-                    ...prev,
-                    {
-                        menu_shift_id: menuShiftId,
-                        menu_class_id: menuClassId,
-                        menu_sub_category_id: menuSubCategoryId,
-                        menu_dish_id: newMenuDish.id,
-                        menu_dish: newMenuDish
-                    }
-                ];
-            }
-        });
-    };
-
     const handleSaveMenu = () => {
         const formData = new FormData();
         formData.append("selectedDishesIn", JSON.stringify(selectedDishesIn));
@@ -339,7 +200,7 @@ export default function SuperAdminViewMenu() {
      */
     return(
         <div className="content1 compressed">
-            { !menuClasses
+            { !menus
             ? (<Spin size="large"/>)
             : ( 
                 <>
@@ -389,7 +250,7 @@ export default function SuperAdminViewMenu() {
                     size="small"
                     bordered
                     pagination={false}
-                    loading={!shifts || !menuFormElements || !menus || !menuDishes}
+                    loading={!shifts || !menus || !menuDishes}
                     expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
                     />                    
                 </>

@@ -1,17 +1,27 @@
 import { MenuCategoryStructure } from "./menuCategoryStructure";
-import { MenuClassStructure } from "./menuClassStructure";
+import { MenuProductionStructure } from "./menuProductionStructure";
 import { MenuSubCategoryStructure } from "./menuSubCategoryStucture";
+import { MenuTagStructure } from "./menuTagStructure";
+import { MenuUomStructure } from "./menuUomStructure";
 
 export interface MenuDishStructure {
     id: string;
-    dish_code: string | null;
-    name: string;
-    menu_class_id: number;
+
+    odoo_description: string;
+    system_description: string;
+
+    menu_tag_id: number;
     menu_category_id: number;
     menu_sub_category_id: number;
+
     unit_cost: number;
     srp: number;
-    production: "Commis" | "Commis Cooked" | "On Site";
+
+    uom_id: number;
+
+    odoo_code: string;
+
+    production_id: number;
     status: "Active" | "Discontinued";
 
     created_type: string | Date;
@@ -19,10 +29,14 @@ export interface MenuDishStructure {
 
 
     
-    // Foreign Joins
-    menu_class: MenuClassStructure;
+    /**
+     * Foriegn Joins
+     */
+    menu_tag: MenuTagStructure;
     menu_category: MenuCategoryStructure;
     menu_sub_category: MenuSubCategoryStructure;
+    uom: MenuUomStructure;
+    production: MenuProductionStructure;
 
 
 

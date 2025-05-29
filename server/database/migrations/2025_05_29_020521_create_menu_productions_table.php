@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menu_dishes_categories', function (Blueprint $table) {
+        Schema::create('menu_productions', function (Blueprint $table) {
             $table->id();
-            $table->string("category");
+            $table->string("production", 30);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_dishes_categories');
+        Schema::dropIfExists('menu_productions');
     }
 };

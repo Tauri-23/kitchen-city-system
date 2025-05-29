@@ -1,9 +1,12 @@
-import { Input, Table, TableColumnsType } from "antd";
+import { Button, Input, Table, TableColumnsType } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
+import { RiFileExcel2Line } from "react-icons/ri";
+import { useGeneralContext } from "../../../contexts/GeneralContext";
 
 export default function SuperAdminMenusIndex() {
+    const { showModal } = useGeneralContext();
     const {setActiveSideNavLink} = useSuperAdminContext();
 
     const {Search} = Input;
@@ -43,6 +46,10 @@ export default function SuperAdminMenusIndex() {
         console.log(value);
     }
 
+    const handleAddMenusViaExcel = () => {
+        showModal("SuperAdminAddMenusViaExcelModal");
+    }
+
 
 
     /**
@@ -55,11 +62,17 @@ export default function SuperAdminMenusIndex() {
                 className="d-flex align-items-center justify-content-between mar-bottom-1"
                 >
                     <Search 
-                    size="large"
                     placeholder="input search text" 
                     onSearch={handleSearch} enterButton
                     style={{width: 300}} 
                     />
+
+                    <Button
+                    variant="solid"
+                    color="green"
+                    icon={<RiFileExcel2Line/>}
+                    onClick={handleAddMenusViaExcel}
+                    >Add Menu (Excel)</Button>
                 </div>
                 
                 {/* Table Itself */}

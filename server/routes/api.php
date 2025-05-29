@@ -7,9 +7,9 @@ use App\Http\Controllers\Api\BranchManagerController;
 use App\Http\Controllers\Api\MenuCategoriesController;
 use App\Http\Controllers\Api\MenuClassesController;
 use App\Http\Controllers\Api\MenuController;
-use App\Http\Controllers\Api\MenuDishesCategoriesController;
 use App\Http\Controllers\Api\MenuDishesController;
 use App\Http\Controllers\Api\MenuFormElementsController;
+use App\Http\Controllers\Api\MenuProductionController;
 use App\Http\Controllers\Api\MenuShiftsController;
 use App\Http\Controllers\Api\MenuSubCategoryController;
 use App\Http\Controllers\Api\MenuTagsController;
@@ -100,6 +100,36 @@ Route::post("/delete-menu-tag", [MenuTagsController::class, "DeleteMenuTag"]);
 
 /*
 |----------------------------------------
+| Menu Productions
+|----------------------------------------
+*/
+Route::get('/get-all-menu-productions', [MenuProductionController::class, "GetAllMenuProductions"]);
+
+Route::get('/create-menu-production', [MenuProductionController::class, "CreateMenuProduction"]);
+Route::get('/update-menu-production', [MenuProductionController::class, "UpdateMenuProduction"]);
+Route::get('/delete-menu-production', [MenuProductionController::class, "DeleteMenuProduction"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Sub Categories
+|----------------------------------------
+*/
+Route::get('/get-all-menu-sub-categories', [MenuSubCategoryController::class, "GetAllMenuSubCategories"]);
+
+Route::post('/create-menu-sub-category', [MenuSubCategoryController::class, "CreateMenuSubCategory"]);
+Route::post('/update-menu-sub-category', [MenuSubCategoryController::class, "UpdateMenuSubCategory"]);
+Route::post('/delete-menu-sub-category', [MenuSubCategoryController::class, "DeleteMenuSubCategory"]);
+
+
+
+
+
+/*
+|----------------------------------------
 | Menu Form Elements 
 |----------------------------------------
 */
@@ -130,38 +160,13 @@ Route::post('/create-update-menu', [MenuController::class, "CreateUpdateMenu"]);
 
 /*
 |----------------------------------------
-| Menu Dishes Categories
-|----------------------------------------
-*/
-Route::get('/get-all-menu-dishes-categories', [MenuDishesCategoriesController::class, "GetAllCategories"]);
-
-
-
-
-
-/*
-|----------------------------------------
-| Menu Sub Categories
-|----------------------------------------
-*/
-Route::get('/get-all-menu-sub-categories', [MenuSubCategoryController::class, "GetAllMenuSubCategories"]);
-
-Route::post('/create-menu-sub-category', [MenuSubCategoryController::class, "CreateMenuSubCategory"]);
-Route::post('/update-menu-sub-category', [MenuSubCategoryController::class, "UpdateMenuSubCategory"]);
-Route::post('/delete-menu-sub-category', [MenuSubCategoryController::class, "DeleteMenuSubCategory"]);
-
-
-
-
-
-/*
-|----------------------------------------
 | Menu Dishes
 |----------------------------------------
 */
 Route::get("/get-all-menu-dishes", [MenuDishesController::class, "GetAllMenuDishes"]);
 
 Route::post("/create-menu-dish", [MenuDishesController::class, "CreateMenuDish"]);
+Route::post("/create-menu-dish-excel", [MenuDishesController::class, "CreateMenuDishExcel"]);
 Route::post("/update-menu-dish", [MenuDishesController::class, "UpdateMenuDish"]);
 Route::post("/delete-menu-dish", [MenuDishesController::class, "DeleteMenuDish"]);
 

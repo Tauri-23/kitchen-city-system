@@ -14,6 +14,9 @@ import { fetchAllMenuClasses } from "../../../services/menuClassesServices";
 import { MenuClassStructure } from "../../../types/menuClassStructure";
 import axiosClient from "../../../axios-client";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
+import { MenuProductionStructure } from "../../../types/menuProductionStructure";
+import { fetchAllMenuProductions } from "../../../services/menuProductionsServices";
+import { RiFileExcel2Line } from "react-icons/ri";
 
 export default function SuperAdminMenuDishesIndex() {
     const { showModal } = useGeneralContext();
@@ -23,30 +26,34 @@ export default function SuperAdminMenuDishesIndex() {
     const [menuClasses, setMenuClasses] = useState<MenuClassStructure[] | null>(null);
     const [menuCategories, setMenuCategories] = useState<MenuCategoryStructure[] | null>(null);
     const [menuSubCategories, setMenuSubCategories] = useState<MenuSubCategoryStructure[] | null>(null);
+    const [menuProductions, setMenuProductions] = useState<MenuProductionStructure[] | null>(null);
 
     const [selectedCategory, setSelectedCategory] = useState<string | number>("");
     const [selectedSubCategory, setSelectedSubCategory] = useState<string | number>("");
 
-    const productionTypes = ["Commis", "Commis Cooked", "On Site"];
-
     const [editMenuDishIn, setEditMenuDishIn] = useState({
         id: "",
-        name: "",
-        menu_class_id: 0,
+        odoo_description: "",
+        system_description: "",
+        menu_tag_id: 0,
         menu_category_id: 0,
         menu_sub_category_id: 0,
         unit_cost: 0,
-        production: "",
+        uom_id: 0,
+        odoo_code: "",
+        production_id: 0,
         status: "",
     });
 
     const isSaveEditMenuDishDisabled = (selectedMenuDish: MenuDishStructure) => {
-        return  isEmptyOrSpaces(editMenuDishIn.name) || editMenuDishIn.production === "" || editMenuDishIn.menu_sub_category_id === 0 ||
-        (
-            editMenuDishIn.name === selectedMenuDish.name && editMenuDishIn.production === selectedMenuDish.production &&
-            editMenuDishIn.unit_cost === selectedMenuDish.unit_cost && editMenuDishIn.status === selectedMenuDish.status &&
-            editMenuDishIn.menu_sub_category_id === selectedMenuDish.menu_sub_category_id
-        )
+        // return  isEmptyOrSpaces(editMenuDishIn.name) || editMenuDishIn.production === "" || editMenuDishIn.menu_sub_category_id === 0 ||
+        // (
+        //     editMenuDishIn.name === selectedMenuDish.name && editMenuDishIn.production === selectedMenuDish.production &&
+        //     editMenuDishIn.unit_cost === selectedMenuDish.unit_cost && editMenuDishIn.status === selectedMenuDish.status &&
+        //     editMenuDishIn.menu_sub_category_id === selectedMenuDish.menu_sub_category_id
+        // )
+
+        return false
     };
 
 
@@ -58,17 +65,19 @@ export default function SuperAdminMenuDishesIndex() {
         setActiveSideNavLink("Dishes");
 
         const getAll = async() => {
-            const [menuDishesData, menuClassesData, menuCategoriesData, menuSubCatData] = await Promise.all([
+            const [menuDishesData, menuClassesData, menuCategoriesData, menuSubCatData, menuProductionsData] = await Promise.all([
                 fetchAllMenuDishes(),
                 fetchAllMenuClasses(),
                 fetchAllMenuCategories(),
-                fetchAllMenuSubCategories()
+                fetchAllMenuSubCategories(),
+                fetchAllMenuProductions()
             ]);
 
             setMenuDishes(menuDishesData);
             setMenuClasses(menuClassesData);
             setMenuCategories(menuCategoriesData);
             setMenuSubCategories(menuSubCatData);
+            setMenuProductions(menuProductionsData);
         }
         getAll();
     }, []);
@@ -80,24 +89,24 @@ export default function SuperAdminMenuDishesIndex() {
      */
     const menuDishesColumns: TableColumnsType<MenuDishStructure> = [
         {
-            title: "Dish Code",
-            render: (_, row) => row.dish_code,
+            title: "Odoo Code",
+            render: (_, row) => row.odoo_code || "N/A",
             width: 150
         },
         {
-            title: "Dish Name",
+            title: "Odoo Description",
             render: (_, row) => {
                 if(editMenuDishIn.id === row.id) {
                     return (
                         <Input
                             size="small"
-                            value={editMenuDishIn.name}
+                            value={editMenuDishIn.odoo_description}
                             onChange={(e) => setEditMenuDishIn(prev => ({ ...prev, name: e.target.value }))}
                         />
                     );
                 }
 
-                return row.name
+                return row.odoo_description
             }
         },
         {
@@ -168,12 +177,12 @@ export default function SuperAdminMenuDishesIndex() {
                         className="w-100"
                         size="small"
                         id="production"
-                        options={productionTypes.map(prod => ({label: prod, value: prod}))}
-                        value={editMenuDishIn.production}
+                        options={menuProductions?.map(prod => ({label: prod.production, value: prod.id}))}
+                        value={editMenuDishIn.production_id}
                         onChange={(val) => setEditMenuDishIn(prev => ({...prev, production: val}))}/>
                     )
                 }
-                return row.production
+                return row.production?.production || "N/A"
             },
             width: 180
         },
@@ -198,12 +207,15 @@ export default function SuperAdminMenuDishesIndex() {
                                     icon={<GiCancel />}
                                     onClick={() => setEditMenuDishIn({
                                         id: "",
-                                        name: "",
-                                        menu_class_id: 0,
+                                        odoo_description: "",
+                                        system_description: "",
+                                        menu_tag_id: 0,
                                         menu_category_id: 0,
                                         menu_sub_category_id: 0,
                                         unit_cost: 0,
-                                        production: "",
+                                        uom_id: 0,
+                                        odoo_code: "",
+                                        production_id: 0,
                                         status: "",
                                 })}
                                 />
@@ -216,12 +228,15 @@ export default function SuperAdminMenuDishesIndex() {
                                 icon={<LuSquarePen />}
                                 onClick={() => setEditMenuDishIn({
                                     id: row.id,
-                                    name: row.name,
-                                    menu_class_id: row.menu_class_id,
+                                    odoo_description: row.odoo_description,
+                                    system_description: row.system_description,
+                                    menu_tag_id: row.menu_tag_id,
                                     menu_category_id: row.menu_category_id,
                                     menu_sub_category_id: row.menu_sub_category_id,
                                     unit_cost: row.unit_cost,
-                                    production: row.production,
+                                    uom_id: row.uom_id,
+                                    odoo_code: row.odoo_code,
+                                    production_id: row.production_id,
                                     status: row.status,
                                 })}
                                 color="blue"
@@ -262,6 +277,12 @@ export default function SuperAdminMenuDishesIndex() {
         })
     }
 
+    const handleAddDishViaExcel = () => {
+        showModal("SuperAdminAddMenuDishViaExcelModal", {
+            setMenuDishes
+        });
+    }
+
     const handleEditMenuDishSave = () => {
         const formData = new FormData();
         formData.append("editMenuDishIn", JSON.stringify(editMenuDishIn));
@@ -274,12 +295,15 @@ export default function SuperAdminMenuDishesIndex() {
                 setMenuDishes(data.menuDishes);
                 setEditMenuDishIn({
                     id: "",
-                    name: "",
-                    menu_class_id: 0,
+                    odoo_description: "",
+                    system_description: "",
+                    menu_tag_id: 0,
                     menu_category_id: 0,
                     menu_sub_category_id: 0,
                     unit_cost: 0,
-                    production: "",
+                    uom_id: 0,
+                    odoo_code: "",
+                    production_id: 0,
                     status: "",
                 })
             }
@@ -362,12 +386,21 @@ export default function SuperAdminMenuDishesIndex() {
                             />
                         </div>
 
-                        <Button
-                        size="large"
-                        type="primary"
-                        onClick={() => handleAddDish()}>
-                            Add Dish
-                        </Button>
+                        <div className="d-flex gap3">
+                            <Button
+                            type="primary"
+                            onClick={() => handleAddDish()}>
+                                Add Dish
+                            </Button>
+
+                            <Button
+                            variant="solid"
+                            color="green"
+                            onClick={() => handleAddDishViaExcel()}
+                            icon={<RiFileExcel2Line/>}>
+                                Add Dish (Excel)
+                            </Button>
+                        </div>
                     </div>
 
                     <Table

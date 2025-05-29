@@ -18,8 +18,6 @@ return new class extends Migration
 
             $table->unsignedBigInteger("menu_shift_id")->nullable();
             $table->string("menu_dish_id", 20)->nullable();
-            $table->unsignedBigInteger("menu_class_id")->nullable();
-            $table->unsignedBigInteger("menu_sub_category_id")->nullable();
 
             $table->enum("menu_day", [
                 "Monday", "Tuesday", "Wednesday", "Thursday", 
@@ -47,18 +45,6 @@ return new class extends Migration
             $table->foreign("menu_dish_id")
             ->references("id")
             ->on("menu_dishes")
-            ->nullOnDelete()
-            ->cascadeOnUpdate();
-
-            $table->foreign("menu_class_id")
-            ->references("id")
-            ->on("menu_classes")
-            ->nullOnDelete()
-            ->cascadeOnUpdate();
-
-            $table->foreign("menu_sub_category_id")
-            ->references("id")
-            ->on("menu_sub_categories")
             ->nullOnDelete()
             ->cascadeOnUpdate();
         });

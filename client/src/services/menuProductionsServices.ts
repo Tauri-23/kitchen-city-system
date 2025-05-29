@@ -1,8 +1,8 @@
 import axiosClient from "../axios-client"
 
-export const fetchAllMenuDishesCategories = async() => {
+export const fetchAllMenuProductions = async() => {
     try {
-        const response = await axiosClient.get('/get-all-menu-dishes-categories');
+        const response = await axiosClient.get(`/get-all-menu-productions`);
         return response.data;
     } catch(error) {
         console.error(error);

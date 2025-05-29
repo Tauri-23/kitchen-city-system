@@ -5,9 +5,11 @@ import SuperAdminAddBranchModal from "../components/modals/supAdAddBranchModal";
 import SuperAdminAddMenuCategoryModal from "../components/modals/supAdAddMenuCategoryModal";
 import SuperAdminAddMenuClassModal from "../components/modals/supAdAddMenuClassModal";
 import SuperAdminAddMenuDishModal from "../components/modals/supAdAddMenuDishModal";
+import SuperAdminAddMenuDishViaExcelModal from "../components/modals/supAdAddMenuDishViaExcelModal";
 import SuperAdminAddMenuFormElementModal from "../components/modals/supAdAddMenuFormElementModal";
 import SuperAdminAddMenuShiftModal from "../components/modals/supAdAddMenuShiftModal";
 import SuperAdminAddMenuSubCategoryModal from "../components/modals/supAdAddMenuSubCategoryModal";
+import SuperAdminAddMenusViaExcelModal from "../components/modals/supAdAddMenusViaExcelModal";
 import SuperAdminAddMenuTagModal from "../components/modals/supAdAddMenuTagModal";
 import SuperAdminAddSuperAdminModal from "../components/modals/supAdAddSuperAdminModal";
 import { useGeneralContext } from "../contexts/GeneralContext"
@@ -89,6 +91,17 @@ const ModalManager = () => {
                 menuCategories={props.menuCategories as MenuCategoryStructure[]}
                 menuSubCategories={props.menuSubCategories as MenuSubCategoryStructure[] | null}
                 setMenuDishes={props.setMenuDishes as React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>}
+                onClose={hideModal}
+                />
+
+            case "SuperAdminAddMenuDishViaExcelModal":
+                return <SuperAdminAddMenuDishViaExcelModal
+                setMenuDishes={props.setMenuDishes as React.Dispatch<React.SetStateAction<MenuDishStructure[] | null>>}
+                onClose={hideModal}
+                />
+
+            case "SuperAdminAddMenusViaExcelModal":
+                return <SuperAdminAddMenusViaExcelModal
                 onClose={hideModal}
                 />
 
