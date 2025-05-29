@@ -165,10 +165,6 @@ export default function BranchManagerAddOrder() {
             }),
         },
         {
-            title: "qty test",
-            dataIndex: "qty_selected"
-        },
-        {
             title: "QTY Ordered",
             render: (_, row) => {
                 if (row.type === "dish") {
