@@ -28,8 +28,8 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
      */
     const orderCols: TableColumnsType<SelectedMenusType> = [
         {
-            title: "Odoo Name",
-            render: (_, row) => row.menu_dish.name
+            title: "System Description",
+            render: (_, row) => row.menu_dish.system_description
         },
         {
             title: "Category",
@@ -40,12 +40,8 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
             render: (_, row) => formatToPhilPeso(row.menu_dish.unit_cost)
         },
         {
-            title: "SRP",
-            render: (_, row) => formatToPhilPeso(row.menu_dish.srp)
-        },
-        {
             title: "Production",
-            render: (_, row) => row.menu_dish.production
+            render: (_, row) => row.menu_dish.production?.production || "N/A"
         },
         {
             title: "Order Price",

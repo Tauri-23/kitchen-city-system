@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\menu;
 use App\Models\menu_dishes;
+use App\Models\menu_shifts;
 use DB;
 use Illuminate\Http\Request;
 
@@ -109,6 +110,60 @@ class MenuController extends Controller
                 "status" => 200,
                 "message" => "Success",
                 "updatedMenus" => $updatedMenus->GetAllMenusWhereWeekDayAndSize($request->menuWeek, $request->menuDay, $request->menuSize)->original
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            DB::rollBack();
+            return response()->json([
+                "status" => 500,
+                "message" => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function CreateMenusViaExcel(Request $request)
+    {
+        $menusIn = json_decode($request->input("menusIn"));
+
+        try
+        {
+            DB::beginTransaction();
+
+            foreach ($menusIn as $key => $menu) {
+                $errors = [];
+
+                $menuShift = menu_shifts::where("shift", ucfirst(strtolower($menu->menu_shift)))->first();
+                if (!$menuShift && $menu->menu_shift) {
+                    $errors[] = "Invalid menu shift: $menu->menu_shift";
+                }
+
+                $menuDish = menu_dishes::where("system_description", $menu->dish_system_desc)->first();
+                if (!$menuDish && $menu->dish_system_desc) {
+                    $errors[] = "Invalid dish: $menu->dish_system_desc";
+                }
+
+                if (!empty($errors)) {
+                    return response()->json([
+                        'status' => 400, 
+                        'message' => implode("; ", $errors)
+                    ]);
+                }
+
+                menu::Create([
+                    "menu_week" => $menu->menu_week,
+                    "menu_shift_id" => $menuShift->id,
+                    "menu_dish_id" => $menuDish->id,
+                    "menu_day" => ucfirst(strtolower($menu->menu_day)),
+                    "menu_size" => ucfirst(strtolower($menu->menu_size)),
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Menu successfully added."
             ]);
         }
         catch(\Exception $e)

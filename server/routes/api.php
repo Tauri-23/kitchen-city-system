@@ -153,6 +153,7 @@ Route::get('/get-all-menus-where-week-day-and-size/{week}/{day}/{size}', [MenuCo
 Route::get('/get-menu-by-id/{id}', [MenuController::class, "GetMenuById"]);
 
 Route::post('/create-update-menu', [MenuController::class, "CreateUpdateMenu"]);
+Route::post('/create-menu-via-excel', [MenuController::class, "CreateMenusViaExcel"]);
 
 
 

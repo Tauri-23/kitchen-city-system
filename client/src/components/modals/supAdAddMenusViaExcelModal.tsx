@@ -27,7 +27,7 @@ const SuperAdminAddMenusViaExcelModal: React.FC<SuperAdminAddMenusViaExcelModalT
         const formData = new FormData();
         formData.append("menusIn", JSON.stringify(menusIn));
 
-        axiosClient.post("/create-menu-excel", formData)
+        axiosClient.post("/create-menu-via-excel", formData)
         .then(({data}) => {
             notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
 
@@ -70,14 +70,13 @@ const SuperAdminAddMenusViaExcelModal: React.FC<SuperAdminAddMenusViaExcelModalT
                     // FIX THE DATA
                     const fixedData = jsonData.map((data: any) => ({
                         menu_week: data["WEEK"]?.toString().trim() || null,
+                        menu_size: data["SIZE"]?.toString().trim() || null,
                         menu_shift: data["SHIFT"]?.toString().trim() || null,
                         menu_day: data["DAY"]?.toString().trim() || null,
                         dish_menu_tag: data["MENU TAG"]?.toString().trim() || null,
                         dish_system_desc: data["SYSTEM DESCRIPTION"]?.toString().trim() || null,
                         dish_category: data["CATEGORY"]?.toString().trim() || null,
                     }));
-
-                    console.log(fixedData);
 
                     setMenusIn(fixedData as unknown as MenuStructure[]);
                 };

@@ -25,8 +25,8 @@ return new class extends Migration
             ]);
 
             $table->enum("menu_size", [
-                "XL", "Large", "Medium", "Medium Frying", 
-                "Small", "Small Frying"
+                "XL", "Large", "Medium", "Medium Frying", "Medium No Frying ",
+                "Small", "Small Frying", "Small No Frying"
             ]);
 
             $table->timestamps();
