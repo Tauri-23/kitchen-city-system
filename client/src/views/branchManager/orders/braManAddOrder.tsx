@@ -198,9 +198,6 @@ export default function BranchManagerAddOrder() {
         })
     }
 
-    useEffect(() => {console.log(selectedMenusIn)}, [selectedMenusIn]);
-
-
 
 
     /**

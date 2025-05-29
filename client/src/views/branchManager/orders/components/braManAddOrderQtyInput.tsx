@@ -21,16 +21,13 @@ const BranchManagerAddOrderQtyInput: React.FC<QtyInputProps> = React.memo(({ row
         setLocalQty(finalQty); // Reset local state to 0 if cleared
 
         setSelectedMenusIn(prev => {
-            if (!prev) return null;
+            if (!prev) return [];
             
             return prev.map(dish => {
-                console.log(dish.menu_shift_id);
-                console.log(row.menu_shift_id);
                 if (
                     dish.menu_shift_id === row.menu_shift_id &&
                     dish.menu_dish_id === row.dish.id
                 ) {
-                    console.log("Updating dish", dish);
                     return { ...dish, qty_selected: finalQty };
                 }
                 return dish;
