@@ -41,6 +41,6 @@ class order_items extends Model
      */
     public function menu_dish()
     {
-        return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id")->with(["menu_class", "menu_category", "menu_sub_category"]);
+        return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id")->with(["menu_tag", "menu_category", "menu_sub_category", "uom", "production"]);
     }
 }

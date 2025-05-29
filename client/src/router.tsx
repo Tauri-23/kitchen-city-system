@@ -14,6 +14,8 @@ import SuperAdminMenuDishesIndex from "./views/superAdmin/dishes/supAdMenuDishes
 import SuperAdminSettingsDefault from "./views/superAdmin/settings/supAdSettingsDefault";
 import SuperAdminReportIndex from "./views/superAdmin/reports/supAdReportsIndex";
 import SuperAdminMarketListsDefault from "./views/superAdmin/marketLists/supAdMarketListsDefault";
+import SuperAdminMarketListsBakeshop from "./views/superAdmin/marketLists/supAdMarketListsBakeShop";
+import SuperAdminMarketListsRawMat from "./views/superAdmin/marketLists/supAdMarketListsRawMat";
 
 const router = createBrowserRouter([
     /**
@@ -77,7 +79,17 @@ const router = createBrowserRouter([
              */
             {
                 path: "MarketLists",
-                element: <SuperAdminMarketListsDefault/>
+                element: <SuperAdminMarketListsDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <SuperAdminMarketListsBakeshop/>
+                    },
+                    {
+                        path: "RawMat", 
+                        element: <SuperAdminMarketListsRawMat/>
+                    }
+                ]
             },
 
 

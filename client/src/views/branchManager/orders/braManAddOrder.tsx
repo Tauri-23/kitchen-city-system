@@ -123,25 +123,25 @@ export default function BranchManagerAddOrder() {
      */
     const menuSettingsColumns: TableColumnsType<any> = [
         {
-            title: "Odoo Description",
+            title: "System Description",
             render: (_, row) => {
-                return row.type === "shift" ? `${row.shift} (${row.childrens} Dishes)` : row.dish.odoo_description;
+                return row.type === "shift" ? `${row.shift} (${row.childrens} Dishes)` : row.dish.system_description;
             },
             onCell: (row) => ({
                 style: {
                     backgroundColor: row.type === "shift" ? 'black' : (row.type === "class" ? "orange" : undefined),
                     color: row.type === "shift" ? "white" : "black"
                 },
-                colSpan: row.type === "dish" ? 1 : 7
+                colSpan: row.type === "dish" ? 1 : 6
             }),
         },
-        {
-            title: "System Description",
-            render: (_, row) => row.type === "shift" ? row.shift : row.dish.system_description,
-            onCell: (row) => ({
-                colSpan: row.type === "dish" ? 1 : 0
-            }),
-        },
+        // {
+        //     title: "System Description",
+        //     render: (_, row) => row.type === "shift" ? row.shift : row.dish.system_description,
+        //     onCell: (row) => ({
+        //         colSpan: row.type === "dish" ? 1 : 0
+        //     }),
+        // },
         {
             title: "Unit Cost",
             render: (_, row) => row.type === "shift" ? row.shift : formatToPhilPeso(row.dish.unit_cost),
@@ -201,19 +201,23 @@ export default function BranchManagerAddOrder() {
      */
     return(
         <div className="content1 compressed">
-            <Breadcrumb
-            className="mar-bottom-1 text-m2"
-            items={[
-                {
-                  title: <Link to={`/KCBranchManager/Orders`}>Orders</Link>,
-                },
-                {
-                  title: "Add Order",
-                },
-            ]}
-            />
+            <div className="d-flex justify-content-between align-items-center">
+                <Breadcrumb
+                className="mar-bottom-1 text-m1 fw-bold"
+                items={[
+                    {
+                    title: <Link to={`/KCBranchManager/Orders`}>Orders</Link>,
+                    },
+                    {
+                    title: `Add Order / ${user?.branch?.size || ""} / Menu Cycle Week ${weekNow} / ${selectedDay} / {Menu Date}`,
+                    },
+                ]}
+                />
 
-            <h3 className="fw-bold mar-bottom-1">Add Orders ({user?.branch?.size || ""})</h3>
+                <p 
+                style={{color: "red"}}
+                className="text-m1">Ordering start date (date) - Ordering end date (date)</p>
+            </div>
 
             <div className="d-flex align-items-center justify-content-between mar-bottom-1">
                 <div className="d-flex gap3">

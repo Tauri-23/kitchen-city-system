@@ -45,7 +45,7 @@ const BranchManagerOrderCheckoutModal: React.FC<BranchManagerOrderCheckoutModalT
         },
         {
             title: "Order Price",
-            render: (_, row) => formatToPhilPeso(row.qty_selected * row.menu_dish.srp)
+            render: (_, row) => formatToPhilPeso(row.qty_selected * row.menu_dish.unit_cost)
         },
         {
             title: "QTY Ordered",

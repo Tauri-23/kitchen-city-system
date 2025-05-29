@@ -3,7 +3,7 @@ import { fetchAllMenuDishes } from "../../../services/menuDishesServices";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
 import { Button, Input, InputNumber, Popconfirm, Select, Spin, Table, TableColumnsType } from "antd";
 import { useGeneralContext } from "../../../contexts/GeneralContext";
-import { formatToPhilPeso, isEmptyOrSpaces, notify } from "../../../assets/lib/utils";
+import { formatToPhilPeso, notify } from "../../../assets/lib/utils";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
 import { MenuSubCategoryStructure } from "../../../types/menuSubCategoryStucture";
@@ -46,6 +46,7 @@ export default function SuperAdminMenuDishesIndex() {
     });
 
     const isSaveEditMenuDishDisabled = (selectedMenuDish: MenuDishStructure) => {
+        console.log(selectedMenuDish);
         // return  isEmptyOrSpaces(editMenuDishIn.name) || editMenuDishIn.production === "" || editMenuDishIn.menu_sub_category_id === 0 ||
         // (
         //     editMenuDishIn.name === selectedMenuDish.name && editMenuDishIn.production === selectedMenuDish.production &&
@@ -88,104 +89,6 @@ export default function SuperAdminMenuDishesIndex() {
      * Setup table columns
      */
     const menuDishesColumns: TableColumnsType<MenuDishStructure> = [
-        {
-            title: "Odoo Code",
-            render: (_, row) => row.odoo_code || "N/A",
-            width: 150
-        },
-        {
-            title: "Odoo Description",
-            render: (_, row) => {
-                if(editMenuDishIn.id === row.id) {
-                    return (
-                        <Input
-                            size="small"
-                            value={editMenuDishIn.odoo_description}
-                            onChange={(e) => setEditMenuDishIn(prev => ({ ...prev, name: e.target.value }))}
-                        />
-                    );
-                }
-
-                return row.odoo_description
-            }
-        },
-        {
-            title: "Unit Cost",
-            render: (_, row) => {
-                if(editMenuDishIn.id === row.id) {
-                    return (
-                        <InputNumber
-                        className="w-100"
-                        size="small"
-                        value={editMenuDishIn.unit_cost}
-                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, unit_cost: val as number}))}/>
-                    )
-                }
-                return formatToPhilPeso(row.unit_cost)
-            },
-            width: 100
-        },
-        {
-            title: "SRP",
-            render: (_,  row) => {
-                return formatToPhilPeso(row.srp)
-            },
-            width: 50
-        },
-        {
-            title: "Category",
-            render: (_, row) => {
-                if(editMenuDishIn.id === row.id) {
-                    return(
-                        <Select
-                        size="small"
-                        className="w-100"
-                        options={menuCategories?.map(category => ({label: category.category, value: category.id}))}
-                        value={editMenuDishIn.menu_category_id}
-                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, menu_category_id: val}))}/>
-                    )
-                }
-
-                return row.menu_category?.category || "N/A"
-            },
-            width: 200
-        },
-        {
-            title: "Sub-Category",
-            render: (_, row) => {
-                if(editMenuDishIn.id === row.id) {
-                    return(
-                        <Select
-                        size="small"
-                        className="w-100"
-                        options={menuSubCategories?.map(subCat => ({label: subCat.sub_category, value: subCat.id}))}
-                        value={editMenuDishIn.menu_sub_category_id}
-                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, menu_sub_category_id: val}))}/>
-                    )
-                }
-
-                return row.menu_sub_category?.sub_category || "N/A"
-            },
-            width: 200
-        },
-        {
-            title: "Production",
-            render: (_, row) => {
-                if(editMenuDishIn.id === row.id) {
-                    return(
-                        <Select
-                        className="w-100"
-                        size="small"
-                        id="production"
-                        options={menuProductions?.map(prod => ({label: prod.production, value: prod.id}))}
-                        value={editMenuDishIn.production_id}
-                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, production: val}))}/>
-                    )
-                }
-                return row.production?.production || "N/A"
-            },
-            width: 180
-        },
         {
             title: "Actions",
             render:(_, row) => {
@@ -259,8 +162,107 @@ export default function SuperAdminMenuDishesIndex() {
                     </div>
                 )
             },
+            width: 80
+        },
+        {
+            title: "Odoo Description",
+            render: (_, row) => {
+                if(editMenuDishIn.id === row.id) {
+                    return (
+                        <Input
+                            size="small"
+                            value={editMenuDishIn.odoo_description}
+                            onChange={(e) => setEditMenuDishIn(prev => ({ ...prev, name: e.target.value }))}
+                        />
+                    );
+                }
+
+                return row.odoo_description
+            },
+            width: 600
+        },
+        {
+            title: "Unit Cost",
+            render: (_, row) => {
+                if(editMenuDishIn.id === row.id) {
+                    return (
+                        <InputNumber
+                        className="w-100"
+                        size="small"
+                        value={editMenuDishIn.unit_cost}
+                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, unit_cost: val as number}))}/>
+                    )
+                }
+                return formatToPhilPeso(row.unit_cost)
+            },
             width: 100
-        }
+        },
+        {
+            title: "SRP",
+            render: (_,  row) => {
+                return formatToPhilPeso(row.srp)
+            },
+            width: 50
+        },
+        {
+            title: "Category",
+            render: (_, row) => {
+                if(editMenuDishIn.id === row.id) {
+                    return(
+                        <Select
+                        size="small"
+                        className="w-100"
+                        options={menuCategories?.map(category => ({label: category.category, value: category.id}))}
+                        value={editMenuDishIn.menu_category_id}
+                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, menu_category_id: val}))}/>
+                    )
+                }
+
+                return row.menu_category?.category || "N/A"
+            },
+            width: 100
+        },
+        {
+            title: "Sub-Cat",
+            render: (_, row) => {
+                if(editMenuDishIn.id === row.id) {
+                    return(
+                        <Select
+                        size="small"
+                        className="w-100"
+                        options={menuSubCategories?.map(subCat => ({label: subCat.sub_category, value: subCat.id}))}
+                        value={editMenuDishIn.menu_sub_category_id}
+                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, menu_sub_category_id: val}))}/>
+                    )
+                }
+
+                return row.menu_sub_category?.sub_category || "N/A"
+            },
+            width: 100
+        },
+        {
+            title: "Production",
+            render: (_, row) => {
+                if(editMenuDishIn.id === row.id) {
+                    return(
+                        <Select
+                        className="w-100"
+                        size="small"
+                        id="production"
+                        options={menuProductions?.map(prod => ({label: prod.production, value: prod.id}))}
+                        value={editMenuDishIn.production_id}
+                        onChange={(val) => setEditMenuDishIn(prev => ({...prev, production: val}))}/>
+                    )
+                }
+                return row.production?.production || "N/A"
+            },
+            width: 180
+        },
+        {
+            title: "Odoo Code",
+            render: (_, row) => row.odoo_code || "N/A",
+            width: 150
+        },
     ];
 
 

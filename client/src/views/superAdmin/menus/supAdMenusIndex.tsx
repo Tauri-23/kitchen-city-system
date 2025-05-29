@@ -33,7 +33,7 @@ export default function SuperAdminMenusIndex() {
     const simplifiedMenuColumns: TableColumnsType<any> = [
         {
             title: "Week",
-            render: (_, row) => `Week ${row.week}`
+            render: (_, row) => `Menu Cycle Week ${row.week}`
         },
     ]
 

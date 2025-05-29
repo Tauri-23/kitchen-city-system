@@ -38,7 +38,7 @@ const BranchManagerAddOrderQtyInput: React.FC<QtyInputProps> = React.memo(({ row
 
     return (
         <InputNumber
-            size="large"
+            size="small"
             className="w-100"
             style={{ width: 100 }}
             value={localQty}

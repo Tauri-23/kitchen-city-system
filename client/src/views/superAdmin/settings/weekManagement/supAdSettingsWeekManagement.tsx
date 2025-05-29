@@ -1,10 +1,11 @@
-import { Calendar, Badge, Button } from "antd";
-import type { CalendarProps } from "antd";
-import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useState } from "react";
+import { Calendar, Button } from "antd";
+import { Dayjs } from "dayjs";
+import { useState } from "react";
+import axiosClient from "../../../../axios-client";
+import { notify } from "../../../../assets/lib/utils";
 
 export default function SuperAdminSettingsWeekManagement() {
-    const [selectedDatesByWeek, setSelectedDatesByWeek] = useState<{
+    const [selectedMenuDates, setSelectedMenuDates] = useState<{
         [weekLabel: string]: Dayjs[];
     }>({
         week1: [],
@@ -13,16 +14,16 @@ export default function SuperAdminSettingsWeekManagement() {
         week4: [],
     });
 
+    const [orderWindows, setOrderWindows] = useState<{
+        [weekLabel: string]: Dayjs[];
+    }>({
+        week1: [],
+        week2: [],
+        week3: [],
+        week4: [],
+    })
+
     const [activeWeek, setActiveWeek] = useState<"week1" | "week2" | "week3" | "week4">("week1");
-
-
-
-    /**
-     * Debugging
-     */
-    useEffect(() => {
-        console.log(selectedDatesByWeek);
-    }, [selectedDatesByWeek]);
 
 
 
@@ -30,7 +31,7 @@ export default function SuperAdminSettingsWeekManagement() {
      * Handlers
      */
     const handleDateSelect = (date: Dayjs) => {
-        const weekDates = selectedDatesByWeek[activeWeek] || [];
+        const weekDates = selectedMenuDates[activeWeek] || [];
 
         const isAlreadySelected = weekDates.some((d) => d.isSame(date, "day"));
 
@@ -38,19 +39,61 @@ export default function SuperAdminSettingsWeekManagement() {
             ? weekDates.filter((d) => !d.isSame(date, "day"))
             : [...weekDates, date];
 
+        // Remove duplicates
+        updatedWeekDates = updatedWeekDates.filter(
+            (d, index, self) => index === self.findIndex((t) => t.isSame(d, "day"))
+        );
+
         // Limit to 7 dates max
         if (updatedWeekDates.length > 7) return;
 
-        setSelectedDatesByWeek((prev) => ({
+        // Compute 2-weeks-earlier weekdays
+        const pastWeekdays = updatedWeekDates
+            .map((d) => d.subtract(2, "week"))
+            .filter((d) => !["Saturday", "Sunday"].includes(d.format("dddd")));
+
+        // Remove duplicates again just in case
+        const uniquePastWeekdays = pastWeekdays.filter(
+            (d, index, self) => index === self.findIndex((t) => t.isSame(d, "day"))
+        );
+
+        // Update both selected menu dates and order windows
+        setSelectedMenuDates((prev) => ({
             ...prev,
             [activeWeek]: updatedWeekDates,
         }));
+
+        setOrderWindows((prev) => ({
+            ...prev,
+            [activeWeek]: uniquePastWeekdays,
+        }));
     };
 
+    const handleSave = () => {
+        const formData = new FormData();
+        formData.append("selectedMenuDates", JSON.stringify(selectedMenuDates));
+        formData.append("orderWindows", JSON.stringify(orderWindows));
+
+        axiosClient.post("/create-menu-week-cycle", formData)
+        .then(({data}) => {
+            notify(data.status === 200 ? "success" : "error", data.message, "top-center", 3000);
+        })
+        .catch(error => {
+            console.error(error);
+            notify("error", "Server Error", "top-center", 3000);
+        });
+    }
+
+
+
+    /**
+     * Other Functions
+     */
     const dateFullCellRender = (date: Dayjs) => {
-        const selectedDates = selectedDatesByWeek[activeWeek] || [];
+        const selectedDates = selectedMenuDates[activeWeek] || [];
+        const selectedWindows = orderWindows[activeWeek] || [];
         const isSelected = selectedDates.some((d) => d.isSame(date, "day"));
-        const isTwoWeeksEarlier = selectedDates.some((d) => date.isSame(d.subtract(2, "week"), "day"));
+        const isOrderWindow = selectedWindows.some((d) => d.isSame(date, "day"));
 
         let backgroundColor;
         let borderColor;
@@ -58,7 +101,7 @@ export default function SuperAdminSettingsWeekManagement() {
         if (isSelected) {
             backgroundColor = "#fe8d027c";
             borderColor = "#FE8E02";
-        } else if (isTwoWeeksEarlier) {
+        } else if (isOrderWindow) {
             backgroundColor = "#d9f7be";
             borderColor = "#52c41a";
         }
@@ -74,7 +117,7 @@ export default function SuperAdminSettingsWeekManagement() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontWeight: isSelected || isTwoWeeksEarlier ? "bold" : "normal",
+                fontWeight: isSelected || isOrderWindow ? "bold" : "normal",
             }}
             >
             {date.date()}
@@ -141,7 +184,7 @@ export default function SuperAdminSettingsWeekManagement() {
 
             {/* Buttons */}
             <div className="d-flex gap3 justify-content-end">
-                <Button size="large" type="primary">Save</Button>
+                <Button size="large" type="primary" onClick={handleSave}>Save</Button>
             </div>
         </>
     )

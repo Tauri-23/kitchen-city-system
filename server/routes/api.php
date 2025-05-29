@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\MenuProductionController;
 use App\Http\Controllers\Api\MenuShiftsController;
 use App\Http\Controllers\Api\MenuSubCategoryController;
 use App\Http\Controllers\Api\MenuTagsController;
+use App\Http\Controllers\Api\MenuWeekCycleController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
 use Illuminate\Support\Facades\Route;
@@ -238,3 +239,14 @@ Route::get("/get-all-orders-with", [OrdersController::class, "GetAllOrdersWith"]
 Route::get("/get-order-informations", [OrdersController::class, "GetOrderInformation"]);
 
 Route::post("/create-order", [OrdersController::class, "CreateOrder"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Menu Week Cycle
+|----------------------------------------
+*/
+Route::post("/create-menu-week-cycle", [MenuWeekCycleController::class, "CreateMenuCycle"]);

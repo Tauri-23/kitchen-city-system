@@ -204,18 +204,18 @@ export default function SuperAdminViewMenu() {
      */
     return(
         <div className="content1 compressed">
-            { !menus || !selectedDishesIn
+            { !menus
             ? (<Spin size="large"/>)
             : ( 
                 <>
                     <Breadcrumb
-                    className="mar-bottom-1 text-m2"
+                    className="mar-bottom-1 text-m1 fw-bold"
                     items={[
                         {
                         title: <Link to={`/KCSuperAdmin/Menus`}>Menus</Link>,
                         },
                         {
-                        title: `Week ${params.id}`,
+                        title: `Menu Cycle Week ${params.id} / ${selectedSize} / ${selectedDay}`,
                         },
                     ]}
                     />
