@@ -14,8 +14,13 @@ use App\Http\Controllers\Api\MenuShiftsController;
 use App\Http\Controllers\Api\MenuSubCategoryController;
 use App\Http\Controllers\Api\MenuTagsController;
 use App\Http\Controllers\Api\MenuWeekCycleController;
+use App\Http\Controllers\Api\MlBakeshopCategoryController;
+use App\Http\Controllers\Api\MlBakeshopItemController;
+use App\Http\Controllers\Api\MlRawmatCategoryController;
+use App\Http\Controllers\Api\MlRawmatItemController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
+use App\Http\Controllers\MlBakeshopOrdersController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")
@@ -250,3 +255,59 @@ Route::post("/create-order", [OrdersController::class, "CreateOrder"]);
 |----------------------------------------
 */
 Route::post("/create-menu-week-cycle", [MenuWeekCycleController::class, "CreateMenuCycle"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Market Lists Bakeshop Categories
+|----------------------------------------
+*/
+Route::get("/get-all-mlbakeshop-categories", [MlBakeshopCategoryController::class, "GetAllMlBakeshopCategories"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Market Lists Bakeshop Items
+|----------------------------------------
+*/
+Route::get("/get-all-mlbakeshop-items", [MlBakeshopItemController::class, "GetAllMLBakeshopItems"]);
+
+
+
+
+/*
+|----------------------------------------
+| Market Lists Bakeshop Orders
+|----------------------------------------
+*/
+Route::get("/get-all-mlbakeshop-orders-with", [MlBakeshopOrdersController::class, "GetAllMlBakeshopOrdersWith"]);
+
+Route::post("/create-mlbakeshop-order", [MlBakeshopOrdersController::class, "CreateMlBakeshopOrder"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Market Lists Rawmat Categories
+|----------------------------------------
+*/
+Route::get("/get-all-mlrawmat-categories", [MlRawmatCategoryController::class, "GetAllMlRawmatCategories"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Market Lists Rawmat Items
+|----------------------------------------
+*/
+Route::get("/get-all-mlrawmat-items", [MlRawmatItemController::class, "GetAllMlRawmatItems"]);

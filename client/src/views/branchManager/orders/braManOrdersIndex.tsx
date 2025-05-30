@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useBranchManagerContext } from "../../../contexts/BranchManagerContext"
-import { Button, Input, Spin, Table, TableColumnsType, Tag } from "antd";
+import { Button, Input, Table, TableColumnsType, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { fetchAllOrdersWith } from "../../../services/ordersServices";
 import { OrderStructure } from "../../../types/orderSturcture";
@@ -10,7 +10,6 @@ export default function BranchManagerOrdersIndex() {
     const { setActiveSideNavLink } = useBranchManagerContext();
 
     const [orders, setOrders] = useState<OrderStructure[] | null>(null);
-    const [filteredOrders, setFilteredOrders] = useState<OrderStructure[] | null>(null);
 
     const {Search} = Input;
     const navigate = useNavigate();
@@ -32,7 +31,6 @@ export default function BranchManagerOrdersIndex() {
         const getAll = async() => {
             const data = await fetchAllOrdersWith(["order_items"]);
             setOrders(data);
-            setFilteredOrders(data);
         }
 
         getAll();
@@ -96,19 +94,14 @@ export default function BranchManagerOrdersIndex() {
                 </Button>
             </div>
 
-            {!orders || !filteredOrders
-            ? (
-                <Spin size="large"/>
-            )
-            : (
-                <Table
-                columns={orderColumns}
-                dataSource={filteredOrders.map((item, index) => ({...item, key: index}))}
-                bordered
-                onRow={(row) => ({
-                    onDoubleClick: () => navigate(`../ViewOrder/${row.id}`)
-                })}/>
-            )}
+            <Table
+            columns={orderColumns}
+            loading={!orders}
+            dataSource={orders?.map((item, index) => ({...item, key: index}))}
+            bordered
+            onRow={(row) => ({
+                onDoubleClick: () => navigate(`../ViewOrder/${row.id}`)
+            })}/>
             
         </div>
     )

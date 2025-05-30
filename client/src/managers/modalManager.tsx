@@ -1,3 +1,4 @@
+import BranchManagerMlBakeshopOrderCheckoutModal from "../components/modals/braManMlBakeshopOrderCheckoutModal";
 import BranchManagerOrderCheckoutModal from "../components/modals/braManOrderCheckoutModal";
 import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaManagerModal";
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
@@ -24,6 +25,7 @@ import { MenuShiftStructure } from "../types/menuShiftStructure";
 import { MenuSubCategoryStructure } from "../types/menuSubCategoryStucture";
 import { MenuTagStructure } from "../types/menuTagStructure";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
+import { SelectedBakeshopItemsInType } from "../views/branchManager/marketListOrders/braManMarketListAddBakeshopOrders";
 import { SelectedMenusType } from "../views/branchManager/orders/braManAddOrder";
 
 const ModalManager = () => {
@@ -128,6 +130,13 @@ const ModalManager = () => {
             case "BranchManagerOrderCheckoutModal":
                 return <BranchManagerOrderCheckoutModal
                 selectedMenusIn={props.selectedMenusIn as SelectedMenusType[]}
+                onSuccess={props.onSuccess as () => void}
+                onClose={hideModal}
+                />
+
+            case "BranchManagerMlBakeshopOrderCheckoutModal":
+                return <BranchManagerMlBakeshopOrderCheckoutModal
+                selectedBakeshopItemsIn={props.selectedBakeshopItemsIn as SelectedBakeshopItemsInType[]}
                 onSuccess={props.onSuccess as () => void}
                 onClose={hideModal}
                 />

@@ -2,6 +2,7 @@ import { MdDashboard, MdOutlineDashboard } from "react-icons/md"
 import { Link } from "react-router-dom";
 import { BiPackage, BiSolidPackage } from "react-icons/bi";
 import { useBranchManagerContext } from "../../contexts/BranchManagerContext";
+import { IoStorefront, IoStorefrontOutline } from "react-icons/io5";
 
 export default function BranchManagerSideNav() {
     const { activeSideNavLink } = useBranchManagerContext();
@@ -19,6 +20,13 @@ export default function BranchManagerSideNav() {
             iconActive: <BiSolidPackage size={30}/>,
             activeAt: "Orders",
             to: "Orders"
+        },
+        {
+            title: "Market Lists Orders",
+            icon: <IoStorefrontOutline size={30}/>,
+            iconActive: <IoStorefront size={30}/>,
+            activeAt: "Market Lists Orders",
+            to: "MarketListsOrders"
         },
     ]
 

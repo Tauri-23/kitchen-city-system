@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type activeSideNavLinkTypes = "Dashboard" | "Orders" | "Branch";
+type activeSideNavLinkTypes = "Dashboard" | "Orders" | "Market Lists Orders" | "Branch";
 
 interface BranchManagerContextType {
     activeSideNavLink: activeSideNavLinkTypes,

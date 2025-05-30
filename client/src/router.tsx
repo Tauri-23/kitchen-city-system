@@ -14,8 +14,11 @@ import SuperAdminMenuDishesIndex from "./views/superAdmin/dishes/supAdMenuDishes
 import SuperAdminSettingsDefault from "./views/superAdmin/settings/supAdSettingsDefault";
 import SuperAdminReportIndex from "./views/superAdmin/reports/supAdReportsIndex";
 import SuperAdminMarketListsDefault from "./views/superAdmin/marketLists/supAdMarketListsDefault";
-import SuperAdminMarketListsBakeshop from "./views/superAdmin/marketLists/supAdMarketListsBakeShop";
 import SuperAdminMarketListsRawMat from "./views/superAdmin/marketLists/supAdMarketListsRawMat";
+import SuperAdminMarketListsBakeshop from "./views/superAdmin/marketLists/supAdMarketListsBakeshop";
+import BranchManagerMarketListOrdersDefault from "./views/branchManager/marketListOrders/braManMarketListOrdersDefault";
+import BranchManagerMarketListOrdersBakeshop from "./views/branchManager/marketListOrders/braManMarketListOrdersBakeshop";
+import BranchManagerMarketListAddBakeshopOrders from "./views/branchManager/marketListOrders/braManMarketListAddBakeshopOrders";
 
 const router = createBrowserRouter([
     /**
@@ -146,6 +149,26 @@ const router = createBrowserRouter([
             {
                 path: "ViewOrder/:id",
                 element: <BranchManagerViewOrder/>
+            },
+
+
+
+            /**
+             * Market Lists
+             */
+            {
+                path: "MarketListsOrders",
+                element: <BranchManagerMarketListOrdersDefault/>,
+                children: [
+                    {
+                        index: true,
+                        element: <BranchManagerMarketListOrdersBakeshop/>
+                    }
+                ]
+            },
+            {
+                path: "AddMlBakeshopOrder",
+                element: <BranchManagerMarketListAddBakeshopOrders/>
             }
         ]
     }

@@ -121,7 +121,7 @@ export default function BranchManagerAddOrder() {
     /**
      * Table columns
      */
-    const menuSettingsColumns: TableColumnsType<any> = [
+    const addOrderColumns: TableColumnsType<any> = [
         {
             title: "System Description",
             render: (_, row) => {
@@ -189,7 +189,7 @@ export default function BranchManagerAddOrder() {
      */
     const handleCheckout = () => {
         showModal("BranchManagerOrderCheckoutModal", {
-            selectedMenusIn,
+            selectedMenusIn: selectedMenusIn?.filter(x => x.qty_selected > 0),
             onSuccess: () => navigate("/KCBranchManager/Orders")
         })
     }
@@ -242,12 +242,12 @@ export default function BranchManagerAddOrder() {
             ? (<Spin size="large"/>)
             : (
                 <Table
-                columns={menuSettingsColumns}
+                columns={addOrderColumns}
                 dataSource={transformedShifts}
                 size="small"
                 bordered
                 pagination={false}
-                loading={!menus || !selectedMenusIn}
+                loading={!menus || (selectedMenusIn || [])?.filter(x => x.qty_selected > 0).length < 1}
                 expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
                 />
             )}
