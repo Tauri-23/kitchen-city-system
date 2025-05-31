@@ -76,8 +76,12 @@ export default function BranchManagerAddOrder() {
                 qty_selected: 0
             })));
         }
-        updateMenus();
-    }, [selectedDay, user?.branch?.size || ""]);
+
+        if(weekNow !== undefined)
+        {
+            updateMenus();
+        }        
+    }, [selectedDay, user?.branch?.size || "", weekNow]);
 
 
 
@@ -125,9 +129,9 @@ export default function BranchManagerAddOrder() {
      */
     const addOrderColumns: TableColumnsType<any> = [
         {
-            title: "System Description",
+            title: "Menu Tag",
             render: (_, row) => {
-                return row.type === "shift" ? `${row.shift} (${row.childrens} Dishes)` : row.dish.system_description;
+                return row.type === "shift" ? `${row.shift} (${row.childrens} Dishes)` : row.dish.menu_tag.tag;
             },
             onCell: (row) => ({
                 style: {
@@ -136,14 +140,15 @@ export default function BranchManagerAddOrder() {
                 },
                 colSpan: row.type === "dish" ? 1 : 6
             }),
+            width: 250
         },
-        // {
-        //     title: "System Description",
-        //     render: (_, row) => row.type === "shift" ? row.shift : row.dish.system_description,
-        //     onCell: (row) => ({
-        //         colSpan: row.type === "dish" ? 1 : 0
-        //     }),
-        // },
+        {
+            title: "System Description",
+            render: (_, row) => row.type === "shift" ? row.shift : row.dish.system_description,
+            onCell: (row) => ({
+                colSpan: row.type === "dish" ? 1 : 0
+            }),
+        },
         {
             title: "Unit Cost",
             render: (_, row) => row.type === "shift" ? row.shift : formatToPhilPeso(row.dish.unit_cost),

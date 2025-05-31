@@ -2,6 +2,7 @@ import BranchManagerMlBakeshopOrderCheckoutModal from "../components/modals/braM
 import BranchManagerMlRawmatOrderCheckoutModal from "../components/modals/braManMlRawmatOrderCheckoutModal";
 import BranchManagerOrderCheckoutModal from "../components/modals/braManOrderCheckoutModal";
 import SuperAdminAddAreaManagerModal from "../components/modals/supAdAddAreaManagerModal";
+import SuperAdminAddBakeshopCategoryModal from "../components/modals/supAdAddBakeshopCategoryModal";
 import SuperAdminAddBranchManagerModal from "../components/modals/supAdAddBranchManagerModal";
 import SuperAdminAddBranchModal from "../components/modals/supAdAddBranchModal";
 import SuperAdminAddMenuCategoryModal from "../components/modals/supAdAddMenuCategoryModal";
@@ -25,6 +26,7 @@ import { MenuFormElementStructure } from "../types/menuFormElementStructure";
 import { MenuShiftStructure } from "../types/menuShiftStructure";
 import { MenuSubCategoryStructure } from "../types/menuSubCategoryStucture";
 import { MenuTagStructure } from "../types/menuTagStructure";
+import MlBakeshopCategoryStructure from "../types/mlBakeshopCategoryStructure";
 import { SuperAdminStructure } from "../types/superAdminSturcture";
 import { SelectedBakeshopItemsInType } from "../views/branchManager/marketListOrders/braManMarketListAddBakeshopOrders";
 import { SelectedRawmatItemsInType } from "../views/branchManager/marketListOrders/braManMarketListAddRawmatOrders";
@@ -120,6 +122,12 @@ const ModalManager = () => {
                 setmenuFormElements={props.setmenuFormElements as React.Dispatch<React.SetStateAction<MenuFormElementStructure[] | null>>}
                 selectedShift={props.selectedShift as MenuShiftStructure}
                 menuClasses={props.menuClasses as MenuClassStructure[]}
+                onClose={hideModal}
+                />
+            
+            case "SuperAdminAddBakeshopCategoryModal":
+                return <SuperAdminAddBakeshopCategoryModal
+                setBakeshopCategories={props.setBakeshopCategories as React.Dispatch<React.SetStateAction<MlBakeshopCategoryStructure[] | null>>}
                 onClose={hideModal}
                 />
 

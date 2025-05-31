@@ -42,6 +42,6 @@ class menu extends Model
 
     public function menu_dish()
     {
-        return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id")->with(["menu_category", "production"]);
+        return $this->belongsTo(menu_dishes::class, "menu_dish_id", "id")->with(["menu_tag", "menu_category", "production"]);
     }
 }

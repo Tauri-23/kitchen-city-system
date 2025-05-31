@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { MenuCategoryStructure } from "../../../../types/menuCategoryStructure";
-import { MenuSubCategoryStructure } from "../../../../types/menuSubCategoryStucture";
-import { MenuClassStructure } from "../../../../types/menuClassStructure";
+import { MenuCategoryStructure } from "../../../../../types/menuCategoryStructure";
+import { MenuSubCategoryStructure } from "../../../../../types/menuSubCategoryStucture";
+import { MenuClassStructure } from "../../../../../types/menuClassStructure";
 import { Select, Spin } from "antd";
-import { fetchAllMenuCategories } from "../../../../services/menuCategoriesServices";
-import { fetchAllMenuSubCategories } from "../../../../services/menuSubCategoriesServices";
-import { fetchAllMenuClasses } from "../../../../services/menuClassesServices";
+import { fetchAllMenuCategories } from "../../../../../services/menuCategoriesServices";
+import { fetchAllMenuSubCategories } from "../../../../../services/menuSubCategoriesServices";
+import { fetchAllMenuClasses } from "../../../../../services/menuClassesServices";
 import SuperAdminMenuCategoriesSettings from "./pageComponents/supAdMenuCategoriesSettings";
 import SuperAdminMenuClassesSettings from "./pageComponents/supAdMenuClassesSettings";
 import SuperAdminMenuSubCategoriesSettings from "./pageComponents/supAdMenuSubCategoriesSettings";
 import SuperAdminMenuTagSettings from "./pageComponents/supAdMenuTagsSettings";
-import { MenuTagStructure } from "../../../../types/menuTagStructure";
-import { fetchAllMenuTags } from "../../../../services/menuTagsServices";
+import { MenuTagStructure } from "../../../../../types/menuTagStructure";
+import { fetchAllMenuTags } from "../../../../../services/menuTagsServices";
 
 export default function SuperAdminSettingsMenuSettings() {
     const [menuCategories, setMenuCategories] = useState<MenuCategoryStructure[] | null>(null);

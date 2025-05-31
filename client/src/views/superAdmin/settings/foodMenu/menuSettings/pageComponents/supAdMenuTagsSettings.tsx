@@ -1,11 +1,11 @@
 import { Button, Input, Popconfirm, Spin, Table, TableColumnsType } from "antd";
-import { MenuTagStructure } from "../../../../../types/menuTagStructure";
-import { useGeneralContext } from "../../../../../contexts/GeneralContext";
+import { MenuTagStructure } from "../../../../../../types/menuTagStructure";
+import { useGeneralContext } from "../../../../../../contexts/GeneralContext";
 import { useState } from "react";
-import { isEmptyOrSpaces, notify } from "../../../../../assets/lib/utils";
+import { isEmptyOrSpaces, notify } from "../../../../../../assets/lib/utils";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { GiCancel } from "react-icons/gi";
-import axiosClient from "../../../../../axios-client";
+import axiosClient from "../../../../../../axios-client";
 
 interface SuperAdminMenuTagSettingsTypes {
     menuTags: MenuTagStructure[] | null;

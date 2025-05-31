@@ -1,12 +1,12 @@
 import Table, { ColumnsType as TableColumnsType } from "antd/es/table";
-import { MenuSubCategoryStructure } from "../../../../../types/menuSubCategoryStucture";
+import { MenuSubCategoryStructure } from "../../../../../../types/menuSubCategoryStucture";
 import { Button, Input, Popconfirm } from "antd";
 import { LuSquareCheckBig, LuSquarePen, LuTrash2 } from "react-icons/lu";
-import { isEmptyOrSpaces, notify } from "../../../../../assets/lib/utils";
-import { useGeneralContext } from "../../../../../contexts/GeneralContext";
+import { isEmptyOrSpaces, notify } from "../../../../../../assets/lib/utils";
+import { useGeneralContext } from "../../../../../../contexts/GeneralContext";
 import { useState } from "react";
 import { GiCancel } from "react-icons/gi";
-import axiosClient from "../../../../../axios-client";
+import axiosClient from "../../../../../../axios-client";
 
 interface SuperAdminMenuSubCategoriesSettingsTypes {
     menuSubCategories: MenuSubCategoryStructure[];

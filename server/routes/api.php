@@ -269,6 +269,10 @@ Route::get("/create-menu-week-cycle-where-order-window/{orderWindow}", [MenuWeek
 */
 Route::get("/get-all-mlbakeshop-categories", [MlBakeshopCategoryController::class, "GetAllMlBakeshopCategories"]);
 
+Route::post("/create-mlbakeshop-category", [MlBakeshopCategoryController::class, "CreateBakeshopCategory"]);
+Route::post("/update-mlbakeshop-category", [MlBakeshopCategoryController::class, "UpdateBakeshopCategory"]);
+Route::post("/delete-mlbakeshop-category", [MlBakeshopCategoryController::class, "DeleteBakeshopCategory"]);
+
 
 
 

@@ -1,14 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSuperAdminContext } from "../../../contexts/SuperAdminContext";
-import { Collapse, CollapseProps } from "antd";
-import SuperAdminSettingsMenuSettings from "./menuSettings/supAdSettingsMenuSettings";
-import SuperAdminSettingsMenuFormBuilder from "./menuFormBuilder/supAdSettingsMenuFormBuilder";
+import { Button, Collapse, CollapseProps } from "antd";
 import SuperAdminSettingsBranches from "./branches/supAdSettingsBranches";
 import SuperAdminSettingsAccounts from "./accounts/supAdSettingsAccounts";
-import SuperAdminSettingsWeekManagement from "./weekManagement/supAdSettingsWeekManagement";
+import SuperAdminSettingsMenuSettings from "./foodMenu/menuSettings/supAdSettingsMenuSettings";
+import SuperAdminSettingsWeekManagement from "./foodMenu/weekManagement/supAdSettingsWeekManagement";
+import SuperAdminSettingsBakeshopSettings from "./bakeshop/bakeshopSettings/supAdSettingsBakeshopSettings";
+
+type selectedSettingsTypes = "Food Menu" | "Bakeshop" | "Raw mat";
 
 export default function SuperAdminSettingsDefault() {
     const { setActiveSideNavLink } = useSuperAdminContext();
+
+    const [selectedSettings, setSelectedSettings] = useState<selectedSettingsTypes>("Food Menu");
 
 
 
@@ -24,17 +28,17 @@ export default function SuperAdminSettingsDefault() {
     /**
      * Setup collapse items
      */
-    const collapseItems: CollapseProps["items"] = [
+    const collapseItemsFoodMenu: CollapseProps["items"] = [
         {
             key: 1,
             label: "Menu Settings",
             children: <SuperAdminSettingsMenuSettings/>
         },
-        {
-            key: 2,
-            label: "Menu Form Builder",
-            children: <SuperAdminSettingsMenuFormBuilder/>
-        },
+        // {
+        //     key: 2,
+        //     label: "Menu Form Builder",
+        //     children: <SuperAdminSettingsMenuFormBuilder/>
+        // },
         {
             key: 3,
             label: "Accounts",
@@ -50,7 +54,40 @@ export default function SuperAdminSettingsDefault() {
             label: "Week Settings",
             children: <SuperAdminSettingsWeekManagement/>
         },
-    ]
+    ];
+
+    const collapseItemsBakeshop: CollapseProps["items"] = [
+        {
+            key: 1,
+            label: "Bakeshop Settings",
+            children: <SuperAdminSettingsBakeshopSettings/>
+        }
+    ];
+
+    const collapseItemsRawmat: CollapseProps["items"] = [
+        {
+            key: 1,
+            label: "Raw mat Settings",
+        }
+    ];
+
+
+
+    /**
+     * Functions
+     */
+    const renderCollapseItems = () => {
+        switch(selectedSettings) {
+            case "Food Menu":
+                return collapseItemsFoodMenu;
+            case "Bakeshop":
+                return collapseItemsBakeshop;
+            case "Raw mat":
+                return collapseItemsRawmat;
+            default:
+                return [];
+        }
+    }
 
 
     
@@ -61,7 +98,33 @@ export default function SuperAdminSettingsDefault() {
         <div className="content1 compressed">
             <h3 className="fw-bold mar-bottom-1">Settings</h3>
 
-            <Collapse items={collapseItems}/>
+            <div className="d-flex gap3 mar-bottom-1">
+                <Button
+                variant={selectedSettings === "Food Menu" ? "solid" : "outlined"}
+                color="primary"
+                onClick={() => setSelectedSettings("Food Menu")}
+                >
+                    Food Menu
+                </Button>
+
+                <Button
+                variant={selectedSettings === "Bakeshop" ? "solid" : "outlined"}
+                color="primary"
+                onClick={() => setSelectedSettings("Bakeshop")}
+                >
+                    Bakeshop
+                </Button>
+
+                <Button
+                variant={selectedSettings === "Raw mat" ? "solid" : "outlined"}
+                color="primary"
+                onClick={() => setSelectedSettings("Raw mat")}
+                >
+                    Raw mat
+                </Button>
+            </div>
+
+            <Collapse items={renderCollapseItems()}/>
         </div>
     );
 }

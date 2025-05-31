@@ -29,13 +29,16 @@ class MenuController extends Controller
     
     public function GetAllMenusWhereWeekDayAndSize($week, $day, $size)
     {
-        return response()->json(
-            menu::where("menu_week", $week)
+        $menus = menu::where("menu_week", $week)
             ->where("menu_day", $day)
             ->where("menu_size", $size)
-            ->with(["menu_dish"])
+            ->with(["menu_dish.menu_tag"])
             ->get()
-        );
+            ->sortBy(function ($menu) {
+                return $menu->menu_dish->menu_tag->tag ?? ''; // fallback to empty string if null
+            })->values(); // reset keys
+
+        return response()->json($menus);
     }
 
 

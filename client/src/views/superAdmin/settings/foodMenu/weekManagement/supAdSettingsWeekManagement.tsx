@@ -1,8 +1,8 @@
 import { Calendar, Button } from "antd";
 import { Dayjs } from "dayjs";
 import { useState } from "react";
-import axiosClient from "../../../../axios-client";
-import { notify } from "../../../../assets/lib/utils";
+import axiosClient from "../../../../../axios-client";
+import { notify } from "../../../../../assets/lib/utils";
 
 export default function SuperAdminSettingsWeekManagement() {
     const [selectedMenuDates, setSelectedMenuDates] = useState<{
