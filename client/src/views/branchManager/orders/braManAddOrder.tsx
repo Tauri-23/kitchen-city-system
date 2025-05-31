@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useBranchManagerContext } from "../../../contexts/BranchManagerContext"
-import { formatToPhilPeso } from "../../../assets/lib/utils";
+import { formatDate, formatToPhilPeso } from "../../../assets/lib/utils";
 import { MenuStructure } from "../../../types/menuStructure";
 import { Breadcrumb, Button, Select, Spin, Table, TableColumnsType } from "antd";
 import { MenuDishStructure } from "../../../types/menuDishStructure";
@@ -12,6 +12,8 @@ import { fetchAllMenuShifts } from "../../../services/menuShiftsServices";
 import { useLoggedUserContext } from "../../../contexts/LoggedUserContext";
 import React from "react";
 import BranchManagerAddOrderQtyInput from "./components/braManAddOrderQtyInput";
+import { fetchAllMenuWeekCyclesWhereOrderWindow } from "../../../services/menuWeekCycleServices";
+import { MenuWeekCycleStructure } from "../../../types/menuWeekCycleStructure";
 
 export type SelectedMenusType = {
     menu_shift_id: number;
@@ -25,6 +27,8 @@ export default function BranchManagerAddOrder() {
     const { setActiveSideNavLink } = useBranchManagerContext();
     const { showModal } = useGeneralContext();
 
+    const dateNow = new Date();
+
     const navigate = useNavigate();
 
     const [menus, setMenus] = useState<MenuStructure[] | null>(null);
@@ -33,7 +37,8 @@ export default function BranchManagerAddOrder() {
 
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    const weekNow = 1;
+    const [weekNow, setWeekNow] = useState<number | undefined>(undefined);
+    const [weekCycles, setWeekCycles] = useState<MenuWeekCycleStructure[]>([]);
 
     const [selectedDay, setSelectedDay] = useState<string>((days[0]));
 
@@ -45,18 +50,15 @@ export default function BranchManagerAddOrder() {
         setActiveSideNavLink("Orders");
 
         const getAll = async() => {
-            const [menusData, shiftsData] = await Promise.all([
-                fetchAllMenusWhereWeekDayAndSize(String(weekNow), selectedDay, user?.branch?.size || ""),
+            const [shiftsData, datesWeekData] = await Promise.all([
                 fetchAllMenuShifts(),
+                fetchAllMenuWeekCyclesWhereOrderWindow(`${dateNow.getFullYear()}-${dateNow.getMonth() + 2}-${dateNow.getDate()}`)
             ]);
-            setMenus(menusData);
+            const weekString = datesWeekData[0]?.week; // e.g., "week1"
+            const weekNumber = parseInt(weekString?.match(/\d+/)?.[0] || '0');
+            setWeekCycles(datesWeekData);
+            setWeekNow(weekNumber);
             setShifts(shiftsData);
-            setSelectedMenusIn(menusData.map((menu: MenuStructure) => ({
-                menu_shift_id: menu.menu_shift_id,
-                menu_dish_id: menu.menu_dish_id,
-                menu_dish: menu.menu_dish,
-                qty_selected: 0
-            })));
         }
 
         getAll();
@@ -201,55 +203,69 @@ export default function BranchManagerAddOrder() {
      */
     return(
         <div className="content1 compressed">
-            <div className="d-flex justify-content-between align-items-center">
-                <Breadcrumb
-                className="mar-bottom-1 text-m1 fw-bold"
-                items={[
-                    {
-                    title: <Link to={`/KCBranchManager/Orders`}>Orders</Link>,
-                    },
-                    {
-                    title: `Add Order / ${user?.branch?.size || ""} / Menu Cycle Week ${weekNow} / ${selectedDay} / {Menu Date}`,
-                    },
-                ]}
-                />
+            {(weekNow === undefined) && (
+                <Spin size="large"/>
+            )}
 
-                <p 
-                style={{color: "red"}}
-                className="text-m1">Ordering start date (date) - Ordering end date (date)</p>
-            </div>
+            {(weekNow !== undefined && weekNow > 0) && (
+                <>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <Breadcrumb
+                        className="mar-bottom-1 text-m1 fw-bold"
+                        items={[
+                            {
+                                title: <Link to={`/KCBranchManager/Orders`}>Orders</Link>,
+                            },
+                            {
+                                title: `Add Order / ${user?.branch?.size || ""} / Menu Cycle Week ${weekNow} / ${selectedDay} / ${formatDate(weekCycles[0]?.date)} - ${formatDate(weekCycles[weekCycles.length - 1]?.date)}`,
+                            },
+                        ]}
+                        />
 
-            <div className="d-flex align-items-center justify-content-between mar-bottom-1">
-                <div className="d-flex gap3">
-                    <Select
-                    size="large"
-                    style={{width: 200}}
-                    options={days.map(day => ({label: day, value: day}))}
-                    value={selectedDay}
-                    onChange={(val) => setSelectedDay(val)}
-                    />
-                </div>
-                <Button
-                size="large"
-                type="primary"
-                disabled={!selectedMenusIn || selectedMenusIn?.length < 1}
-                onClick={handleCheckout}>
-                    Proceed Checkout
-                </Button>
-            </div>
+                        {(weekNow !== 0) && (
+                            <p 
+                            style={{color: "red"}}
+                            className="text-m1">Ordering start date ({formatDate(weekCycles[0]?.open_date)}) - Ordering end date ({formatDate(weekCycles[0]?.closing_date)})</p>
+                        )}
+                    </div>
 
-            {!menus
-            ? (<Spin size="large"/>)
-            : (
-                <Table
-                columns={addOrderColumns}
-                dataSource={transformedShifts}
-                size="small"
-                bordered
-                pagination={false}
-                loading={!menus || (selectedMenusIn || [])?.filter(x => x.qty_selected > 0).length < 1}
-                expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
-                />
+                    <div className="d-flex align-items-center justify-content-between mar-bottom-1">
+                        <div className="d-flex gap3">
+                            <Select
+                            size="large"
+                            style={{width: 200}}
+                            options={days.map(day => ({label: day, value: day}))}
+                            value={selectedDay}
+                            onChange={(val) => setSelectedDay(val)}
+                            />
+                        </div>
+                        <Button
+                        size="large"
+                        type="primary"
+                        disabled={!selectedMenusIn || selectedMenusIn?.length < 1}
+                        onClick={handleCheckout}>
+                            Proceed Checkout
+                        </Button>
+                    </div>
+
+                    {!menus
+                    ? (<Spin size="large"/>)
+                    : (
+                        <Table
+                        columns={addOrderColumns}
+                        dataSource={transformedShifts}
+                        size="small"
+                        bordered
+                        pagination={false}
+                        loading={!menus || !selectedMenusIn}
+                        expandable={{defaultExpandedRowKeys: getDefaultExpandedKeys(transformedShifts)}}
+                        />
+                    )}
+                </>
+            )}
+
+            {(weekNow !== undefined && weekNow < 1) && (
+                <h3>Menu orderings are closed</h3>
             )}
         </div>
     )

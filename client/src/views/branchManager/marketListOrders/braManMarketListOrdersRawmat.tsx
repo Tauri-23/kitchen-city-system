@@ -1,10 +1,10 @@
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { mlOrdersActivePageTypes } from "./braManMarketListOrdersDefault";
 import { useEffect, useState } from "react";
-import { fetchAllMlBakeshopOrdersWith } from "../../../services/mlBakeshopOrdersServices";
 import { Button, Table, TableColumnsType, Tag } from "antd";
 import { formatToPhilPeso } from "../../../assets/lib/utils";
-import MlBakeshopOrderStructure from "../../../types/mlBakeshopOrderStructure";
+import { fetchAllMlRawmatOrdersWith } from "../../../services/mlRawmatOrdersServices";
+import MlRawmatOrderStructure from "../../../types/mlRawmatOrderStructure";
 
 interface OutletContextTypes {
     setMlOrdersActivePage: (val: mlOrdersActivePageTypes) => void
@@ -13,7 +13,7 @@ interface OutletContextTypes {
 export default function BranchManagerMarketListOrdersRawmat() {
     const { setMlOrdersActivePage } = useOutletContext<OutletContextTypes>();
 
-    const [orders, setOrders] = useState<MlBakeshopOrderStructure[] | null>(null);
+    const [orders, setOrders] = useState<MlRawmatOrderStructure[] | null>(null);
 
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export default function BranchManagerMarketListOrdersRawmat() {
         setMlOrdersActivePage("Rawmat");
 
         const getAll = async() => {
-            const data = await fetchAllMlBakeshopOrdersWith(["ml_bakeshop_order_items"]);
+            const data = await fetchAllMlRawmatOrdersWith(["ml_rawmat_order_items"]);
             
             setOrders(data);
         }
@@ -46,14 +46,14 @@ export default function BranchManagerMarketListOrdersRawmat() {
     /**
      * Setup Columns
      */
-    const orderColumns: TableColumnsType<MlBakeshopOrderStructure> = [
+    const orderColumns: TableColumnsType<MlRawmatOrderStructure> = [
         {
             title: "Order ID",
             dataIndex: "id"
         },
         {
             title: "Dishes Ordered",
-            render: (_, row) => `${row.ml_bakeshop_order_items.length} Dishes`
+            render: (_, row) => `${row.ml_rawmat_order_items.length} Dishes`
         },
         {
             title: "Total Cost",
@@ -75,7 +75,7 @@ export default function BranchManagerMarketListOrdersRawmat() {
             <div className="d-flex align-items-center justify-content-end mar-bottom-1">
                 <Button
                 type="primary"
-                onClick={() => navigate("/KCBranchManager/AddMlBakeshopOrder")}>
+                onClick={() => navigate("/KCBranchManager/AddMlRawmatOrder")}>
                     Add Rawmat Orders
                 </Button>
             </div>
@@ -86,7 +86,7 @@ export default function BranchManagerMarketListOrdersRawmat() {
             dataSource={orders?.map((item, index) => ({...item, key: index}))}
             bordered
             onRow={(row) => ({
-                onDoubleClick: () => navigate(`../ViewMlBakeshopOrder/${row.id}`)
+                onDoubleClick: () => navigate(`../ViewMlRawmatOrder/${row.id}`)
             })}/>
         </>
     );

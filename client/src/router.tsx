@@ -19,6 +19,8 @@ import SuperAdminMarketListsBakeshop from "./views/superAdmin/marketLists/supAdM
 import BranchManagerMarketListOrdersDefault from "./views/branchManager/marketListOrders/braManMarketListOrdersDefault";
 import BranchManagerMarketListOrdersBakeshop from "./views/branchManager/marketListOrders/braManMarketListOrdersBakeshop";
 import BranchManagerMarketListAddBakeshopOrders from "./views/branchManager/marketListOrders/braManMarketListAddBakeshopOrders";
+import BranchManagerMarketListOrdersRawmat from "./views/branchManager/marketListOrders/braManMarketListOrdersRawmat";
+import BranchManagerMarketListAddRawmatOrders from "./views/branchManager/marketListOrders/braManMarketListAddRawmatOrders";
 
 const router = createBrowserRouter([
     /**
@@ -163,12 +165,20 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <BranchManagerMarketListOrdersBakeshop/>
+                    },
+                    {
+                        path: "Rawmat",
+                        element: <BranchManagerMarketListOrdersRawmat/>
                     }
                 ]
             },
             {
                 path: "AddMlBakeshopOrder",
                 element: <BranchManagerMarketListAddBakeshopOrders/>
+            },
+            {
+                path: "AddMlRawmatOrder",
+                element: <BranchManagerMarketListAddRawmatOrders/>
             }
         ]
     }

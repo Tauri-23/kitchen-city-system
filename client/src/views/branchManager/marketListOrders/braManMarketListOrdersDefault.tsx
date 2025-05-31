@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useBranchManagerContext } from "../../../contexts/BranchManagerContext";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
 export type mlOrdersActivePageTypes = "Bakeshop" | "Rawmat"
 
 export default function BranchManagerMarketListOrdersDefault() {
     const { setActiveSideNavLink } = useBranchManagerContext();
+
+    const navigate = useNavigate();
 
     const [mlOrdersActivePage, setMlOrdersActivePage] = useState<mlOrdersActivePageTypes>("Bakeshop");
 
@@ -32,12 +34,14 @@ export default function BranchManagerMarketListOrdersDefault() {
                 <Button
                 variant={mlOrdersActivePage === "Bakeshop" ? "solid" : "outlined"}
                 color="primary"
+                onClick={() => navigate("")}
                 >
                     Bakeshop
                 </Button>
                 <Button
                 variant={mlOrdersActivePage === "Rawmat" ? "solid" : "outlined"}
                 color="primary"
+                onClick={() => navigate("Rawmat")}
                 >
                     Raw Materials
                 </Button>

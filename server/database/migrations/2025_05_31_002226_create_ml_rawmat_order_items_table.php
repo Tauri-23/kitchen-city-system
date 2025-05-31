@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ml_bakeshop_order_items', function (Blueprint $table) {
+        Schema::create('ml_rawmat_order_items', function (Blueprint $table) {
             $table->string("id", 20)->primary();
-            $table->string("ml_bakeshop_order_id", 20)->nullable();
-            $table->string("ml_bakeshop_item_id", 20)->nullable();
+            $table->string("ml_rawmat_order_id", 20)->nullable();
+            $table->string("ml_rawmat_item_id", 20)->nullable();
             
             $table->integer("qty")->nullable();
             $table->float("unit_cost")->default(0);
@@ -32,15 +32,15 @@ return new class extends Migration
             /**
              * Foreign
              */
-            $table->foreign("ml_bakeshop_order_id")
+            $table->foreign("ml_rawmat_order_id")
             ->references("id")
-            ->on("ml_bakeshop_orders")
+            ->on("ml_rawmat_orders")
             ->cascadeOnDelete()
             ->cascadeOnUpdate();
 
-            $table->foreign("ml_bakeshop_item_id")
+            $table->foreign("ml_rawmat_item_id")
             ->references("id")
-            ->on("ml_bakeshop_items")
+            ->on("ml_rawmat_items")
             ->nullOnDelete()
             ->cascadeOnUpdate();
         });
@@ -51,6 +51,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ml_bakeshop_order_items');
+        Schema::dropIfExists('ml_rawmat_order_items');
     }
 };

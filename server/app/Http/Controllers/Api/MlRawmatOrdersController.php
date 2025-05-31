@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\branch_managers;
-use App\Models\ml_bakeshop_order_items;
-use App\Models\ml_bakeshop_orders;
+use App\Models\ml_rawmat_order_items;
+use App\Models\ml_rawmat_orders;
 use DB;
 use Illuminate\Http\Request;
 
-class MlBakeshopOrdersController extends Controller
+class MlRawmatOrdersController extends Controller
 {
     // GET
-    public function GetAllMlBakeshopOrdersWith(Request $request)
+    public function GetAllMlRawmatOrdersWith(Request $request)
     {
         $with = $request->query('with');
 
@@ -20,12 +21,12 @@ class MlBakeshopOrdersController extends Controller
             $with = [$with];
         }
 
-        $orders = ml_bakeshop_orders::with($with)->get();
+        $orders = ml_rawmat_orders::with($with)->get();
 
         return response()->json($orders);
     }
 
-    public function GetMlBakeshopOrderInformation(Request $request)
+    public function GetMlRawmatOrderInformation(Request $request)
     {
         $with = $request->query('with');
         $id = $request->query('id');
@@ -35,16 +36,16 @@ class MlBakeshopOrdersController extends Controller
             $with = [$with];
         }
 
-        $orders = $with ? ml_bakeshop_orders::with($with)->find($id) : ml_bakeshop_orders::find($id);
+        $orders = $with ? ml_rawmat_orders::with($with)->find($id) : ml_rawmat_orders::find($id);
 
         return response()->json($orders);
     }
 
 
     // POST
-    public function CreateMlBakeshopOrder(Request $request)
+    public function CreateMlRawmatOrder(Request $request)
     {
-        $selectedBakeshopItemsIn = json_decode($request->input("selectedBakeshopItemsIn"));
+        $selectedRawmatItemsIn = json_decode($request->input("selectedRawmatItemsIn"));
 
         $branchManager = branch_managers::find($request->branchManager);
 
@@ -52,21 +53,19 @@ class MlBakeshopOrdersController extends Controller
         {
             DB::beginTransaction();
 
-            $order = ml_bakeshop_orders::Create([
+            $order = ml_rawmat_orders::Create([
                 "branch_id" => $branchManager->branch_id,
                 "total_cost" => (float) $request->totalCost
             ]);
     
-            foreach ($selectedBakeshopItemsIn as $key => $dish) {
-                // return response()->json($dish, 500);
-                
-                ml_bakeshop_order_items::Create([
-                    "ml_bakeshop_order_id" => $order->id,
-                    "ml_bakeshop_item_id" => $dish->ml_bakeshop_item_id,
+            foreach ($selectedRawmatItemsIn as $key => $dish) {                
+                ml_rawmat_order_items::Create([
+                    "ml_rawmat_order_id" => $order->id,
+                    "ml_rawmat_item_id" => $dish->ml_rawmat_item_id,
                     "qty" => $dish->qty_selected,
-                    "unit_cost" => $dish->ml_bakeshop_item->unit_cost,
-                    "srp" => $dish->ml_bakeshop_item->srp,
-                    "total_cost" => $dish->ml_bakeshop_item->unit_cost * $dish->qty_selected
+                    "unit_cost" => $dish->ml_rawmat_item->unit_cost,
+                    "srp" => $dish->ml_rawmat_item->srp,
+                    "total_cost" => $dish->ml_rawmat_item->unit_cost * $dish->qty_selected
                 ]);
             }
 

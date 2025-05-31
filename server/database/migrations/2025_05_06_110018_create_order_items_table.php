@@ -36,13 +36,13 @@ return new class extends Migration
             ->references("id")
             ->on("orders")
             ->cascadeOnDelete()
-            ->cascadeOnDelete();
+            ->cascadeOnUpdate();
 
             $table->foreign("menu_dish_id")
             ->references("id")
             ->on("menu_dishes")
             ->nullOnDelete()
-            ->cascadeOnDelete();
+            ->cascadeOnUpdate();
         });
     }
 

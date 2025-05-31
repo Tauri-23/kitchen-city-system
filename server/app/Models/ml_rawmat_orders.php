@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Str;
 
-class ml_bakeshop_orders extends Model
+class ml_rawmat_orders extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
@@ -36,9 +36,9 @@ class ml_bakeshop_orders extends Model
     /**
      * Foreign Joins
      */
-    public function ml_bakeshop_order_items()
+    public function ml_rawmat_order_items()
     {
-        return $this->hasMany(ml_bakeshop_order_items::class, "ml_bakeshop_order_id", "id")->with("ml_bakeshop_item");
+        return $this->hasMany(ml_rawmat_order_items::class, "ml_rawmat_order_id", "id")->with("ml_rawmat_item");
     }    
 
     public function branch()

@@ -11,6 +11,34 @@ use Illuminate\Http\Request;
 class MenuWeekCycleController extends Controller
 {
     // GET
+    public function GetAllMenuWeekCycles()
+    {
+        return response()->json(menu_week_cycles::all());
+    }
+
+    public function GetAllMenuWeekCyclesWhereOrderWindow($orderWindow)
+    {
+        $dateIn = Carbon::parse($orderWindow)->toDateString();
+
+        $monthAndWeek = menu_week_cycles::whereDate('open_date', '<=', $dateIn)
+        ->whereDate('closing_date', '>=', $dateIn)
+        ->first();
+
+        $toReturn = null;
+        
+        if($monthAndWeek)
+        {
+            $toReturn = menu_week_cycles::where("month", $monthAndWeek->month)
+            ->where("week", $monthAndWeek->week)
+            ->orderBy("date", "asc")
+            ->get();
+        }
+        
+
+        return response()->json($toReturn);
+    }
+
+    // POST
     public function CreateMenuCycle(Request $request)
     {
         $selectedMenuDates = json_decode($request->input("selectedMenuDates"));

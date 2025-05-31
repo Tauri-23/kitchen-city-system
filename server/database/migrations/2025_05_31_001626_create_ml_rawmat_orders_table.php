@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ml_bakeshop_order_items', function (Blueprint $table) {
+        Schema::create('ml_rawmat_orders', function (Blueprint $table) {
             $table->string("id", 20)->primary();
-            $table->string("ml_bakeshop_order_id", 20)->nullable();
-            $table->string("ml_bakeshop_item_id", 20)->nullable();
+            $table->string("branch_id", 20)->nullable();
             
-            $table->integer("qty")->nullable();
-            $table->float("unit_cost")->default(0);
-            $table->float("srp")->default(0);
+            $table->dateTime("deadline")->nullable();
             $table->float("total_cost")->default(0);
             $table->enum("status", ["Open", "Pending", "Completed", "Cancelled"])->default("Open");
             
@@ -27,20 +24,14 @@ return new class extends Migration
 
             $table->timestamps();
 
-            
+
 
             /**
              * Foreign
              */
-            $table->foreign("ml_bakeshop_order_id")
+            $table->foreign("branch_id")
             ->references("id")
-            ->on("ml_bakeshop_orders")
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
-
-            $table->foreign("ml_bakeshop_item_id")
-            ->references("id")
-            ->on("ml_bakeshop_items")
+            ->on("branches")
             ->nullOnDelete()
             ->cascadeOnUpdate();
         });
@@ -51,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ml_bakeshop_order_items');
+        Schema::dropIfExists('ml_rawmat_orders');
     }
 };

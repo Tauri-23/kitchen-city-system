@@ -16,11 +16,12 @@ use App\Http\Controllers\Api\MenuTagsController;
 use App\Http\Controllers\Api\MenuWeekCycleController;
 use App\Http\Controllers\Api\MlBakeshopCategoryController;
 use App\Http\Controllers\Api\MlBakeshopItemController;
+use App\Http\Controllers\Api\MlBakeshopOrdersController;
 use App\Http\Controllers\Api\MlRawmatCategoryController;
 use App\Http\Controllers\Api\MlRawmatItemController;
+use App\Http\Controllers\Api\MlRawmatOrdersController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\SuperAdminController;
-use App\Http\Controllers\MlBakeshopOrdersController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware("auth:sanctum")
@@ -255,6 +256,7 @@ Route::post("/create-order", [OrdersController::class, "CreateOrder"]);
 |----------------------------------------
 */
 Route::post("/create-menu-week-cycle", [MenuWeekCycleController::class, "CreateMenuCycle"]);
+Route::get("/create-menu-week-cycle-where-order-window/{orderWindow}", [MenuWeekCycleController::class, "GetAllMenuWeekCyclesWhereOrderWindow"]);
 
 
 
@@ -289,6 +291,19 @@ Route::get("/get-all-mlbakeshop-items", [MlBakeshopItemController::class, "GetAl
 Route::get("/get-all-mlbakeshop-orders-with", [MlBakeshopOrdersController::class, "GetAllMlBakeshopOrdersWith"]);
 
 Route::post("/create-mlbakeshop-order", [MlBakeshopOrdersController::class, "CreateMlBakeshopOrder"]);
+
+
+
+
+
+/*
+|----------------------------------------
+| Market Lists Rawmat Orders
+|----------------------------------------
+*/
+Route::get("/get-all-mlrawmat-orders-with", [MlRawmatOrdersController::class, "GetAllMlRawmatOrdersWith"]);
+
+Route::post("/create-mlrawmat-order", [MlRawmatOrdersController::class, "CreateMlRawmatOrder"]);
 
 
 

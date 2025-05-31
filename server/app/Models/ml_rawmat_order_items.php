@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Str;
 
-class ml_bakeshop_orders extends Model
+class ml_rawmat_order_items extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        "branch_id",
-        "deadline",
+        "ml_rawmat_order_id",
+        "ml_rawmat_item_id",
+        "qty",
+        "unit_cost",
+        "srp",
         "total_cost",
         "status",
         "completed_at",
@@ -36,13 +39,8 @@ class ml_bakeshop_orders extends Model
     /**
      * Foreign Joins
      */
-    public function ml_bakeshop_order_items()
+    public function ml_rawmat_item()
     {
-        return $this->hasMany(ml_bakeshop_order_items::class, "ml_bakeshop_order_id", "id")->with("ml_bakeshop_item");
-    }    
-
-    public function branch()
-    {
-        return $this->belongsTo(branches::class, "branch_id", "id");
+        return $this->belongsTo(ml_rawmat_items::class, "ml_rawmat_item_id", "id")->with("ml_rawmat_category");
     }
 }

@@ -1,11 +1,11 @@
 import axiosClient from "../axios-client"
 import qs from "qs";
 
-type OrdersRelationships = "ml_bakeshop_order_items" | "branch";
+type OrdersRelationships = "ml_rawmat_order_items" | "branch";
 
-export const fetchAllMlBakeshopOrdersWith = async(withParam: OrdersRelationships[]) => {
+export const fetchAllMlRawmatOrdersWith = async(withParam: OrdersRelationships[]) => {
     try {
-        const response = await axiosClient.get(`/get-all-mlbakeshop-orders-with`, {
+        const response = await axiosClient.get(`/get-all-mlrawmat-orders-with`, {
             params: {
                 with: withParam
             },
@@ -18,7 +18,7 @@ export const fetchAllMlBakeshopOrdersWith = async(withParam: OrdersRelationships
     }
 }
 
-export const fetchMlBakeshopOrderInformation = async(withParam: OrdersRelationships[] | null, idParam: string) => {
+export const fetchMlRawmatOrderInformation = async(withParam: OrdersRelationships[] | null, idParam: string) => {
     try {
         const response = await axiosClient.get(`/get-mlbakeshop-order-informations`, {
             params: {
